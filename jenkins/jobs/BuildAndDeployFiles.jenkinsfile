@@ -1,0 +1,28 @@
+@Library('datacommons-jenkins-shared-library') _
+buildAndDeploy(
+    label: "slave-ncias-d2943-c",
+    parameterName: "FilesTag",
+    codeRepoUrl: "https://github.com/CBIIT/bento-files",
+    checkoutDirectory: "cds-files",
+    buildPlaybook: "ansible/build-files-microservice.yml",
+    deployPlaybook: "ansible/deploy-files-microservice.yml",
+    inventory: "ansible/hosts",
+    tier: "${params.Environment}",
+    projectName: "${params.ProjectName}",
+    slackSecretPath: "notification/slack",
+    slackSecretName: "cds_slack_url",
+    appVersionName: "FILES_VERSION",
+    useCustomBranch: "yes",
+    customBranch: "main",
+    deploymentRepoUrl: "https://github.com/CBIIT/cds-deployments",
+    deploymentCheckoutDirectory: "cds-deployments",
+    deploymentFile: "cds-deployments/deployments.yaml",
+    extraAnsibleVars: [
+        iam_prefix: "power-user",
+        subdomain: "dataservice",
+        domain_name: "datacommons.cancer.gov"
+     ],
+    service: "files",
+    playbookRepoUrl: "https://github.com/CBIIT/cds-deployments",
+    playbookRepoBranch: "main",
+)

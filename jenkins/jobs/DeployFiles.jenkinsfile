@@ -1,0 +1,23 @@
+@Library('datacommons-jenkins-shared-library') _
+deployApp(
+    label: "slave-ncias-d2943-c",
+    parameterName: "FilesTag",
+    repoName: "cds-files",
+    playbook: "ansible/deploy-files-microservice.yml",
+    inventory: "ansible/hosts",
+    tier: "${params.Environment}",
+    projectName: "${params.ProjectName}",
+    slackSecretPath: "notification/slack",
+    slackSecretName: "cds_slack_url",
+    deploymentRepoUrl: "https://github.com/CBIIT/cds-deployments",
+    deploymentCheckoutDirectory: "cds-deployments",
+    deploymentFile: "cds-deployments/deployments.yaml",
+    extraAnsibleVars: [
+        iam_prefix: "power-user",
+        subdomain: "dataservice",
+        domain_name: "datacommons.cancer.gov"
+     ],
+    service: "files",
+    playbookRepoUrl: "https://github.com/CBIIT/cds-deployments",
+    playbookRepoBranch: "main",
+)
