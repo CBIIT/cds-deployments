@@ -25,4 +25,8 @@ buildAndDeploy(
     service: "files",
     playbookRepoUrl: "https://github.com/CBIIT/cds-deployments",
     playbookRepoBranch: "main",
+    useDockerAgent: true,
+    agentImage: "ncidockerhub.nci.nih.gov/icdc/jenkins-agent-ansible",
+    dockerRegistryUrl: "https://ncidockerhub.nci.nih.gov",
+    registryCredentialsId: "ncidockerhub",
 )
