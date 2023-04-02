@@ -1,0 +1,5 @@
+[neo4j]
+localhost ansible_python_interpreter=/bin/python2
+
+[all]
+localhost ansible_python_interpreter=/usr/bin/python3
