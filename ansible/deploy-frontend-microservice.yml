@@ -12,7 +12,7 @@
         - community.docker
         - amazon.aws
         - community.aws:<=3.2.0
-        - git+https://github.com/CBIIT/datacommons-devops.git#/ansible/collections/bento/common/,v1.0
+        - git+https://github.com/CBIIT/datacommons-devops.git#/ansible/collections/bento/common/,bento-ref
 
     #docker login
     - name: docker login
@@ -27,7 +27,7 @@
     #deploy frontend
     - name: deploy stage for frontend microservice
       include_role:
-        name: bento.common.ecs_cloudwatch
+        name: bento.common.ecs
       vars:
         service_name: "{{ project_name }}-{{ tier }}-frontend"
         ansible_python_interpreter: /usr/bin/python3

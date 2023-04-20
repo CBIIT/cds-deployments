@@ -25,37 +25,6 @@
       vars:
         region: us-east-1
 
-    # - name: get neo4j container ip
-    #   block:
-    #     - name: list tasks
-    #       shell: >
-    #         aws ecs list-tasks --service-name {{project_name}}-{{tier}}-neo4j 
-    #         --region us-east-1 --cluster {{project_name}}-{{tier}}-ecs 
-    #         --query 'taskArns[0]' --output text
-    #       register: task_facts
-
-    #     - name: set task_fact
-    #       set_fact:
-    #         task_arn: "{{task_facts.stdout_lines | first}}"
-
-    #     - name: get task ip
-    #       shell: >
-    #         aws ecs describe-tasks 
-    #         --tasks {{task_arn}}
-    #         --region us-east-1 --cluster {{project_name}}-{{tier}}-ecs 
-    #         --query "tasks[0].attachments[0].details[?name=='privateIPv4Address'].value |[0]"
-    #         --output text
-    #       register: task_facts
-
-    #     - name: set task_fact
-    #       set_fact:
-    #         task_ip: "{{task_facts.stdout_lines | first}}"
-
-    #     - name: show container ip
-    #       debug:
-    #         msg: "{{task_ip}}"
-    #   when: use_neo4j_container == "yes"
-
 
     #deploy files
     - name: deploy stage files
@@ -67,13 +36,10 @@
         cloudfront_origin_id: "{{ lookup('amazon.aws.aws_secret', 'cloudfront.origin_id', nested=true, region='us-east-1' ) }}"
         cloudfront_domain_name: "{{ lookup('amazon.aws.aws_secret', 'cloudfront.domain_name', nested=true, region='us-east-1' ) }}"
         cloudfront_key_group_id: "{{ lookup('amazon.aws.aws_secret', 'cloudfront.key_group_id', nested=true, region='us-east-1' ) }}"
-        #cloudfront_private_key: "{{ lookup('amazon.aws.aws_secret', 'cloudfront.privatekey', nested=true, region='us-east-1' ) }}"
         cloudfront_private_key: "{{ lookup('amazon.aws.aws_secret', 'cloudfront.privatekey', nested=true, region='us-east-1' ) | b64decode }}"
         ansible_python_interpreter: /usr/bin/python3
         execution_role: "{% if iam_prefix is defined and iam_prefix != '' %}{{ iam_prefix }}-{{ project_name }}-{{ tier }}-ecs-task-execution-role{% else %}{{ project_name }}-{{ tier }}-task-execution-role{% endif %}"
         task_role: "{% if iam_prefix is defined and iam_prefix != '' %}{{ iam_prefix }}-{{ project_name }}-{{ tier }}-ecs-task-role{% else %}{{ project_name }}-{{ tier }}-task-role{% endif %}"
-#        cloudfront_key_group_name: "{{project_name}}-{{tier}}-pub-key"
-#        cloudfront_private_key: "{{ lookup('aws_ssm', 'bento_files_cloudfront_private_key', region='us-east-1' ) }}"
         project_name: "{{project_name}}"
         region: us-east-1
         container_name: "files"
@@ -83,10 +49,6 @@
         neo4j_user: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.neo4j_user', nested=true, region='us-east-1' ) }}"
         neo4j_password: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.neo4j_password', nested=true, region='us-east-1' ) }}"
         neo4j_ip: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.neo4j_ip', nested=true, region='us-east-1' ) }}"
-        # mysql_host: "{{ lookup('amazon.aws.aws_secret', 'bento/{{project_name}}/{{tier}}.mysql_host', nested=true, region='us-east-1' ) }}"
-        # mysql_user: "{{ lookup('amazon.aws.aws_secret', 'bento/{{project_name}}/{{tier}}.mysql_user', nested=true, region='us-east-1' ) }}"
-        # mysql_password: "{{ lookup('amazon.aws.aws_secret', 'bento/{{project_name}}/{{tier}}.mysql_password', nested=true, region='us-east-1' ) }}"
-        # mysql_database: "{{ lookup('amazon.aws.aws_secret', 'bento/{{project_name}}/{{tier}}.mysql_database', nested=true, region='us-east-1' ) }}"
         ecs_cluster_name: "{{ project_name }}-{{ tier }}-ecs"
         sumo_collector_endpoint: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.sumo_collector_endpoint', nested=true, region='us-east-1' ) }}"
         sumo_collector_token: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.sumo_collector_token_files', nested=true, region='us-east-1' ) }}"
@@ -129,19 +91,4 @@
           value: "{{ neo4j_password }}"
         - name: NEO4J_URI
           value: "bolt://{{neo4j_ip}}:7687"
-        # # MySQL Configuration
-        # - name: MYSQL_HOST
-        #   value: "{{mysql_host}}"
-        # - name: MYSQL_PORT
-        #   value: "3306"
-        # - name: MYSQL_PASSWORD
-        #   value: "{{mysql_password}}"
-        # - name: MYSQL_USER
-        #   value: "{{mysql_user}}"
-        # - name: MYSQL_DATABASE
-        #   value: "{{mysql_database}}"
-        # - name: MYSQL_SESSION_ENABLED
-        #   value: "true"
-        # - name: COOKIE_SECRET
-        #   value: "{{cookie_secret}}"
 
