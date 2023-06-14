@@ -19,5 +19,5 @@ runETL(
     registryCredentialsId: "ncidockerhub"
     deploymentRepoUrl: "https://github.com/CBIIT/cds-deployments",
     playbookRepoUrl: "https://github.com/CBIIT/cds-deployments",
-    playbookRepoBranch: "main",
+    playbookRepoBranch: "main"
 )
