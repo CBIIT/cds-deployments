@@ -2,13 +2,13 @@ Notes: Jenkins pipeline
 project: cds
 services:
   backend:
-    version: 24.6.1.94
-    image: 24.6.1.94
-    buildNumber: '94'
+    version: 24.6.1.97
+    image: 24.6.1.97
+    buildNumber: '97'
   frontend:
-    version: 3.0.2.140
-    image: 3.0.2.140
-    buildNumber: '140'
+    version: 3.0.2.141
+    image: 3.0.2.141
+    buildNumber: '141'
   files:
     version: 2.3.1.25
     image: 2.3.1.25
