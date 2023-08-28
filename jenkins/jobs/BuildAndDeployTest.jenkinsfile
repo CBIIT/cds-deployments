@@ -53,7 +53,7 @@ pipeline {
 	  ECR_REPO     = "cds-authn"
 	  DEPLOY_JOB   = "DeployFiles"
 	  SLACK_SECRET = "cds_slack_url"
-	  CODE_REPO    = "cds-files"
+	  CODE_REPO    = "bento-files"
 	  JOB_PATH     = "_default/_lower/CDS/_jobs"
 	  REGION       = "us-east-1"
 	  DEPLOY_REPO  = "${env.PROJECT}-deployments"
