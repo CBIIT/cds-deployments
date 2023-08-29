@@ -101,6 +101,7 @@ module "neo4j" {
   database_instance_type = var.database_instance_type
   tags = var.tags
   database_name = var.neo4j_database_name
+  resource_prefix = var.resource_prefix
 }
 
 
