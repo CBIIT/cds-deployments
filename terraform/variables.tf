@@ -455,3 +455,9 @@ variable "neo4j_db_ami" {
   description = "neo4j db ami"
   default = "ami-0464d49b8794eba32"
 }
+
+variable "resource_prefix" {
+  type = string
+  description = "resource prefix, e.g cds"
+  default = "cds"
+}

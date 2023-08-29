@@ -22,6 +22,7 @@ module "s3" {
   days_for_deep_archive_tiering = 180
   s3_enable_access_logging = false
   s3_access_log_bucket_id = ""
+  resource_prefix = var.resource_prefix
 }
 
 module "ecs" {
