@@ -38,6 +38,7 @@ module "ecs" {
   alb_https_listener_arn = module.alb.alb_https_listener_arn
   target_account_cloudone = var.target_account_cloudone
   allow_cloudwatch_stream = var.allow_cloudwatch_stream
+  resource_prefix = var.resource_prefix
 }
 
 #create ecr
