@@ -461,3 +461,7 @@ variable "resource_prefix" {
   description = "resource prefix, e.g cds"
   default = "cds"
 }
+variable "central_ecr_account_id" {
+  type = string
+  description = "central ecr account id"
+}

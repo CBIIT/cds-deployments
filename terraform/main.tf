@@ -39,6 +39,7 @@ module "ecs" {
   target_account_cloudone = var.target_account_cloudone
   allow_cloudwatch_stream = var.allow_cloudwatch_stream
   resource_prefix = var.resource_prefix
+  central_ecr_account_id = var.central_ecr_account_id
 }
 
 #create ecr
@@ -107,7 +108,7 @@ module "neo4j" {
 
 module "user_neo4j" {
   count = var.create_db_instance ? 1: 0
-  source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/neo4j?ref=v1.8"
+  source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/neo4j?ref=neo4j"
   env = terraform.workspace
   vpc_id = var.vpc_id
   db_subnet_id = var.db_subnet_id
