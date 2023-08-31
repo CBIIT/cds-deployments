@@ -30,4 +30,5 @@ locals {
     "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy",
     "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryFullAccess"
   ]
+  ecr_account                     =  var.central_ecr_account_id
 }

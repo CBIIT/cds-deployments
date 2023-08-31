@@ -127,7 +127,7 @@ data "aws_iam_policy_document" "integration_server_policy" {
       "ecs:CreateTaskSet",
       "ecs:DescribeTaskDefinition"
     ]
-    resources = ["*"]
+    resources = ["arn:aws:ecr:${data.aws_region.current.name}:${local.ecr_account}:repository/*"]
   }
 
   statement {
@@ -202,7 +202,7 @@ data "aws_iam_policy_document" "integration_server_policy" {
       "ecr:UntagResource",
       "ecr:UploadLayerPart"
     ]
-    resources = ["*"]
+    resources = ["arn:aws:ecr:${data.aws_region.current.name}:${local.ecr_account}:repository/*"]
   }
 
   statement {
