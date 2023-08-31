@@ -1,5 +1,5 @@
 module "alb" {
-  source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/loadbalancer?ref=v1.8"
+  source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/loadbalancer?ref=neo4j"
   vpc_id = var.vpc_id
   alb_log_bucket_name = module.s3.bucket_name
   env = terraform.workspace
@@ -9,11 +9,10 @@ module "alb" {
   tags = var.tags
   stack_name = var.stack_name
   alb_certificate_arn = data.aws_acm_certificate.amazon_issued.arn
-  resource_prefix = var.resource_prefix
 }
 
 module "s3" {
-  source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/s3?ref=v1.8"
+  source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/s3?ref=neo4j"
   bucket_name = local.alb_log_bucket_name
   stack_name = var.stack_name
   env = terraform.workspace
@@ -23,11 +22,10 @@ module "s3" {
   days_for_deep_archive_tiering = 180
   s3_enable_access_logging = false
   s3_access_log_bucket_id = ""
-  resource_prefix = var.resource_prefix
 }
 
 module "ecs" {
-  source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/ecs?ref=v1.8"
+  source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/ecs?ref=neo4j"
   stack_name = var.stack_name
   tags = var.tags
   vpc_id = var.vpc_id
@@ -39,14 +37,13 @@ module "ecs" {
   alb_https_listener_arn = module.alb.alb_https_listener_arn
   target_account_cloudone = var.target_account_cloudone
   allow_cloudwatch_stream = var.allow_cloudwatch_stream
-  resource_prefix = var.resource_prefix
   central_ecr_account_id = var.central_ecr_account_id
 }
 
 #create ecr
 module "ecr" {
    count = var.create_ecr_repos ? 1: 0
-   source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/ecr?ref=v1.8"
+   source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/ecr?ref=neo4j"
    ecr_repo_names = var.ecr_repo_names
    tags = var.tags
    env = terraform.workspace
@@ -54,16 +51,14 @@ module "ecr" {
    replication_destination_registry_id = var.replication_destination_registry_id
    replication_source_registry_id = var.replication_source_registry_id 
    allow_ecr_replication = var.allow_ecr_replication
-   resource_prefix = var.resource_prefix
-   project = var.resource_prefix
+   stack_name = var.stack_name
 }
 
 #create opensearch
 module "opensearch" {
   count = var.create_opensearch_cluster ? 1: 0
-  source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/opensearch?ref=v1.8"
+  source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/opensearch?ref=neo4j"
   stack_name = var.stack_name
-  resource_prefix = var.resource_prefix
   tags = var.tags
   opensearch_instance_type = var.opensearch_instance_type
   env = terraform.workspace
@@ -82,7 +77,7 @@ module "opensearch" {
 
 module "dns" {
   count = var.create_dns_record ? 1: 0
-  source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/route53?ref=v1.8"
+  source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/route53?ref=neo4j"
   env = terraform.workspace
   alb_zone_id = module.alb.alb_zone_id
   alb_dns_name = module.alb.alb_dns_name
@@ -131,7 +126,7 @@ module "user_neo4j" {
 #aurora
 module "aurora" {
   count = var.create_aurora_rds ? 1: 0
-  source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/aurora?ref=v1.8"
+  source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/aurora?ref=neo4j"
   env    =  terraform.workspace
   stack_name = var.stack_name
   tags = var.tags
@@ -144,7 +139,6 @@ module "aurora" {
   allowed_ip_blocks = var.allowed_ip_blocks
   db_subnet_ids = var.db_subnet_ids
   database_name = var.database_name
-  resource_prefix = var.resource_prefix
 }
 
 #cloudfront
@@ -166,7 +160,7 @@ module "cloudfront" {
 
 module "s3-replication-source" {
   count = var.create_s3_replication ? 1 : 0
-  source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/s3-replication-source?ref=v1.8"
+  source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/s3-replication-source?ref=neo4j"
   destination_bucket_name = var.destination_bucket_name 
   env =  terraform.workspace
   source_bucket_name = var.source_bucket_name
@@ -175,12 +169,11 @@ module "s3-replication-source" {
   target_account_cloudone = var.target_account_cloudone
   create_source_bucket = var.create_source_bucket 
   replication_destination_account_id = var.replication_destination_account_id
-  resource_prefix = var.resource_prefix
 }
 
 module "s3-replication-destination" {
   count = var.enable_s3_replication ? 1 : 0
-  source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/s3-replication-destination?ref=v1.8"
+  source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/s3-replication-destination?ref=neo4j"
   destination_bucket_name = var.destination_bucket_name 
   tags = var.tags
   replication_role_arn = var.replication_role_arn
