@@ -3,7 +3,7 @@
 pipeline {
 	agent {
 		node {
-			label: "slave-ncias-d2943-c"
+			label "slave-ncias-d2943-c"
 		}
 	}
 
@@ -19,7 +19,7 @@ pipeline {
             type: 'PT_SINGLE_SELECT',
             value: 'dev,qa,stage,prod')
 
-  }
+    }
 
   options {
   	ansiColor('xterm')
