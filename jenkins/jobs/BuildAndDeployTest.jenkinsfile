@@ -50,7 +50,7 @@ pipeline {
 
       PROJECT      = "cds"
 	  SERVICE      = "files"
-	  ECR_REPO     = "cds-files"
+	  ECR_REPO     = "crdc-cds-files"
 	  DEPLOY_JOB   = "DeployFiles"
 	  SLACK_SECRET = "cds_slack_url"
 	  CODE_REPO    = "bento-files"
