@@ -19,6 +19,7 @@
 
     - name: Get ECR account
       set_fact:
+        region: us-east-1
         ecr_central_account_id: "{{ lookup('amazon.aws.aws_secret', 'ecr.central_account_id', nested=true, region='us-east-1' ) }}"
     - name: set ECR registry name
       set_fact:
