@@ -69,7 +69,7 @@
         container_port: "8081"
         container_memory: "2048"
         container_cpu: "1024"
-        container_image_url: "{{ ecr_repo }}/{{ project_name }}-{{ container_name }}"
+        container_image_url: "{{ ecr_repo }}/crdc-{{ project_name }}-{{ container_name }}"
         url_src: CLOUD_FRONT
         auth_enabled: "false"
         newrelic_license_key: "{{ lookup('amazon.aws.aws_secret', 'monitoring/newrelic.api_key', nested=true, region='us-east-1' ) }}"
