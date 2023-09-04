@@ -11,7 +11,7 @@ pipeline {
         string(
 	        defaultValue: '',
 		    description: 'The image tag to deploy',
-		    name: 'FilesTag')
+		    name: 'BackendTag')
 		extendedChoice(
             name: 'Environment',
             defaultValue: 'dev',
@@ -28,7 +28,7 @@ pipeline {
 
   environment {
     PROJECT      = 'cds'
-	APP          = "files"
+	APP          = "backend"
 	REGION		 = "us-east-1"
 	SLACK_SECRET = "cds_slack_url"
     ENV          = "${params.Environment}"
@@ -73,13 +73,13 @@ pipeline {
         }
 
 	    environment {
-            FILES_VERSION = "${params.FilesTag}"
+            FILES_VERSION = "${params.BackendTag}"
         }
 
  		steps {
 			wrap([$class: 'AnsiColorBuildWrapper', colorMapName: "xterm"]) {
                 ansiblePlaybook(
-					playbook: "${WORKSPACE}/playbooks/ansible/deploy-files-microservice.yml", 
+					playbook: "${WORKSPACE}/playbooks/ansible/deploy-backend-microservice.yml", 
             		inventory: "${WORKSPACE}/playbooks/ansible/hosts",
                     extraVars: [
                         tier: "${params.Environment}",
