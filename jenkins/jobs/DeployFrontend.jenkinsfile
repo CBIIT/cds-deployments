@@ -11,7 +11,7 @@ pipeline {
         string(
 	        defaultValue: '',
 		    description: 'The image tag to deploy',
-		    name: 'FrontendTag')
+		    name: 'ImageTag')
 		extendedChoice(
             name: 'Environment',
             defaultValue: 'dev',
@@ -73,7 +73,7 @@ pipeline {
         }
 
 	    environment {
-            FE_VERSION = "${params.FrontendTag}"
+            FE_VERSION = "${params.ImageTag}"
         }
 
  		steps {
