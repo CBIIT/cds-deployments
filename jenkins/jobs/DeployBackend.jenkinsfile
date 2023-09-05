@@ -73,7 +73,7 @@ pipeline {
         }
 
 	    environment {
-            FILES_VERSION = "${params.BackendTag}"
+            BE_VERSION = "${params.BackendTag}"
         }
 
  		steps {
