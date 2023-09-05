@@ -87,6 +87,7 @@ pipeline {
                         subdomain: "dataservice",
                         domain_name: "datacommons.cancer.gov",
 						project_name: "${PROJECT}",
+						image_prefix: "crdc",
 						auth_enabled: false
 						],
                     colorized: true)

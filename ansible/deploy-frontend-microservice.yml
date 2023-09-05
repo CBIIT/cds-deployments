@@ -62,7 +62,7 @@
         container_port: 80
         container_memory: "2048"
         container_cpu: "1024"
-        container_image_url: "{{ ecr_repo }}/{{ project_name }}-{{ container_name }}"
+        container_image_url: "{{ ecr_repo }}/crdc-{{ project_name }}-{{ container_name }}"
         about_content_url: "https://raw.githubusercontent.com/CBIIT/bento-frontend/master/src/content/{{ tier }}/aboutPagesContent.yaml"
         newrelic_license_key: "{{ lookup('amazon.aws.aws_secret', 'monitoring/newrelic.api_key', nested=true, region='us-east-1' ) }}"
         app_google_client_id: "{{ lookup('amazon.aws.aws_secret', 'auth/provider/google.idp_client_id', nested=true, region='us-east-1' ) }}"
