@@ -49,7 +49,7 @@ pipeline {
   environment {
 
       PROJECT      = "cds"
-	  SERVICE      = "frontend"
+	  SERVICE      = "backend"
 	  ECR_REPO     = "crdc-cds-backend"
 	  DEPLOY_JOB   = "DeployBackend"
 	  SLACK_SECRET = "cds_slack_url"
@@ -58,7 +58,7 @@ pipeline {
 	  REGION       = "us-east-1"
 	  DEPLOY_REPO  = "${env.PROJECT}-deployments"
       CODE_BRANCH  = "${params.CodeBranch}"
-      CODE_FOLDER  = "${env.PROJECT}-${env.SERVICE}"
+      CODE_FOLDER  = "bento-${env.SERVICE}"
 
   }
 
