@@ -49,7 +49,7 @@ pipeline {
   environment {
 
       PROJECT      = "cds"
-	  SERVICE      = "backend"
+	  SERVICE      = "frontend"
 	  ECR_REPO     = "crdc-cds-backend"
 	  DEPLOY_JOB   = "DeployBackend"
 	  SLACK_SECRET = "cds_slack_url"
@@ -110,8 +110,7 @@ pipeline {
 				aws_account=$(aws sts get-caller-identity --query "Account" --output text)
 				repo_url="$REGISTRY_URL/$ECR_REPO"
 
-				cd $WORKSPACE/$CODE_FOLDER && DOCKER_BUILDKIT=1 docker build --no-cache -t $repo_url:$CODE_BRANCH.$BUILD_NUMBER .
-
+				cd $WORKSPACE/$CODE_FOLDER && DOCKER_BUILDKIT=1 docker build --build-arg="ECR_REPO=$REGISTRY_URL" --no-cache -t $repo_url:$CODE_BRANCH.$BUILD_NUMBER .
 				'''
 
 			}

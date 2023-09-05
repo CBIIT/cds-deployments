@@ -49,7 +49,7 @@ pipeline {
   environment {
 
       PROJECT      = "cds"
-	  SERVICE      = "files"
+	  SERVICE      = "frontend"
 	  ECR_REPO     = "crdc-cds-frontend"
 	  DEPLOY_JOB   = "DeployFrontend"
 	  SLACK_SECRET = "cds_slack_url"
