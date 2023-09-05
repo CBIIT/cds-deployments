@@ -73,7 +73,7 @@ pipeline {
         }
 
 	    environment {
-            FILES_VERSION = "${params.FrontendTag}"
+            FE_VERSION = "${params.FrontendTag}"
         }
 
  		steps {
