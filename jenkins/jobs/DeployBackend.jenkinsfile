@@ -27,7 +27,7 @@ pipeline {
   }
 
   environment {
-    PROJECT      = 'cds'
+    PROJECT      = 'crdc-cds'
 	APP          = "backend"
 	REGION		 = "us-east-1"
 	SLACK_SECRET = "cds_slack_url"
