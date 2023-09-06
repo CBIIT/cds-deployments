@@ -139,66 +139,7 @@ pipeline {
  		}
 
   	}
-  	// stage('Test'){
-
-    //     agent {
-    //         docker {
-    //             image 'cbiitssrepo/cicd-ansible_4.0'
-    //             args '--net=host -u root -v /var/run/docker.sock:/var/run/docker.sock'
-    //             reuseNode true
-    //         }
-    //     }
-
- 	// 	steps {
-
- 	// 		script {
-
-	// 		    sh label: 'Trivy-Test', script: '''#!/bin/bash
-
-	// 			# Test image for vulnerabilities
-    //             echo "Testing Image with Trivy: $ECR_REPO:$CODE_BRANCH.$BUILD_NUMBER"
-    //             aws_account=$(aws sts get-caller-identity --query "Account" --output text)
-	// 			repo_url="$REGISTRY_URL/$ECR_REPO"
-
-    //             #trivy image --exit-code 1 --severity HIGH,CRITICAL $repo_url:$CODE_BRANCH.$BUILD_NUMBER
-    //             trivy image --timeout 15m --severity HIGH,CRITICAL $repo_url:$CODE_BRANCH.$BUILD_NUMBER
-
-	// 			'''
-
-	// 		}
-
- 	// 	}
-
-  	// }
-
-  	// stage('push to ECR'){
-
- 	// 	steps {
-
- 	// 		script {
-
-	// 		    sh label: 'Docker-Push', script: '''#!/bin/bash
-
-	// 			# push CDS Docker container to ECR
-	// 			echo "Pushing: $ECR_REPO:$CODE_BRANCH.$BUILD_NUMBER"
-	// 			aws_account=$(aws sts get-caller-identity --query "Account" --output text)
-	// 			repo_url="$REGISTRY_URL/$ECR_REPO"
-
-	// 			# login and push to ECR
-	// 			docker login -u AWS -p $(aws ecr get-login-password --region $REGION) $repo_url
-	// 			docker push $repo_url:$CODE_BRANCH.$BUILD_NUMBER
-
-    //             # tag as latest and push to ECR
-	// 			docker tag $repo_url:$CODE_BRANCH.$BUILD_NUMBER $repo_url:latest
-    //             docker push $repo_url:latest
-
-	// 			'''
-
-	// 		}
-
- 	// 	}
-
-  	// }
+ 
 
   	stage('Update Deployment Manifest'){
 
@@ -230,7 +171,8 @@ pipeline {
                 tagRepo ( 
                     gitTag: "${env.CODE_BRANCH}",
                     gitUrl: "github.com/CBIIT/${env.CODE_REPO}",
-                    checkoutDirectory: "${env.PROJECT}-${env.SERVICE}"
+                    // checkoutDirectory: "${env.PROJECT}-${env.SERVICE}"
+                    checkoutDirectory: "$WORKSPACE"
                 )
 
             }
