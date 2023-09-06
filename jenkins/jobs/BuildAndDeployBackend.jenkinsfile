@@ -71,7 +71,7 @@ pipeline {
                         extensions: [[$class: 'SubmoduleOption',
                         recursiveSubmodules: true],
                         [$class: 'RelativeTargetDirectory',
-                        // relativeTargetDir: "${env.CODE_FOLDER}"]],
+                        relativeTargetDir: "${env.WORKSPACE}"]],
                         userRemoteConfigs:
                         [[url: "https://github.com/CBIIT/${env.CODE_REPO}"]]])
 
