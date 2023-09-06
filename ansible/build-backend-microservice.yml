@@ -56,3 +56,4 @@
         container_registry_url: "{{ ecr_repo }}"
         auth_enabled: "true"
         es_host: "{{ lookup('amazon.aws.aws_secret', 'bento/cds/{{ tier }}.es_host', nested=true, region='us-east-1' ) }}"
+        schema_file: cds.graphql
