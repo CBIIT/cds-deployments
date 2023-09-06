@@ -66,15 +66,6 @@ pipeline {
   	stage('checkout'){
   		steps {
 
-		checkout([$class: 'GitSCM',
-                        branches: [[name: "${env.CODE_BRANCH}"]],
-                        extensions: [[$class: 'SubmoduleOption',
-                        recursiveSubmodules: true],
-                        [$class: 'RelativeTargetDirectory',
-                        relativeTargetDir: "${env.WORKSPACE}"]],
-                        userRemoteConfigs:
-                        [[url: "https://github.com/CBIIT/${env.CODE_REPO}"]]])
-
   		checkout([$class: 'GitSCM',
                         branches: [[name: "${params.Environment}"]],
                         extensions: [[$class: 'SubmoduleOption',
@@ -83,6 +74,15 @@ pipeline {
                         relativeTargetDir: "${env.PROJECT}-deployments"]],
                         userRemoteConfigs:
                         [[url: "https://github.com/CBIIT/${env.DEPLOY_REPO}"]]])
+                        
+        checkout([$class: 'GitSCM',
+                        branches: [[name: "${env.CODE_BRANCH}"]],
+                        extensions: [[$class: 'SubmoduleOption',
+                        recursiveSubmodules: true],
+                        [$class: 'RelativeTargetDirectory',
+                        relativeTargetDir: "${env.WORKSPACE}"]],
+                        userRemoteConfigs:
+                        [[url: "https://github.com/CBIIT/${env.CODE_REPO}"]]])
 
         }
 
