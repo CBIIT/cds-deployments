@@ -155,8 +155,7 @@ pipeline {
                         iam_prefix: "power-user",
                         subdomain: "dataservice",
                         domain_name: "datacommons.cancer.gov",
-						project_name: "${env.PROJECT}",
-                        project_prefix: "crdc",
+						project_name: "crdc-cds",
 						auth_enabled: false
 						],
                     colorized: true)
