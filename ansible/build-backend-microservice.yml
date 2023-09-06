@@ -30,15 +30,14 @@
         ecr_repo: "{{ecr_central_account_id}}.dkr.ecr.{{ region }}.amazonaws.com"
 
     #docker login
-    - name: docker login
-      include_role:
-        name: ecr-central-login
-      vars:
-        region: us-east-1
-      register: output
+    - name: login into ecr
+      shell: "docker login -u AWS -p $(aws ecr get-login-password --region {{ region }}) {{ ecr_repo }}"
+      ignore_errors: True
+      register: ecr_login
 
     - debug:
-      msg: "{{output}}"
+      msg: "{{ecr_login}}"
+
 
     #build backend
     - name: build {{project_name}} backend
