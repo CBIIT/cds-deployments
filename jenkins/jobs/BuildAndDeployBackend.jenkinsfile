@@ -139,8 +139,8 @@ pipeline {
             sh "ls -ls"
 			wrap([$class: 'AnsiColorBuildWrapper', colorMapName: "xterm"]) {
                 ansiblePlaybook(
-					playbook: "${WORKSPACE}/${env.PROJECT}-deployments/ansible/build-backend-microservice.yml", 
-            		inventory: "${WORKSPACE}/${env.PROJECT}-deployment/ansible/hosts",
+					playbook: "${WORKSPACE}/ansible/build-backend-microservice.yml", 
+            		inventory: "${WORKSPACE}/ansible/hosts",
                     extraVars: [
                         tier: "${params.Environment}",
                         iam_prefix: "power-user",
