@@ -74,7 +74,7 @@ pipeline {
                         relativeTargetDir: "${env.PROJECT}-deployments"]],
                         userRemoteConfigs:
                         [[url: "https://github.com/CBIIT/${env.DEPLOY_REPO}"]]])
-                        
+
         checkout([$class: 'GitSCM',
                         branches: [[name: "${env.CODE_BRANCH}"]],
                         extensions: [[$class: 'SubmoduleOption',
@@ -136,7 +136,7 @@ pipeline {
 
  		steps {
             sh "pwd"
-            sh "ls -ls"
+            sh "ls -ls cds-deployments"
 			wrap([$class: 'AnsiColorBuildWrapper', colorMapName: "xterm"]) {
                 ansiblePlaybook(
 					playbook: "${WORKSPACE}/cds-deployments/ansible/build-backend-microservice.yml", 
