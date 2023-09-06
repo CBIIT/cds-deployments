@@ -15,14 +15,27 @@
         - community.aws:<=3.2.0
         - git+https://github.com/CBIIT/datacommons-devops.git#/ansible/collections/bento/common/,bento-ref
 
+    - name: Get the current caller identity information
+      aws_caller_info:
+      register: caller_info
+
+    - name: Get ECR account
+      set_fact:
+        account: "{{ caller_info.account }}"
+        region: us-east-1
+        ecr_central_account_id: "{{ lookup('amazon.aws.aws_secret', 'ecr.central_account_id', nested=true, region='us-east-1' ) }}"
+    
+    - name: set ECR registry name
+      set_fact:
+        ecr_repo: "{{ecr_central_account_id}}.dkr.ecr.{{ region }}.amazonaws.com"
+
     #docker login
     - name: docker login
       include_role:
-        name: bento.common.ecr_login
+        name: ecr-central-login
       vars:
         region: us-east-1
-    - debug:
-        msg: "Here is the ECR repo {{ecr_repo}}"
+
     #build backend
     - name: build {{project_name}} backend
       include_role:
@@ -37,7 +50,7 @@
         tier: "{{ tier }}"
         bento_api_version: "{{ image_version }}"
         container_name: "backend"
-        dockerfile_path: "{{workspace}}/playbooks/docker/dockerfiles/backend-microservice-dockerfile"
+        dockerfile_path: "{{workspace}}/{{project_name}}-{{container_name}}"
         container_image: "{{ ecr_repo }}/{{ project_name }}-{{ container_name }}:{{ image_version }}s"
         container_registry_url: "{{ ecr_repo }}"
         auth_enabled: "true"

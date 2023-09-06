@@ -97,31 +97,61 @@ pipeline {
 			}
  		}
   	}
-  	stage('Build'){
+  	// stage('Build'){
+
+ 	// 	steps {
+
+ 	// 		script {
+
+	// 		    sh label: 'Docker-Build', script: '''#!/bin/bash
+
+	// 			# build CDS Docker container
+	// 			echo "Building: $ECR_REPO:$CODE_BRANCH.$BUILD_NUMBER"
+    //             pwd
+    //             ls -l
+    //             echo $CODE_FOLDER
+	// 			aws_account=$(aws sts get-caller-identity --query "Account" --output text)
+	// 			repo_url="$REGISTRY_URL/$ECR_REPO"
+
+	// 			cd $WORKSPACE/$CODE_FOLDER && DOCKER_BUILDKIT=1 docker build --build-arg="ECR_REPO=$REGISTRY_URL" --no-cache -t $repo_url:$CODE_BRANCH.$BUILD_NUMBER .
+	// 			'''
+
+	// 		}
+
+ 	// 	}
+
+  	// }
+    stage('Build'){
+        agent {
+            docker {
+                image 'cbiitssrepo/cicd-ansible_4.0'
+                args '--net=host -u root -v /var/run/docker.sock:/var/run/docker.sock'
+                reuseNode true
+            }
+        }
+
+	    environment {
+            BE_VERSION = "${params.ImageTag}"
+        }
 
  		steps {
-
- 			script {
-
-			    sh label: 'Docker-Build', script: '''#!/bin/bash
-
-				# build CDS Docker container
-				echo "Building: $ECR_REPO:$CODE_BRANCH.$BUILD_NUMBER"
-                pwd
-                ls -l
-                echo $CODE_FOLDER
-				aws_account=$(aws sts get-caller-identity --query "Account" --output text)
-				repo_url="$REGISTRY_URL/$ECR_REPO"
-
-				cd $WORKSPACE/$CODE_FOLDER && DOCKER_BUILDKIT=1 docker build --build-arg="ECR_REPO=$REGISTRY_URL" --no-cache -t $repo_url:$CODE_BRANCH.$BUILD_NUMBER .
-				'''
-
-			}
-
+			wrap([$class: 'AnsiColorBuildWrapper', colorMapName: "xterm"]) {
+                ansiblePlaybook(
+					playbook: "${WORKSPACE}/playbooks/ansible/build-backend-microservice.yml", 
+            		inventory: "${WORKSPACE}/playbooks/ansible/hosts",
+                    extraVars: [
+                        tier: "${params.Environment}",
+                        iam_prefix: "power-user",
+                        subdomain: "dataservice",
+                        domain_name: "datacommons.cancer.gov",
+						project_name: "crdc-cds",
+						auth_enabled: false
+						],
+                    colorized: true)
+ 			}
  		}
 
   	}
-
   	stage('Test'){
 
         agent {
