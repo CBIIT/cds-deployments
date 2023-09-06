@@ -84,6 +84,15 @@ pipeline {
                         userRemoteConfigs:
                         [[url: "https://github.com/CBIIT/${env.CODE_REPO}"]]])
 
+        checkout([$class: 'GitSCM',
+                        branches: [[name: "main"]],
+                        extensions: [[$class: 'SubmoduleOption',
+                        recursiveSubmodules: true],
+                        [$class: 'RelativeTargetDirectory',
+                        relativeTargetDir: "playbooks",
+                        userRemoteConfigs:
+                        [[url: "https://github.com/CBIIT/${env.CODE_REPO}"]]])
+
         }
 
   	}
@@ -139,8 +148,8 @@ pipeline {
             sh "ls -ls cds-deployments"
 			wrap([$class: 'AnsiColorBuildWrapper', colorMapName: "xterm"]) {
                 ansiblePlaybook(
-					playbook: "${WORKSPACE}/cds-deployments/ansible/build-backend-microservice.yml", 
-            		inventory: "${WORKSPACE}/cds-deployments/ansible/hosts",
+					playbook: "${WORKSPACE}/playbooks/ansible/build-backend-microservice.yml", 
+            		inventory: "${WORKSPACE}/playbooks/ansible/hosts",
                     extraVars: [
                         tier: "${params.Environment}",
                         iam_prefix: "power-user",
