@@ -156,7 +156,7 @@ pipeline {
                         subdomain: "dataservice",
                         domain_name: "datacommons.cancer.gov",
 						project_name: "${env.PROJECT}",
-                        project_prefix: "crdc"
+                        project_prefix: "crdc",
 						auth_enabled: false
 						],
                     colorized: true)
