@@ -14,3 +14,6 @@
   shell: "docker login -u AWS -p $(aws ecr get-login-password --region {{ region }}) {{ ecr_repo }}"
   ignore_errors: True
   register: ecr_login
+
+- debug:
+  msg: "{{ecr_login}}"
