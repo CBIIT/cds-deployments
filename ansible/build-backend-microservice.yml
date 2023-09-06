@@ -35,8 +35,8 @@
       ignore_errors: True
       register: ecr_login
 
-    - debug:
-      msg: "{{ecr_login}}"
+    # - debug:
+    #   msg: "{{ecr_login}}"
 
 
     #build backend
