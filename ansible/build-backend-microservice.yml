@@ -35,6 +35,10 @@
         name: ecr-central-login
       vars:
         region: us-east-1
+      register: output
+
+    - debug:
+      msg: "{{output}}"
 
     #build backend
     - name: build {{project_name}} backend
