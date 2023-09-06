@@ -91,7 +91,7 @@ pipeline {
                         [$class: 'RelativeTargetDirectory',
                         relativeTargetDir: "playbooks",
                         userRemoteConfigs:
-                        [[url: "https://github.com/CBIIT/${env.CODE_REPO}"]]])
+                        [[url: "https://github.com/CBIIT/${env.DEPLOY_REPO}"]]])
 
         }
 
