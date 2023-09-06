@@ -66,6 +66,15 @@ pipeline {
   	stage('checkout'){
   		steps {
 
+        checkout([$class: 'GitSCM',
+                        branches: [[name: "main"]],
+                        extensions: [[$class: 'SubmoduleOption',
+                        recursiveSubmodules: true],
+                        [$class: 'RelativeTargetDirectory',
+                        relativeTargetDir: "playbooks"]],
+                        userRemoteConfigs:
+                        [[url: "https://github.com/CBIIT/${env.DEPLOY_REPO}"]]])
+
   		checkout([$class: 'GitSCM',
                         branches: [[name: "${params.Environment}"]],
                         extensions: [[$class: 'SubmoduleOption',
@@ -83,16 +92,6 @@ pipeline {
                         relativeTargetDir: "${env.WORKSPACE}"]],
                         userRemoteConfigs:
                         [[url: "https://github.com/CBIIT/${env.CODE_REPO}"]]])
-
-    
-        checkout([$class: 'GitSCM',
-                        branches: [[name: "main"]],
-                        extensions: [[$class: 'SubmoduleOption',
-                        recursiveSubmodules: true],
-                        [$class: 'RelativeTargetDirectory',
-                        relativeTargetDir: "playbooks"]],
-                        userRemoteConfigs:
-                        [[url: "https://github.com/CBIIT/${env.DEPLOY_REPO}"]]])
 
         }
 
@@ -146,11 +145,11 @@ pipeline {
 
  		steps {
             sh "pwd"
-            sh "ls -ls cds-deployments"
+            sh "ls -ls "
 			wrap([$class: 'AnsiColorBuildWrapper', colorMapName: "xterm"]) {
                 ansiblePlaybook(
-					playbook: "${WORKSPACE}/playbooks/ansible/build-backend-microservice.yml", 
-            		inventory: "${WORKSPACE}/playbooks/ansible/hosts",
+					playbook: "${WORKSPACE}/cds-deployments/ansible/build-backend-microservice.yml", 
+            		inventory: "${WORKSPACE}/cds-deployments/ansible/hosts",
                     extraVars: [
                         tier: "${params.Environment}",
                         iam_prefix: "power-user",
