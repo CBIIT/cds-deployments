@@ -140,7 +140,7 @@ pipeline {
         }
 
 	    environment {
-            BE_VERSION = "${params.ImageTag}"
+            BE_VERSION = "$CODE_BRANCH.$BUILD_NUMBER"
         }
 
  		steps {
