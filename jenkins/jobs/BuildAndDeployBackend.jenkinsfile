@@ -135,6 +135,8 @@ pipeline {
         }
 
  		steps {
+            sh "pwd"
+            sh "ls -ls"
 			wrap([$class: 'AnsiColorBuildWrapper', colorMapName: "xterm"]) {
                 ansiblePlaybook(
 					playbook: "${WORKSPACE}/${env.PROJECT}-deployments/ansible/build-backend-microservice.yml", 
