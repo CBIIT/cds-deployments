@@ -136,6 +136,7 @@ pipeline {
 						],
                     colorized: true)
  			}
+            sh "cat ${WORKSPACE}/src/main/resources/application.properties"
  		}
 
   	}
