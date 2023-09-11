@@ -160,7 +160,7 @@ module "cloudfront" {
 
 module "s3-replication-source" {
   count = var.create_s3_replication ? 1 : 0
-  source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/s3-replication-source?ref=neo4j"
+  source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/s3-replication-source?ref=cds-stage"
   destination_bucket_name = var.destination_bucket_name 
   env =  terraform.workspace
   source_bucket_name = var.source_bucket_name
@@ -173,7 +173,7 @@ module "s3-replication-source" {
 
 module "s3-replication-destination" {
   count = var.enable_s3_replication ? 1 : 0
-  source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/s3-replication-destination?ref=neo4j"
+  source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/s3-replication-destination?ref=cds-stage"
   destination_bucket_name = var.destination_bucket_name 
   tags = var.tags
   replication_role_arn = var.replication_role_arn
