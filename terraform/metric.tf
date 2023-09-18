@@ -1,5 +1,6 @@
 
 resource "aws_s3_bucket" "metric" {
+  count  =  var.enable_metric_pipeline && terraform.workspace == "dev" ||  var.enable_metric_pipeline && terraform.workspace == "stage" ? 1 : 0
   bucket = "${var.program}-${local.level}-${var.stack_name}-failed-metric-delivery"
   server_side_encryption_configuration {
     rule {
@@ -28,6 +29,6 @@ module "new_relic_metric_pipeline" {
    new_relic_account_id      = var.new_relic_account_id
    permission_boundary_arn   = local.permissions_boundary
    program                   = var.program #i.e. "crdc"
-   s3_bucket_arn             = aws_s3_bucket.metric.arn
+   s3_bucket_arn             = aws_s3_bucket.metric[0].arn
    resource_prefix           = "cds"
 }
