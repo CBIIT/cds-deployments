@@ -12,6 +12,7 @@ resource "aws_s3_bucket" "metric" {
   tags = var.tags
 }
 resource "aws_s3_bucket_public_access_block" "metric" {
+  count  =  var.enable_metric_pipeline && terraform.workspace == "dev" ||  var.enable_metric_pipeline && terraform.workspace == "stage" ? 1 : 0
   bucket = aws_s3_bucket.metric[0].id
   block_public_acls = true
   block_public_policy = true
