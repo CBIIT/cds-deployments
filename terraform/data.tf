@@ -15,7 +15,7 @@ data "aws_iam_policy_document" "s3_alb_policy" {
     resources = ["arn:aws:s3:::${module.s3.bucket_name}/*"]
   }
   statement {
-    sid = "allowalblogdelivery"
+    sid = "allowlogdelivery"
     effect = "Allow"
     principals {
       identifiers = ["delivery.logs.amazonaws.com"]
@@ -23,11 +23,6 @@ data "aws_iam_policy_document" "s3_alb_policy" {
     }
     actions = ["s3:PutObject"]
     resources = ["arn:aws:s3:::${module.s3.bucket_name}/*"]
-    condition {
-      test     = "StringEquals"
-      values   = ["bucket-owner-full-control"]
-      variable = "s3:x-amz-acl"
-    }
   }
   statement {
     sid = "awslogdeliveryacl"
