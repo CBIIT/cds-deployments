@@ -53,7 +53,7 @@ pipeline {
 	  ECR_REPO     = "crdc-cds-backend"
 	  DEPLOY_JOB   = "DeployBackend"
 	  SLACK_SECRET = "cds_slack_url"
-	  CODE_REPO    = "bento-backend"
+	  CODE_REPO    = "bento-cds-backend"
 	  JOB_PATH     = "_default/_lower/CDS/OneClickDeployment/_jobs"
 	  REGION       = "us-east-1"
 	  DEPLOY_REPO  = "${env.PROJECT}-deployments"
