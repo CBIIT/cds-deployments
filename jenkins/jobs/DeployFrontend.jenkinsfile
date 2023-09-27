@@ -3,8 +3,8 @@
 pipeline {
 	agent {
 		node {
-			label "slave-ncias-d2943-c"
-			// label "slave-ncias-s2979-c"
+			// label "slave-ncias-d2943-c"
+			label "slave-ncias-s2979-c"
 		}
 	}
 
