@@ -11,7 +11,7 @@
       loop:
         - community.docker
         - amazon.aws
-        - community.aws
+        # - community.aws
         - git+https://github.com/CBIIT/datacommons-devops.git#/ansible/collections/bento/common/,v1.0
 
     - name: Get the current caller identity information
