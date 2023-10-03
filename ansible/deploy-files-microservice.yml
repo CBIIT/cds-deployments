@@ -6,7 +6,7 @@
 
   vars:
     - use_neo4j_container: no
-    # - ansible_python_interpreter: /usr/local/bin/ansible
+  
 
   tasks:
     #install collections
