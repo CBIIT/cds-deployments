@@ -1,5 +1,5 @@
 - name: cds deploy pipeline
-  hosts: localhost
+  hosts: all
   connection: local
   gather_facts: yes
   become: yes
