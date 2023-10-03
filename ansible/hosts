@@ -3,6 +3,3 @@ localhost ansible_python_interpreter=/bin/python2
 
 [all]
 localhost ansible_python_interpreter=/usr/local/bin/ansible
-
-[alb]
-localhost ansible_python_interpreter=/usr/bin/python3
