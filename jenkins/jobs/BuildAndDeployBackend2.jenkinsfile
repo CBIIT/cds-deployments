@@ -1,0 +1,216 @@
+@Library('datacommons-jenkins-shared-library@v1.1') _
+
+pipeline {
+	agent {
+		node {
+			label 'slave-ncias-d2943-c'
+		}
+	}
+
+	parameters {
+
+        extendedChoice(
+            name: 'Environment',
+            defaultValue: 'dev',
+            description: 'Choose the environment to build',
+            type: 'PT_SINGLE_SELECT',
+            value: 'dev,dev2,qa,qa2,stage,prod')
+
+        gitParameter(branchFilter: 'origin/(.*)',
+            defaultValue: 'main',
+            name: 'CodeBranch',
+            type: 'GitParameterDefinition',
+            quickFilterEnabled: true,
+            selectedValue: 'DEFAULT',
+            sortMode: 'ASCENDING_SMART',
+            tagFilter: '*',
+            useRepository: 'https://github.com/CBIIT/bento-backend')
+
+        booleanParam(
+            defaultValue: true,
+            name: 'UpdateDeploymentVersion')
+
+        booleanParam(
+            defaultValue: true,
+            name: 'RunDeployStage'
+        )
+        // booleanParam(
+        //     defaultValue: false,
+        //     name: 'AuthEnabled'
+        // )
+
+  }
+
+  options {
+  	ansiColor('xterm')
+	timestamps()
+  }
+
+  environment {
+
+      PROJECT      = "cds"
+	  SERVICE      = "backend"
+	  ECR_REPO     = "crdc-cds-backend"
+	  DEPLOY_JOB   = "DeployBackend"
+	  SLACK_SECRET = "cds_slack_url"
+	  CODE_REPO    = "bento-cds-backend"
+	  JOB_PATH     = "_default/_lower/CDS/OneClickDeployment/_jobs"
+	  REGION       = "us-east-1"
+	  DEPLOY_REPO  = "${env.PROJECT}-deployments"
+      CODE_BRANCH  = "${params.CodeBranch}"
+      CODE_FOLDER  = "${PROJECT}-${env.SERVICE}"
+
+  }
+
+  stages{
+  	stage('checkout'){
+  		steps {
+
+        checkout([$class: 'GitSCM',
+                        branches: [[name: "main"]],
+                        extensions: [[$class: 'SubmoduleOption',
+                        recursiveSubmodules: true],
+                        [$class: 'RelativeTargetDirectory',
+                        relativeTargetDir: "playbooks"]],
+                        userRemoteConfigs:
+                        [[url: "https://github.com/CBIIT/${env.DEPLOY_REPO}"]]])
+
+  		checkout([$class: 'GitSCM',
+                        branches: [[name: "${params.Environment}"]],
+                        extensions: [[$class: 'SubmoduleOption',
+                        recursiveSubmodules: true],
+                        [$class: 'RelativeTargetDirectory',
+                        relativeTargetDir: "${env.PROJECT}-deployments"]],
+                        userRemoteConfigs:
+                        [[url: "https://github.com/CBIIT/${env.DEPLOY_REPO}"]]])
+
+        checkout([$class: 'GitSCM',
+                        branches: [[name: "${env.CODE_BRANCH}"]],
+                        extensions: [[$class: 'SubmoduleOption',
+                        recursiveSubmodules: true],
+                        [$class: 'RelativeTargetDirectory',
+                        relativeTargetDir: "${env.WORKSPACE}"]],
+                        userRemoteConfigs:
+                        [[url: "https://github.com/CBIIT/${env.CODE_REPO}"]]])
+
+        }
+
+  	}
+    stage('Set Environment Variables'){
+ 		steps {
+ 			script {
+                // set ECR account number
+				env.ECR_ACCOUNT = sh(label: 'Get ECR account', returnStdout: true, script: "aws secretsmanager get-secret-value --region $REGION --secret-id ecr --query SecretString --output text | jq -r '.central_account_id'").trim()
+				// set repo URL
+				env.REGISTRY_URL = "${ECR_ACCOUNT}.dkr.ecr.${REGION}.amazonaws.com"
+			}
+ 		}
+  	}
+    stage('Build'){
+        agent {
+            docker {
+                image 'cbiitssrepo/cicd-ansible_4.0'
+                args '--net=host -u root -v /var/run/docker.sock:/var/run/docker.sock'
+                reuseNode true
+            }
+        }
+
+	    environment {
+            BE_VERSION = "$CODE_BRANCH"
+        }
+
+ 		steps {
+            sh "pwd"
+            sh "ls -ls "
+			wrap([$class: 'AnsiColorBuildWrapper', colorMapName: "xterm"]) {
+                ansiblePlaybook(
+					playbook: "${WORKSPACE}/playbooks/ansible/build-backend-microservice.yml", 
+            		inventory: "${WORKSPACE}/playbooks/ansible/hosts",
+                    extraVars: [
+                        tier: "${params.Environment}",
+                        iam_prefix: "power-user",
+                        subdomain: "dataservice",
+                        domain_name: "datacommons.cancer.gov",
+						project_name: "crdc-cds",
+						auth_enabled: false
+						],
+                    colorized: true)
+ 			}
+            sh "cat ${WORKSPACE}/src/main/resources/application.properties"
+ 		}
+
+  	}
+ 
+
+  	stage('Update Deployment Manifest'){
+
+ 		steps {
+ 			
+			script {
+                if (params.UpdateDeploymentVersion) {
+                    writeDeployment(
+                        version: "${env.CODE_BRANCH}.${BUILD_NUMBER}",
+                        image:  "${env.CODE_BRANCH}.${BUILD_NUMBER}",
+                        service: "${env.SERVICE}",
+                        deploymentFile: "${env.PROJECT}-deployments/deployments.yaml",
+                        deploymentRepoUrl: "https://github.com/CBIIT/${env.DEPLOY_REPO}",
+                        deploymentCheckoutDirectory: "${env.PROJECT}-deployments"
+                    )
+                }
+            }
+
+ 		}
+
+  	}
+
+  	stage('Update Code Tag'){
+
+ 		steps {
+ 			
+			script {
+
+                tagRepo ( 
+                    gitTag: "${env.CODE_BRANCH}",
+                    gitUrl: "github.com/CBIIT/${env.CODE_REPO}",
+                    // checkoutDirectory: "${env.PROJECT}-${env.SERVICE}"
+                    checkoutDirectory: "."
+                )
+
+            }
+
+ 		}
+
+  	}
+
+  }
+
+  post {
+
+    success {
+
+		script {
+			if (params.RunDeployStage) {
+				echo 'Run the deployment for this sevice'
+				build job: "$JOB_PATH/$DEPLOY_JOB", parameters: [string(name: 'ImageTag', value: "$CODE_BRANCH.$BUILD_NUMBER"), extendedChoice(name: 'Environment', value: "${params.Environment}")]
+			}
+		}
+    }
+
+    always {
+
+        notify(
+            secretPath: "notification/slack",
+            secretName: "${env.SLACK_SECRET}"
+        ) 
+
+    }
+
+    cleanup {
+
+        cleanWs()
+
+    }
+
+  }
+
+}
