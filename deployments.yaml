@@ -9,7 +9,3 @@ services:
     version: 4.0.0.186
     image: 4.0.0.186
     buildNumber: '186'
-  files:
-    version: cds-multistage.42
-    image: cds-multistage.42
-    buildNumber: '42'
