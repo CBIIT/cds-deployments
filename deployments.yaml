@@ -4,11 +4,11 @@ services:
   backend:
     version: 24.6.1.150
     image: 24.6.1.150
-    buildNumber: '148'
+    buildNumber: '150'
   frontend:
     version: v3.7.1.188
     image: v3.7.1.188
-    buildNumber: '162'
+    buildNumber: '188'
   files:
     version: main.35
     image: main.35
