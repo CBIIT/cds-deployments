@@ -6,10 +6,10 @@ services:
     image: 24.6.1.150
     buildNumber: '150'
   frontend:
-    version: v3.7.1.188
-    image: v3.7.1.188
-    buildNumber: '188'
+    version: v3.7.1.193
+    image: v3.7.1.193
+    buildNumber: '193'
   files:
-    version: main.35
-    image: main.35
-    buildNumber: '35'
+    version: main.40
+    image: main.40
+    buildNumber: '40'
