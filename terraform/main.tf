@@ -104,6 +104,7 @@ module "neo4j" {
   database_instance_type = var.database_instance_type
   tags = var.tags
   database_name = var.neo4j_database_name
+  resource_prefix = var.resource_prefix
 }
 
 
@@ -126,6 +127,7 @@ module "user_neo4j" {
   db_iam_profile_name = var.db_iam_profile_name
   db_security_group_name = var.db_security_group_name
   db_boostrap_ssm_document  = var.db_boostrap_ssm_document
+  resource_prefix = var.resource_prefix
 }
 
 
@@ -177,6 +179,7 @@ module "s3-replication-source" {
   target_account_cloudone = var.target_account_cloudone
   create_source_bucket = var.create_source_bucket 
   replication_destination_account_id = var.replication_destination_account_id
+  resource_prefix = var.resource_prefix
 }
 
 module "s3-replication-destination" {
@@ -186,4 +189,5 @@ module "s3-replication-destination" {
   tags = var.tags
   replication_role_arn = var.replication_role_arn
   create_destination_bucket = var.create_destination_bucket
+  resource_prefix = var.resource_prefix
 }
