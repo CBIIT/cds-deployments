@@ -179,7 +179,6 @@ module "s3-replication-source" {
   target_account_cloudone = var.target_account_cloudone
   create_source_bucket = var.create_source_bucket 
   replication_destination_account_id = var.replication_destination_account_id
-  resource_prefix = var.resource_prefix
 }
 
 module "s3-replication-destination" {
