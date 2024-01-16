@@ -9,6 +9,8 @@ module "alb" {
   tags = var.tags
   stack_name = var.stack_name
   alb_certificate_arn = data.aws_acm_certificate.amazon_issued.arn
+  resource_prefix = var.resource_prefix
+  program = var.program
 }
 
 module "s3" {
