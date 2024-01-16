@@ -139,6 +139,7 @@ module "aurora" {
   allowed_ip_blocks = var.allowed_ip_blocks
   db_subnet_ids = var.db_subnet_ids
   database_name = var.database_name
+  resource_prefix = var.resource_prefix
 }
 
 #cloudfront
