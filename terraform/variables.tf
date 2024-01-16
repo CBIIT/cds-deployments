@@ -470,8 +470,3 @@ variable "project" {
   type        = string
   default = "cds"
 }
-variable "program" {
-  type        = string
-  description = "the program associated with the application"
-  default = "crdc"
-}
