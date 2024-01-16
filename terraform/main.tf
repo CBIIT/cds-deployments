@@ -51,7 +51,8 @@ module "ecr" {
    replication_destination_registry_id = var.replication_destination_registry_id
    replication_source_registry_id = var.replication_source_registry_id 
    allow_ecr_replication = var.allow_ecr_replication
-   stack_name = var.stack_name
+   resource_prefix = var.resource_prefix
+   project = var.project
 }
 
 #create opensearch

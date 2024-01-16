@@ -465,3 +465,8 @@ variable "central_ecr_account_id" {
   type = string
   description = "central ecr account id"
 }
+variable "project" {
+  description = "the name of the project"
+  type        = string
+  default = "cds"
+}
