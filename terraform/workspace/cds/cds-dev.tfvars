@@ -14,13 +14,15 @@ tags = {
 }
 region = "us-east-1"
 
+env = "dev"
+
 #alb
 internal_alb = true
 certificate_domain_name = "*.datacommons.cancer.gov"
 domain_name = "datacommons.cancer.gov"
 
 #ecr
-create_ecr_repos = true
+create_ecr_repos = false
 ecr_repo_names = ["backend","frontend","files"]
 
 #ecs
