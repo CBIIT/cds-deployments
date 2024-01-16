@@ -189,5 +189,4 @@ module "s3-replication-destination" {
   tags = var.tags
   replication_role_arn = var.replication_role_arn
   create_destination_bucket = var.create_destination_bucket
-  resource_prefix = var.resource_prefix
 }
