@@ -24,6 +24,7 @@ module "s3" {
   days_for_deep_archive_tiering = 180
   s3_enable_access_logging = false
   s3_access_log_bucket_id = ""
+  resource_prefix = var.resource_prefix
 }
 
 module "ecs" {
@@ -40,6 +41,7 @@ module "ecs" {
   target_account_cloudone = var.target_account_cloudone
   allow_cloudwatch_stream = var.allow_cloudwatch_stream
   central_ecr_account_id = var.central_ecr_account_id
+  resource_prefix = var.resource_prefix
 }
 
 #create ecr
@@ -76,6 +78,7 @@ module "opensearch" {
   vpc_id = var.vpc_id
   opensearch_autotune_rollback_type = "NO_ROLLBACK"
   create_cloudwatch_log_policy = var.create_cloudwatch_log_policy
+  resource_prefix = var.resource_prefix
 }
 
 module "dns" {
@@ -160,6 +163,7 @@ module "cloudfront" {
   create_files_bucket = var.create_files_bucket
   target_account_cloudone = var.target_account_cloudone
   public_key_path = file("${path.module}/workspace/cds/cds_public_key.pem")
+  resource_prefix = var.resource_prefix
 }
 
 module "s3-replication-source" {
