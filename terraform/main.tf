@@ -170,7 +170,7 @@ module "cloudfront" {
 
 module "s3-replication-source" {
   count = var.create_s3_replication ? 1 : 0
-  source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/s3-replication-source?ref=v1.13"
+  source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/s3-replication-source?ref=cds-rebuild"
   destination_bucket_name = var.destination_bucket_name 
   env =  terraform.workspace
   source_bucket_name = var.source_bucket_name
