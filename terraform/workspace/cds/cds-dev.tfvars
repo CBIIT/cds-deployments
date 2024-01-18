@@ -110,3 +110,5 @@ allow_ecr_replication = false
 #metric pipeline
 enable_metric_pipeline = true
 project_name = "cds"
+
+resource_prefix = "cds-dev"
