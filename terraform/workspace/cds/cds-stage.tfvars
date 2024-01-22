@@ -106,7 +106,7 @@ slack_secret_name = "cloudfront-slack"
 
 #ecr replication
 enable_ecr_replication = false
-allow_ecr_replication = true
+allow_ecr_replication = false
 
 
 
@@ -121,3 +121,4 @@ destination_bucket_name = "cds-prod-metadata"
 #metric pipeline
 enable_metric_pipeline = true
 project_name = "cds"
+resource_prefix = "cds-stage"
