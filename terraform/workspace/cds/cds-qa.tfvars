@@ -21,7 +21,7 @@ domain_name = "datacommons.cancer.gov"
 
 #ecr
 create_ecr_repos = false
-ecr_repo_names = ["backend","frontend"]
+ecr_repo_names = ["backend","frontend","files"]
 
 #ecs
 add_opensearch_permission = true
@@ -70,7 +70,7 @@ opensearch_version = "OpenSearch_1.2"
 allowed_ip_blocks = ["10.208.0.0/21","10.210.0.0/24","10.208.8.0/21"]
 create_os_service_role = false
 opensearch_instance_count = 1
-create_cloudwatch_log_policy = true
+create_cloudwatch_log_policy = false
 
 
 #neo4j db is created by cloudone
@@ -114,3 +114,5 @@ replication_role_arn = ""
 enable_replication = false
 create_s3_replication = true
 destination_bucket_name = "cds-prod-metadata"
+resource_prefix = "cds-qa"
+project_name = "cds"
