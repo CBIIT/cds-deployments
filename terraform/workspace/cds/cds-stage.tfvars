@@ -90,7 +90,7 @@ create_instance_profile = true
 #cloudfront
 create_cloudfront = true
 create_files_bucket = true
-cloudfront_distribution_bucket_name = "cds-prod-annotation-files"
+cloudfront_distribution_bucket_name = "cds-prod-metadata"
 cloudfront_slack_channel_name = "cds-cloudfront-wafv2"
 alarms = {
   error4xx = {
