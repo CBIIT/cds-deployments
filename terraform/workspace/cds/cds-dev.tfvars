@@ -20,6 +20,7 @@ env = "dev"
 internal_alb = true
 certificate_domain_name = "*.datacommons.cancer.gov"
 domain_name = "datacommons.cancer.gov"
+alb_log_bucket_name = "ctos-nonprod-manager-alb-logs"
 
 #ecr
 create_ecr_repos = false

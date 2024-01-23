@@ -470,3 +470,7 @@ variable "project" {
   type        = string
   default = "cds"
 }
+variable "alb_log_bucket_name" {
+  description = "alb logs bucket name"
+  type = string
+}
