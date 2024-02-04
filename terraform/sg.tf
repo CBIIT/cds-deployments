@@ -190,3 +190,13 @@ resource "aws_security_group_rule" "katalon_http_inbound" {
   security_group_id = module.neo4j[count.index].db_security_group_id
   type = "ingress"
 }
+
+resource "aws_security_group" "neptune" {
+  name        = "${var.resource_prefix}-neptune"
+  description = "the security group securing the ${var.resource_prefix}-neptune cluster"
+  vpc_id      = data.aws_vpc.vpc.id
+
+  tags = {
+    Name = "${var.resource_prefix}-neptune"
+  }
+}

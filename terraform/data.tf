@@ -280,3 +280,14 @@ data "aws_iam_policy_document" "integration_server_policy" {
     resources = ["arn:aws:rds:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:db:ccdc-*"]
   }
 }
+
+data "aws_subnets" "database" {
+  filter {
+    name   = "vpc-id"
+    values = [data.aws_vpc.vpc.id]
+  }
+
+  tags = {
+    Name = "sn-${terraform.workspace}-db-us-east-1*"
+  }
+}
