@@ -474,3 +474,8 @@ variable "alb_log_bucket_name" {
   description = "alb logs bucket name"
   type = string
 }
+variable "create_neptune_cluster" {
+  type = bool
+  description = "set this to create neptune cluster"
+  default = true
+}
