@@ -195,8 +195,27 @@ resource "aws_security_group" "neptune" {
   name        = "${var.resource_prefix}-neptune"
   description = "the security group securing the ${var.resource_prefix}-neptune cluster"
   vpc_id      = data.aws_vpc.vpc.id
-
   tags = {
     Name = "${var.resource_prefix}-neptune"
   }
+}
+
+resource "aws_security_group_rule" "neptune_egress" {
+  security_group_id        = aws_security_group.get_domain_counts.id
+  description              = "allowing egress https traffic from neptune cluster"
+  type                     = "egress"
+  protocol                 = "tcp"
+  from_port                = module.neptune.cluster_port
+  to_port                  = module.neptune.cluster_port
+  source_security_group_id = aws_security_group.neptune.id
+}
+resource "aws_security_group_rule" "neptune_ingress" {
+  security_group_id        = aws_security_group.get_domain_counts.id
+  description              = "allowing egress https traffic to the neptune cluster"
+  type                     = "igress"
+  protocol                 = "tcp"
+  cidr_blocks              = var.nci_vpn_cidrs     
+  from_port                = module.neptune.cluster_port
+  to_port                  = module.neptune.cluster_port
+  source_security_group_id = aws_security_group.neptune.id
 }

@@ -479,3 +479,7 @@ variable "create_neptune_cluster" {
   description = "set this to create neptune cluster"
   default = true
 }
+variable "nci_vpn_cidrs" {
+  type = list(string)
+  description = "nci vpn cidrs"
+}
