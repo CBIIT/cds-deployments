@@ -3,7 +3,7 @@ import groovy.json.JsonOutput
 pipeline {
   agent {
     node {
-      label 'ctdc-deploy-agent'
+      label 'slave-ncias-s2979-c'
     }
   }
 	parameters {
