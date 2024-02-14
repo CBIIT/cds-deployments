@@ -113,3 +113,8 @@ enable_metric_pipeline = true
 project_name = "cds"
 
 resource_prefix = "cds-dev"
+
+#########
+#opensearch backup and restore
+###########
+
