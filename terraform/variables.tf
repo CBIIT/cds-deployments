@@ -483,3 +483,19 @@ variable "nci_vpn_cidrs" {
   type = list(string)
   description = "nci vpn cidrs"
 }
+variable "aws_nonprod_account_id" {
+  type = map(string)
+  description = "aws account to allow for cross account access"
+}
+
+variable "aws_prod_account_id" {
+  type = map(string)
+  description = "aws account to allow for cross account access"
+}
+
+variable "s3_opensearch_snapshot_bucket" {
+  type = string
+  description = "name of the S3 Opensearch snapshot bucket created in prod account"
+  sensitive   = false
+}
+#s3_snapshot_bucket_name = "opensearch-snapshot-bucket"
