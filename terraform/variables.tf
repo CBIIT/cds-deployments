@@ -482,6 +482,7 @@ variable "create_neptune_cluster" {
 variable "nci_vpn_cidrs" {
   type = list(string)
   description = "nci vpn cidrs"
+  default = [ ]
 }
 variable "aws_nonprod_account_id" {
   type = map(string)
