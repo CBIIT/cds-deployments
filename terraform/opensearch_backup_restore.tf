@@ -163,7 +163,7 @@ resource "aws_s3_bucket_policy" "s3_snapshot_policy" {
 }
 
 #S3 bucket for storing OpenSearch Snapshots
-module "s3" {
+module "opensearch_s3_bucket" {
   count  = terraform.workspace == "stage" ? 1 : 0
   source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/s3?ref=main"
   bucket_name = "${var.program}-${terraform.workspace}-${var.project}-opensearch-snapshot-bucket"
