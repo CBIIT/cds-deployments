@@ -487,11 +487,17 @@ variable "nci_vpn_cidrs" {
 variable "aws_nonprod_account_id" {
   type = map(string)
   description = "aws account to allow for cross account access"
+  default = {
+    us-east-1 = "339649878709"
+  }
 }
 
 variable "aws_prod_account_id" {
   type = map(string)
   description = "aws account to allow for cross account access"
+  default = {
+    us-east-1 = "767705013692"
+  }
 }
 
 variable "s3_opensearch_snapshot_bucket" {
