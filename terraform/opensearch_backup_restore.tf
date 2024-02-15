@@ -158,7 +158,7 @@ resource "aws_iam_role_policy_attachment" "s3_opensearch_cross_account_access" {
 
 resource "aws_s3_bucket_policy" "s3_snapshot_policy" {
   count  = terraform.workspace == "stage" ? 1 : 0
-  bucket = module.s3[0].bucket_id
+  bucket = module.opensearch_s3_bucket[0].bucket_id
   policy = data.aws_iam_policy_document.s3bucket_policy[0].json
 }
 
