@@ -166,8 +166,8 @@ resource "aws_s3_bucket_policy" "s3_snapshot_policy" {
 module "opensearch_s3_bucket" {
   count  = terraform.workspace == "stage" ? 1 : 0
   source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/s3?ref=main"
-  bucket_name = "${var.program}-${terraform.workspace}-${var.project}-opensearch-snapshot-bucket"
-  resource_prefix = var.resource_prefix
+  bucket_name = local.s3_snapshot_bucket_name
+  resource_prefix   = "${var.program}-${terraform.workspace}-${var.project}"
   env = terraform.workspace
   tags = var.tags
   s3_force_destroy = var.s3_force_destroy
