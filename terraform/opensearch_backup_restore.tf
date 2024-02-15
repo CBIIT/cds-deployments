@@ -22,8 +22,8 @@ data "aws_iam_policy_document" "s3bucket_policy" {
         "s3:PutObjectAcl"
       ]
       resources = [
-        "arn:aws:s3:::${module.s3[0].bucket_name}",
-        "arn:aws:s3:::${module.s3[0].bucket_name}/*"
+        "arn:aws:s3:::${module.opensearch_s3_bucket[0].bucket_name}",
+        "arn:aws:s3:::${module.opensearch_s3_bucket[0].bucket_name}/*"
       ]
     }
 }

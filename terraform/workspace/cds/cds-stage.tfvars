@@ -126,3 +126,5 @@ resource_prefix = "cds-stage"
 
 #opensearch
 s3_opensearch_snapshot_bucket =  "crdc-stage-cds-opensearch-snapshot-bucket"
+
+
