@@ -125,6 +125,7 @@ project_name = "cds"
 resource_prefix = "cds-stage"
 
 #opensearch
-s3_opensearch_snapshot_bucket =  "crdc-stage-cds-opensearch-snapshot-bucket"
+s3_opensearch_snapshot_bucket =  "opensearch-snapshot-bucket"
+                              
 
 
