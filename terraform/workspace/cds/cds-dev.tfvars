@@ -117,4 +117,4 @@ resource_prefix = "cds-dev"
 #########
 #opensearch backup and restore
 ###########
-s3_opensearch_snapshot_bucket =  "crdc-dev-cds-opensearch-snapshot-bucket"
+
