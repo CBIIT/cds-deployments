@@ -1,0 +1,2 @@
+FROM cbiitssrepo/cicd-ansible_4.0
+RUN ln -s /usr/bin/python3 /usr/local/bin/python3
