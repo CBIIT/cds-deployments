@@ -90,7 +90,7 @@ pipeline {
                     base_path: "${params.BASE_PATH}",
                     s3_bucket: "${params.S3_BUCKET}",
                     project: "${PROJECT}",
-                    role_arn: "arn:aws:iam::265135454114:role/power-user-crdc-dev-ctdc-opensearch-snapshot"
+                    role_arn: "arn:aws:iam::265135454114:role/power-user-crdc-dev-ctdc-opensearch-snapshot",
                     ansible_python_interpreter: "/usr/bin/python3"
                     ],
                   hostKeyChecking: false,
