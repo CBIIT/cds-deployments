@@ -14,16 +14,16 @@ pipeline {
         description: 'Choose the environment to build', 
         type: 'PT_SINGLE_SELECT',
         value: 'dev,qa,stage,prod' )
-    string(defaultValue: "ctdc",
+    string(defaultValue: "cds",
         description: 'snapshot repository name',
         name: 'PROJECT_NAME')
-    string(defaultValue: "ctdc",
+    string(defaultValue: "cds",
         description: 'snapshot repository name',
         name: 'SNAPSHOT_REPO')
     string(defaultValue: "v_1_0",
         description: 'Snapshot name used for restore operation',
         name: 'SNAPSHOT_VALUE')
-    string(defaultValue: "crdc-stage-ctdc-opensearch-snapshot-bucket",
+    string(defaultValue: "crdc-stage-cds-opensearch-snapshot-bucket",
         description: 'S3 bucket which has the snapshot to restore',
         name: 'S3_BUCKET')
     string(defaultValue: "es-backup",
@@ -38,9 +38,9 @@ pipeline {
     jdk 'Default' 
   }
   environment {
-      PROGRAM      = "crdc"
-	  PROJECT      = "ctdc"
-	  SLACK_SECRET = "ctdc_slack_url"
+    PROGRAM      = "crdc"
+	  PROJECT      = "cds"
+	  SLACK_SECRET = "cds_slack_url"
 	  ENV          = "${params.Environment}"
 	  REGION       = "us-east-1"
 	  DEPLOY_REPO  = "${env.PROJECT}-deployments"
@@ -80,8 +80,8 @@ pipeline {
  		  steps{
         wrap([$class: 'AnsiColorBuildWrapper', colorMapName: "xterm"]){
              ansiblePlaybook( 
-                playbook: '${WORKSPACE}/ctdc-deployments/ansible/playbooks/dataloader/opensearchbackup.yml',
-                inventory: '${WORKSPACE}/ctdc-deployments/ansible/playbooks/hosts',
+                playbook: '${WORKSPACE}/playbooks/ansible/opensearchbackup.yml',
+                inventory: "${WORKSPACE}/playbooks/ansible/hosts",
                 extraVars: [
                     tier: "${ENV}",
                     project_name: "${PROJECT}",
@@ -90,7 +90,7 @@ pipeline {
                     base_path: "${params.BASE_PATH}",
                     s3_bucket: "${params.S3_BUCKET}",
                     project: "${PROJECT}",
-                    role_arn: "arn:aws:iam::265135454114:role/power-user-crdc-dev-ctdc-opensearch-snapshot",
+                    role_arn: "arn:aws:iam::339649878709:role/power-user-crdc-dev-cds-opensearch-snapshot",
                     ansible_python_interpreter: "/usr/bin/python3"
                     ],
                   hostKeyChecking: false,
