@@ -80,8 +80,8 @@ pipeline {
  		  steps{
         wrap([$class: 'AnsiColorBuildWrapper', colorMapName: "xterm"]){
              ansiblePlaybook( 
-                playbook: '${WORKSPACE}/playbooks/ansible/opensearchbackup.yml',
-                inventory: "${WORKSPACE}/playbooks/ansible/hosts",
+                playbook: '${WORKSPACE}/ansible/opensearchbackup.yml',
+                inventory: "${WORKSPACE}/ansible/hosts",
                 extraVars: [
                     tier: "${ENV}",
                     project_name: "${PROJECT}",
