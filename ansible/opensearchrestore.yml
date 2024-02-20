@@ -1,9 +1,9 @@
 ---
 - name: Opensearch restore
-  hosts: loader
+  hosts: all
   connection: local
-  gather_facts: yes
-  remote_user: commonsdocker
+  gather_facts: no
+  become: yes
 
   tasks:
     #install collections
