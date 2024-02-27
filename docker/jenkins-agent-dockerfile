@@ -1,2 +1,4 @@
 FROM cbiitssrepo/cicd-ansible_4.0
+COPY requirements.txt /tmp/requirements.txt
 RUN ln -s /usr/bin/python3 /usr/local/bin/python3
+RUN /usr/local/bin/pip3 install -r /tmp/requirements.txt
