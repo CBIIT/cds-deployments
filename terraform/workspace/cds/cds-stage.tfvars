@@ -123,9 +123,3 @@ destination_bucket_name = "cds-prod-metadata"
 enable_metric_pipeline = true
 project_name = "cds"
 resource_prefix = "cds-stage"
-
-#opensearch
-s3_opensearch_snapshot_bucket =  "opensearch-snapshot-bucket"
-                              
-
-

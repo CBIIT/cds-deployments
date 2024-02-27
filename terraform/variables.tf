@@ -479,30 +479,3 @@ variable "create_neptune_cluster" {
   description = "set this to create neptune cluster"
   default = true
 }
-variable "nci_vpn_cidrs" {
-  type = list(string)
-  description = "nci vpn cidrs"
-  default = [ ]
-}
-variable "aws_nonprod_account_id" {
-  type = map(string)
-  description = "aws account to allow for cross account access"
-  default = {
-    us-east-1 = "339649878709"
-  }
-}
-
-variable "aws_prod_account_id" {
-  type = map(string)
-  description = "aws account to allow for cross account access"
-  default = {
-    us-east-1 = "767705013692"
-  }
-}
-
-variable "s3_opensearch_snapshot_bucket" {
-  type = string
-  description = "name of the S3 Opensearch snapshot bucket created in prod account"
-  sensitive   = false
-}
-#s3_snapshot_bucket_name = "opensearch-snapshot-bucket"
