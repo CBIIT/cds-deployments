@@ -191,14 +191,14 @@ module "s3-replication-destination" {
   create_destination_bucket = var.create_destination_bucket
 }
 
-module "neptune" {
-  count = var.create_neptune_cluster ? 1: 0
-  source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/neptune-cluster?ref=v1.15"
-  resource_prefix        = var.resource_prefix
-  database_subnet_ids    = data.aws_subnets.database.ids
-  enable_serverless      = true
-  engine_version         = "1.2.1.0"
-  iam_roles              = []
-  instance_class         = "db.serverless"
-  vpc_security_group_ids = [aws_security_group.neptune.id]
-}
+# module "neptune" {
+#   count = var.create_neptune_cluster ? 1: 0
+#   source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/neptune-cluster?ref=neptune"
+#   resource_prefix        = "cds-curator"
+#   database_subnet_ids    = data.aws_subnets.database.ids
+#   enable_serverless      = true
+#   engine_version         = "1.2.1.0"
+#   iam_roles              = []
+#   instance_class         = "db.serverless"
+#   vpc_security_group_ids = [aws_security_group.neptune.id]
+# }
