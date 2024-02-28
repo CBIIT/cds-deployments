@@ -1,6 +1,7 @@
 @Library('datacommons-jenkins-shared-library@v1.1') _
 
 def getLabelForEnvironment(environment) {
+	println "Agent Label"
     println environment
 	if (environment == "stage" || environment = "prod"){
 		return "slave-ncias-s2979-c"
