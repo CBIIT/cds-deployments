@@ -2,10 +2,18 @@
 
 pipeline {
 	agent {
-		node {
+		if ("${params.CodeBranch}" == "stage" || "prod"){
+			node {
 			// label "slave-ncias-d2943-c"
 			label "slave-ncias-s2979-c"
+			}
+		}else {
+			node {
+			label "slave-ncias-d2943-c"
+			// label "slave-ncias-s2979-c"
+			}
 		}
+		
 	}
 
 	parameters {
