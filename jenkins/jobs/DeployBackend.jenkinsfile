@@ -1,19 +1,22 @@
 @Library('datacommons-jenkins-shared-library@v1.1') _
 
+def getLabelForEnvironment(environment) {
+
+	if (environment == "stage" || or "prod"){
+		return "slave-ncias-s2979-c"
+	}else {
+		return "slave-ncias-d2943-c"
+	}
+}
+
+
 pipeline {
 	agent {
-		if ("${params.CodeBranch}" == "stage" || "prod"){
-			node {
+		node {
 			// label "slave-ncias-d2943-c"
-			label "slave-ncias-s2979-c"
-			}
-		}else {
-			node {
-			label "slave-ncias-d2943-c"
 			// label "slave-ncias-s2979-c"
-			}
+			label getLabelForEnvironment(params.Environment)
 		}
-		
 	}
 
 	parameters {
