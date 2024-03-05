@@ -155,6 +155,8 @@ pipeline {
                                 model_file_1: "cds-model.yml",
                                 model_file_2: "cds-model-props.yml",
                                 property_File: "props-cds.yml"
+                                tier: "${params.Environment}",
+                                projectName: "cds"
                         ]
               )
           }
