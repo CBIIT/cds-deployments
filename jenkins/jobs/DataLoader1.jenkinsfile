@@ -145,7 +145,7 @@ pipeline {
             	    inventory: '${WORKSPACE}/cds-deployments/ansible/playbooks/hosts',
             	    // credentialsId: 'commonsdocker',
 				    colorized: true,
-                    extraAnsibleVars: [
+                    extraVars: [
                                 s3_folder: "${params.S3Folder}",
                                 wipe_db: "${params.WipeDB}",
                                 cheat_mode: "${params.CheatMode}",
