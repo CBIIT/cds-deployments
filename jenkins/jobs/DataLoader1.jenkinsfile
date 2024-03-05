@@ -79,7 +79,7 @@ pipeline {
         value: 'false,true',
         type: 'PT_SINGLE_SELECT')
     
-    EnvironmentxtendedChoice( 
+    extendedChoice( 
         defaultValue: 'upsert', 
         name: 'LoadingMode', 
         description: 'Choose loading mode',
