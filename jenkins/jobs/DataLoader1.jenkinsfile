@@ -144,7 +144,7 @@ pipeline {
                   playbook: '${WORKSPACE}/ansible/load-data-microservice.yml',
             	    inventory: '${WORKSPACE}/cds-deployments/ansible/playbooks/hosts',
             	    // credentialsId: 'commonsdocker',
-				    colorized: true
+				    colorized: true,
                     extraAnsibleVars: [
                                 s3_folder: "${params.S3Folder}",
                                 wipe_db: "${params.WipeDB}",
