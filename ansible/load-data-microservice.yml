@@ -1,0 +1,75 @@
+- name: load data
+  hosts: all
+  connection: local
+  gather_facts: no
+#  become: yes
+  vars: 
+    - use_neo4j_container: no
+  tasks:
+    #install collections
+    - name: install aws collection
+      command: ansible-galaxy collection install {{item}}
+      loop:
+        - community.docker
+        - amazon.aws
+        - community.aws:<=3.2.0
+        - git+https://github.com/CBIIT/datacommons-devops.git#/ansible/collections/bento/common/,main
+    
+    - name: get neo4j container ip
+      block:
+        - name: list tasks
+          shell: >
+            aws ecs list-tasks --service-name {{project_name}}-{{tier}}-neo4j 
+            --region us-east-1 --cluster {{project_name}}-{{tier}}-ecs 
+            --query 'taskArns[0]' --output text
+          register: task_facts
+
+        - name: set task_fact
+          set_fact:
+            task_arn: "{{task_facts.stdout_lines | first}}"
+
+        - name: get task ip
+          shell: >
+            aws ecs describe-tasks 
+            --tasks {{task_arn}}
+            --region us-east-1 --cluster {{project_name}}-{{tier}}-ecs 
+            --query "tasks[0].attachments[0].details[?name=='privateIPv4Address'].value |[0]"
+            --output text
+          register: task_facts
+
+        - name: set task_fact
+          set_fact:
+            task_ip: "{{task_facts.stdout_lines | first}}"
+
+        - name: show container ip
+          debug:
+            msg: "{{task_ip}}"
+      when: use_neo4j_container == "yes"
+    
+    #run data loader
+    - name: data loader stage
+      include_role:
+        name: bento.common.data_loader
+      vars:
+        neo4j_ec2_db_ip: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.neo4j_ip', nested=true, region='us-east-1' ) }}"
+        workspace: "{{ lookup('env','WORKSPACE') }}"
+        model_file1: "{{workspace}}/{{project_name}}-model/model-desc/{{model_file_1}}"
+        model_file2: "{{workspace}}/{{project_name}}-model/model-desc/{{model_file_2}}"
+        property_file: "{{workspace}}/config/{{property_File}}"
+        ansible_python_interpreter: /usr/bin/python3
+        project_name: "{{project_name}}"
+        platform: aws
+        region: us-east-1
+        tier: "{{tier}}"
+        sumo_collector_endpoint: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.sumo_collector_endpoint', nested=true, region='us-east-1' ) }}"
+        sumo_collector_token: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.sumo_collector_token_neo4j', nested=true, region='us-east-1' ) }}"
+        neo4j_user: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.neo4j_user', nested=true, region='us-east-1' ) }}"
+        neo4j_ip: "{% if task_ip is defined  %}{{task_ip}}{% else %}{{neo4j_ec2_db_ip}}{% endif %}"
+        neo4j_password: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.neo4j_password', nested=true, region='us-east-1' ) }}"
+        s3_folder: "{{ s3_folder }}"
+        wipe_db: "{{ wipe_db }}"
+        cheat_mode: "{{ cheat_mode }}"
+        split_transactions: "{{ split_transactions }}"
+        data_bucket: "{{data_bucket}}"
+        #Elasticsearch
+        es_host: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.es_host', nested=true, region='us-east-1' ) }}"
