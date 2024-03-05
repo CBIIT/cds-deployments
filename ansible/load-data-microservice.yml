@@ -71,5 +71,6 @@
         cheat_mode: "{{ cheat_mode }}"
         split_transactions: "{{ split_transactions }}"
         data_bucket: "{{data_bucket}}"
+        loading_mode: "{{loading_mode}}"
         #Elasticsearch
         es_host: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.es_host', nested=true, region='us-east-1' ) }}"

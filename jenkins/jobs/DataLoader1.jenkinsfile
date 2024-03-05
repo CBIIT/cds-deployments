@@ -157,7 +157,8 @@ pipeline {
                                 property_File: "props-cds.yml",
                                 tier: "${params.Environment}",
                                 projectName: "cds",
-                                project_name: "cds"
+                                project_name: "cds",
+                                loading_mode: "${params.LoadingMode}"
                         ]
               )
           }
