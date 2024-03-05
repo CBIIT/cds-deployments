@@ -139,6 +139,7 @@ pipeline {
  		    }
 
         steps {
+            sh "ls -la $WORKSPACE/"
           wrap([$class: 'AnsiColorBuildWrapper', colorMapName: "xterm"]) {
  			        ansiblePlaybook(
                   playbook: '${WORKSPACE}/ansible/load-data-microservice.yml',
