@@ -142,7 +142,7 @@ pipeline {
             sh "ls -la $WORKSPACE/"
           wrap([$class: 'AnsiColorBuildWrapper', colorMapName: "xterm"]) {
  			        ansiblePlaybook(
-                  playbook: '${WORKSPACE}/ansible/load-data-microservice.yml',
+                  playbook: '${WORKSPACE}/cds-deployments/ansible/load-data-microservice.yml',
             	    inventory: '${WORKSPACE}/cds-deployments/ansible/playbooks/hosts',
             	    // credentialsId: 'commonsdocker',
 				    colorized: true,
