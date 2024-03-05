@@ -1,0 +1,183 @@
+@Library('datacommons-jenkins-shared-library@v1.1') _
+
+def getLabelForEnvironment(environment) {
+	if (environment == "stage" || environment == "prod"){
+		return "slave-ncias-s2979-c"
+	}else {
+		return "slave-ncias-d2943-c"
+	}
+}
+
+
+pipeline {
+	agent {
+		node {
+			label getLabelForEnvironment(params.Environment)
+		}
+	}
+	parameters {
+
+    gitParameter(branchFilter: 'origin/(.*)', 
+        defaultValue: 'master', 
+        name: 'LoaderTag', 
+        type: 'PT_BRANCH_TAG',
+        quickFilterEnabled: false, 
+        selectedValue: 'DEFAULT', 
+        sortMode: 'ASCENDING_SMART', 
+        tagFilter: '*', 
+        useRepository: 'https://github.com/CBIIT/icdc-dataloader')
+
+    gitParameter(branchFilter: 'origin/(.*)', 
+        defaultValue: 'main', 
+        name: 'ModelTag', 
+        type: 'PT_BRANCH_TAG',
+        quickFilterEnabled: false, 
+        selectedValue: 'DEFAULT', 
+        sortMode: 'ASCENDING_SMART', 
+        tagFilter: '*', 
+        useRepository: 'https://github.com/CBIIT/cds-model')
+
+    extendedChoice( 
+        name: 'Environment', 
+        defaultValue: 'dev', 
+        description: 'Choose the environment to build', 
+        type: 'PT_SINGLE_SELECT',
+        value: 'dev,dev2,qa,qa2,stage,prod' )
+
+    string(defaultValue: "", 
+        description: 'S3 Bucket to load data from', 
+        name: 'S3Bucket')
+
+	  string(defaultValue: "", 
+        description: 'S3 Folder to load data from', 
+        name: 'S3Folder')
+
+    extendedChoice( 
+        defaultValue: 'no', 
+        name: 'WipeDB', 
+        description: 'Choose yes to wipe DB',
+        quoteValue: false,
+        multiSelectDelimiter: ',',
+        value: 'no,yes',
+        type: 'PT_RADIO')
+
+    extendedChoice( 
+        defaultValue: 'no', 
+        name: 'CheatMode', 
+        description: 'Bypass Data Validation',
+        quoteValue: false,
+        multiSelectDelimiter: ',',
+        value: 'no,yes',
+        type: 'PT_RADIO')
+
+    extendedChoice( 
+        defaultValue: 'false', 
+        name: 'SplitTransactions', 
+        description: 'Choose true to the Split Transactions',
+        quoteValue: false,
+        multiSelectDelimiter: ',',
+        value: 'false,true',
+        type: 'PT_SINGLE_SELECT')
+    
+    xtendedChoice( 
+        defaultValue: 'upsert', 
+        name: 'LoadingMode', 
+        description: 'Choose loading mode',
+        quoteValue: false,
+        multiSelectDelimiter: ',',
+        value: 'upsert,new,delete',
+        type: 'PT_SINGLE_SELECT')
+	
+  }
+
+  options {
+  	ansiColor('xterm')
+	timestamps()
+  }
+
+  environment {
+
+	  SLACK_SECRET = "cds_slack_url"
+
+  }
+
+  stages{
+  	stage('checkout'){
+  		steps {
+
+  			checkout([$class: 'GitSCM', 
+  				branches: [[name: "${params.Tag}"]], 
+  				doGenerateSubmoduleConfigurations: 
+  				false, extensions: [], submoduleCfg: [], 
+  			    recursiveSubmodules: true,
+  				userRemoteConfigs: 
+  				[[url: 'https://github.com/CBIIT/crdc-ctdc-dataloader']]])
+
+			sh 'git submodule update --init'
+				
+  			dir('cds-deployments'){
+  				git branch: 'main',
+    			url: 'https://github.com/CBIIT/cds-deployments.git'}
+			
+            dir('cds-model'){
+				git branch: "${params.ModelTag}",
+				url: 'https://github.com/CBIIT/cds-model'}
+  		}
+ 
+  	}
+  	stage('load-data'){
+
+ 		    environment {
+            S3_BUCKET = "${params.S3Bucket}"
+			S3_FOLDER = "${params.S3Folder}"
+            TIER  = "${params.Environment}"
+            WIPE_DB = "${params.WipeDB}"
+            CHEAT_MODE = "${params.CheatMode}"
+            SPLIT  = "${params.SplitTransactions}"
+            PROJECT_NAME = "cds"
+            LOADING_MODE = "${params.LoadingMode}"
+ 		    }
+
+        steps {
+          wrap([$class: 'AnsiColorBuildWrapper', colorMapName: "xterm"]) {
+ 			        ansiblePlaybook(
+                  playbook: '${WORKSPACE}/ansible/load-data-microservice.yml',
+            	    inventory: '${WORKSPACE}/cds-deployments/ansible/playbooks/hosts',
+            	    // credentialsId: 'commonsdocker',
+				    colorized: true
+                    extraAnsibleVars: [
+                                s3_folder: "${params.S3Folder}",
+                                wipe_db: "${params.WipeDB}",
+                                cheat_mode: "${params.CheatMode}",
+                                data_bucket: "${params.S3Bucket}",
+                                split_transactions: "${params.SplitTransactions}",
+                                model_file_1: "cds-model.yml",
+                                model_file_2: "cds-model-props.yml",
+                                property_File: "props-cds.yml"
+                        ]
+              )
+          }
+ 		    }
+    }
+  }
+
+  post {
+
+    always {
+
+        notify(
+            secretPath: "notification/slack",
+            secretName: "${env.SLACK_SECRET}"
+        ) 
+
+    }
+
+	cleanup {
+
+        cleanWs()
+    
+	}
+
+  }
+
+}
