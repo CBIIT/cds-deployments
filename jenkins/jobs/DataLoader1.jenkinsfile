@@ -111,7 +111,7 @@ pipeline {
   				false, extensions: [], submoduleCfg: [], 
   			    recursiveSubmodules: true,
   				userRemoteConfigs: 
-  				[[url: 'https://github.com/CBIIT/crdc-ctdc-dataloader']]])
+  				[[url: 'https://github.com/CBIIT/icdc-dataloader']]])
 
 			sh 'git submodule update --init'
 				
