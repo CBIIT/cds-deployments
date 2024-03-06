@@ -6,6 +6,6 @@ services:
     image: 2.1.0.52
     buildNumber: '52'
   frontend:
-    version: CDS-774.228
-    image: CDS-774.228
-    buildNumber: '228'
+    version: 4.1.0.229
+    image: 4.1.0.229
+    buildNumber: '229'
