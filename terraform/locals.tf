@@ -10,6 +10,7 @@ locals {
   neo4j_bolt = 7687
   redis = "6379"
   s3_snapshot_bucket_name = "opensearch-snapshot-bucket"
+  data_backup_bucket_name = "neo4j-data-backup"
   integration_server_profile_name = "${var.iam_prefix}-integration-server-profile"
   level    = terraform.workspace == "dev"  || terraform.workspace == "qa" ? "non-prod" : "prod"
   permissions_boundary   = terraform.workspace == "dev" || terraform.workspace == "qa" ? "arn:aws:iam::${data.aws_caller_identity.current.account_id}:policy/PermissionBoundary_PowerUser" : null
