@@ -114,6 +114,8 @@ project_name = "cds"
 
 resource_prefix = "cds-dev"
 
+s3_opensearch_snapshot_bucket = "crdc-stage-cds-opensearch-snapshot-bucket"
+
 #########
 #opensearch backup and restore
 ###########
