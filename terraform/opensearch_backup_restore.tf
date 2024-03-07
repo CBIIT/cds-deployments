@@ -188,4 +188,5 @@ module "data_backup_s3_bucket" {
   days_for_deep_archive_tiering = 180
   s3_enable_access_logging = false
   s3_access_log_bucket_id = ""
+  stack_name = var.stack_name
 }
