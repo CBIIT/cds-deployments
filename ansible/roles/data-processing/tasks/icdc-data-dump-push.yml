@@ -11,23 +11,15 @@
      path: "{{ remote_workspace }}-{{ tier }}/{{ dump_file_name }}.dump"
   register: file_status
 
-# - name: upload dump file to s3
-#   aws_s3:
-#     bucket: "{{ s3_bucket_name }}"
-#     object: "/{{ s3_folder_name }}/{{ dump_file_name }}-{{ timestamp }}.dump"
-#     src: "{{ remote_workspace }}-{{ tier }}/{{ dump_file_name }}.dump"
-#     mode: put
+- name: check
+  debug:
+    msg: |
+      "{{s3_bucket_name }}"
+      "/{{ s3_folder_name }}/{{ dump_file_name }}-{{ timestamp }}.dump"
 
-- name: all the options
-  community.aws.s3_sync:
+- name: upload dump file to s3
+  aws_s3:
     bucket: "{{ s3_bucket_name }}"
-    file_root: "{{ remote_workspace }}-{{ tier }}/{{ dump_file_name }}.dump"
-    key_prefix: "{{ s3_folder_name }}"
-    file_change_strategy: force
-    
-# - name: upload dump file to s3
-#   aws_s3:
-#     bucket: "{{ s3_bucket_name }}"
-#     object: "/{{ s3_folder_name }}/{{ dump_file_name }}-{{ timestamp }}.dump"
-#     src: "{{ remote_workspace }}-{{ tier }}/{{ dump_file_name }}.dump"
-#     mode: put
+    object: "/{{ s3_folder_name }}/{{ dump_file_name }}-{{ timestamp }}.dump"
+    src: "{{ remote_workspace }}-{{ tier }}/{{ dump_file_name }}.dump"
+    mode: put

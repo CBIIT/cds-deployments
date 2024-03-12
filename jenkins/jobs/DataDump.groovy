@@ -68,33 +68,33 @@ pipeline {
  }
   stages{
 
-  	stage('create inventory'){
- 		steps {
- 		  wrap([$class: 'AnsiColorBuildWrapper', colorMapName: "xterm"]) {
-			    ansiblePlaybook( 
-                playbook: '${WORKSPACE}/ansible/hostfile.yml',
-                inventory: '${WORKSPACE}/ansible/hosts',
-                extraVars: [
-                  tier: "${params.Environment}",
-						      project_name: "${PROJECT}",
-                  workspace: "$WORKSPACE"
-						    ],
-                colorized: true)
-		  }
-      wrap([$class: 'AnsiColorBuildWrapper', colorMapName: "xterm"]) {
-			    ansiblePlaybook( 
-                playbook: '${WORKSPACE}/ansible/data-dump.yml',
-                inventory: '${WORKSPACE}/inventory/hosts',
-                extraVars: [
-                  tier: "${params.Environment}",
-						      project_name: "${PROJECT}",
-                  workspace: "$WORKSPACE"
-						    ],
-                colorized: true)
-		  }
- 		}
+  // 	stage('create inventory'){
+ 	// 	steps {
+ 	// 	  wrap([$class: 'AnsiColorBuildWrapper', colorMapName: "xterm"]) {
+	// 		    ansiblePlaybook( 
+  //               playbook: '${WORKSPACE}/ansible/hostfile.yml',
+  //               inventory: '${WORKSPACE}/ansible/hosts',
+  //               extraVars: [
+  //                 tier: "${params.Environment}",
+	// 					      project_name: "${PROJECT}",
+  //                 workspace: "$WORKSPACE"
+	// 					    ],
+  //               colorized: true)
+	// 	  }
+  //     wrap([$class: 'AnsiColorBuildWrapper', colorMapName: "xterm"]) {
+	// 		    ansiblePlaybook( 
+  //               playbook: '${WORKSPACE}/ansible/data-dump.yml',
+  //               inventory: '${WORKSPACE}/inventory/hosts',
+  //               extraVars: [
+  //                 tier: "${params.Environment}",
+	// 					      project_name: "${PROJECT}",
+  //                 workspace: "$WORKSPACE"
+	// 					    ],
+  //               colorized: true)
+	// 	  }
+ 	// 	}
     
-  }
+  // }
 	stage('push to s3'){
 		steps{			
 			ansiblePlaybook( 
