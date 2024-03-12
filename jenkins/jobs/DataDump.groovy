@@ -64,6 +64,7 @@ pipeline {
     env.DUMP_FILE = "${params.DumpFileName}"
 	  env.TIER      = "${params.Environment}"
     SLACK_SECRET  = "cds_slack_url"
+    PROJECT       = "cds"
  }
   stages{
 
@@ -127,10 +128,12 @@ pipeline {
   }
   post {
     always {
-      sendSlackMessage()
+      // sendSlackMessage()
+      println "Sending"
       }
     cleanup {
-      cleanWs()
+      // cleanWs()
+      println "Hello World"
       }
   }
 }
