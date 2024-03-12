@@ -21,7 +21,7 @@
       ansible.builtin.copy:
         content: |
           [all]
-          db ansible_host="{{neoj_ip}}"
+          db ansible_host="{{neo4j_ip}}"
         dest: "{{workspace}}/inventory/hosts"
 
 # ---
