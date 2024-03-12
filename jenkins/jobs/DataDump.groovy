@@ -68,30 +68,11 @@ pipeline {
  }
   stages{
 
-  	// stage('checkout'){
-  	// 	steps {
-    //       checkout( changelog:false,
-		// 		poll: false,
-		// 		scm: [$class: 'GitSCM', 
-		// 		branches: [[name: '*/main']], 
-		// 		doGenerateSubmoduleConfigurations: false, 
-		// 		extensions: [[$class: 'DisableRemotePoll'],
-		// 		[$class: 'PathRestriction', excludedRegions: '*'], 
-		// 		[$class: 'RelativeTargetDirectory', 
-		// 		relativeTargetDir: 'cds-deployments']], 
-		// 		submoduleCfg: [], 
-		// 		userRemoteConfigs: 
-		// 		[[url: 'https://github.com/CBIIT/cds-deployments.git']]
-		// 		])
-
-  	// 	}
-  	// }
-	
-  	stage('dump data'){
+  	stage('create inventory'){
  		steps {
  		  wrap([$class: 'AnsiColorBuildWrapper', colorMapName: "xterm"]) {
 			    ansiblePlaybook( 
-                playbook: '${WORKSPACE}/ansible/data-dump.yml',
+                playbook: '${WORKSPACE}/ansible/hostfile.yml',
                 inventory: '${WORKSPACE}/ansible/hosts',
                 extraVars: [
                   tier: "${params.Environment}",
@@ -100,9 +81,20 @@ pipeline {
 						    ],
                 colorized: true)
 		  }
+      wrap([$class: 'AnsiColorBuildWrapper', colorMapName: "xterm"]) {
+			    ansiblePlaybook( 
+                playbook: '${WORKSPACE}/ansible/data-dump.yml',
+                inventory: '${WORKSPACE}/inventory/hosts',
+                extraVars: [
+                  tier: "${params.Environment}",
+						      project_name: "${PROJECT}",
+                  workspace: "$WORKSPACE"
+						    ],
+                colorized: true)
+		  }
  		}
+    
   }
-	
 	stage('push to s3'){
 		steps{
 
