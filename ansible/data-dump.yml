@@ -23,16 +23,16 @@
           db ansible_host="{{neoj_ip}}"
       dest: "{{workspace}}/inventory/hosts"
 
----
-- name: dump data from neo4j db
-  hosts: all
-  #gather_facts: yes
-  gather_facts: no
-  become: yes
+# ---
+# - name: dump data from neo4j db
+#   hosts: all
+#   #gather_facts: yes
+#   gather_facts: no
+#   become: yes
     
-  tasks:
-    - name: perform data dump
-      include_role:
-        name: data-processing
-        tasks_from: icdc-data-dump
-        vars_from: icdc_data_dump
+#   tasks:
+#     - name: perform data dump
+#       include_role:
+#         name: data-processing
+#         tasks_from: icdc-data-dump
+#         vars_from: icdc_data_dump
