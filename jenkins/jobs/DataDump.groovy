@@ -96,21 +96,10 @@ pipeline {
     
   }
 	stage('push to s3'){
-		steps{
-
-			script {
-                sh label: 'db-hosts', script: '''#!/bin/bash
-                  echo "Creating inventory file"
-                  echo "[loader]" > ${WORKSPACE}/icdc-devops/ansible/hosts
-                  echo "localhost" >> ${WORKSPACE}/icdc-devops/ansible/hosts
-
-                '''
-
-              }
-			
+		steps{			
 			ansiblePlaybook( 
                 playbook: '${WORKSPACE}/icdc-devops/ansible/icdc-data-dump-push.yml',
-                inventory: '${WORKSPACE}/icdc-devops/ansible/hosts',
+                inventory: '${WORKSPACE}/inventory/hosts',
 				        credentialsId: 'commonsdocker',
                 colorized: true)
 
