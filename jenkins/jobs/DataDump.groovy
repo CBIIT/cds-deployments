@@ -91,8 +91,8 @@ pipeline {
  		steps {
  		  wrap([$class: 'AnsiColorBuildWrapper', colorMapName: "xterm"]) {
 			    ansiblePlaybook( 
-                playbook: '${WORKSPACE}/cds-deployments/ansible/data-dump.yml',
-                inventory: '${WORKSPACE}/cds-deployments/ansible/hosts',
+                playbook: '${WORKSPACE}/ansible/data-dump.yml',
+                inventory: '${WORKSPACE}/ansible/hosts',
                 extraVars: [
                   tier: "${params.Environment}",
 						      project_name: "${PROJECT}",
