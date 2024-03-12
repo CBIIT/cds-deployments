@@ -61,8 +61,8 @@ pipeline {
     jdk 'Default' 
   }
  environment {
-    env.DUMP_FILE = "${params.DumpFileName}"
-	  env.TIER      = "${params.Environment}"
+    DUMP_FILE = "${params.DumpFileName}"
+	  TIER      = "${params.Environment}"
     SLACK_SECRET  = "cds_slack_url"
     PROJECT       = "cds"
  }
