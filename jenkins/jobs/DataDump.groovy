@@ -98,8 +98,8 @@ pipeline {
 	stage('push to s3'){
 		steps{			
 			ansiblePlaybook( 
-                playbook: '${WORKSPACE}/icdc-devops/ansible/icdc-data-dump-push.yml',
-                inventory: '${WORKSPACE}/inventory/hosts',
+                playbook: '${WORKSPACE}/ansible/data-dump-push.yml',
+                inventory: '${WORKSPACE}/ansible/hosts',
 				        credentialsId: 'commonsdocker',
                 colorized: true)
 
