@@ -13,7 +13,7 @@
 
 
 - name: upload dump file to s3
-  command: aws s3 cp {{ remote_workspace }}-{{ tier }}/{{ dump_file_name }}.dump s3://{{ s3_bucket_name }}{{ s3_folder_name }}/{{ dump_file_name }}-{{ timestamp }}.dump
+  command: aws s3 cp {{ remote_workspace }}-{{ tier }}/{{ dump_file_name }}.dump s3://{{ s3_bucket_name }}/{{ s3_folder_name }}/{{ dump_file_name }}-{{ timestamp }}.dump
   register: output
 
 - name: show upload status
