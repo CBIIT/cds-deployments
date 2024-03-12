@@ -68,33 +68,37 @@ pipeline {
  }
   stages{
 
-  // 	stage('create inventory'){
- 	// 	steps {
- 	// 	  wrap([$class: 'AnsiColorBuildWrapper', colorMapName: "xterm"]) {
-	// 		    ansiblePlaybook( 
-  //               playbook: '${WORKSPACE}/ansible/hostfile.yml',
-  //               inventory: '${WORKSPACE}/ansible/hosts',
-  //               extraVars: [
-  //                 tier: "${params.Environment}",
-	// 					      project_name: "${PROJECT}",
-  //                 workspace: "$WORKSPACE"
-	// 					    ],
-  //               colorized: true)
-	// 	  }
-  //     wrap([$class: 'AnsiColorBuildWrapper', colorMapName: "xterm"]) {
-	// 		    ansiblePlaybook( 
-  //               playbook: '${WORKSPACE}/ansible/data-dump.yml',
-  //               inventory: '${WORKSPACE}/inventory/hosts',
-  //               extraVars: [
-  //                 tier: "${params.Environment}",
-	// 					      project_name: "${PROJECT}",
-  //                 workspace: "$WORKSPACE"
-	// 					    ],
-  //               colorized: true)
-	// 	  }
- 	// 	}
+  	stage('create inventory'){
+ 		steps {
+ 		  wrap([$class: 'AnsiColorBuildWrapper', colorMapName: "xterm"]) {
+			    ansiblePlaybook( 
+                playbook: '${WORKSPACE}/ansible/hostfile.yml',
+                inventory: '${WORKSPACE}/ansible/hosts',
+                extraVars: [
+                  tier: "${params.Environment}",
+						      project_name: "${PROJECT}",
+                  workspace: "$WORKSPACE"
+						    ],
+                colorized: true)
+		  }
+ 		}
     
-  // }
+  }
+  stage("take dump"){
+    steps{
+      wrap([$class: 'AnsiColorBuildWrapper', colorMapName: "xterm"]) {
+			    ansiblePlaybook( 
+                playbook: '${WORKSPACE}/ansible/data-dump.yml',
+                inventory: '${WORKSPACE}/inventory/hosts',
+                extraVars: [
+                  tier: "${params.Environment}",
+						      project_name: "${PROJECT}",
+                  workspace: "$WORKSPACE"
+						    ],
+                colorized: true)
+		  }
+    }
+  }
 	stage('push to s3'){
 		steps{			
 			ansiblePlaybook( 
@@ -109,12 +113,13 @@ pipeline {
   }
   post {
     always {
-      // sendSlackMessage()
-      println "Sending"
+       notify(
+            secretPath: "notification/slack",
+            secretName: "${env.SLACK_SECRET}"
+        ) 
       }
     cleanup {
-      // cleanWs()
-      println "Hello World"
+      cleanWs()
       }
   }
 }
