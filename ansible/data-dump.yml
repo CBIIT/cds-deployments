@@ -3,6 +3,7 @@
 - name: create inventory file
   hosts: all
   gather_facts: false
+  connection: local
   vars:
     - region: us-east-1
     - tier: "{{ tier }}"
