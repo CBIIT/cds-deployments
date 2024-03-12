@@ -1,0 +1,38 @@
+# create inventory.yml
+---
+- name: create inventory file
+  hosts: localhost
+  gather_facts: false
+  vars:
+    - region: us-east-1
+    - tier: "{{ tier }}"
+    - project_name: "{{project_name}}"
+    - neo4j_ip: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.neo4j_ip', nested=true, region='us-east-1' ) }}"
+    - workspace: "{{workspace}}"
+     
+  tasks:
+    - name: Create directory for inventory
+      ansible.builtin.file:
+        path: "{{workspace}}/inventory"
+        state: directory
+
+    - name: generate inventory file
+      ansible.builtin.copy:
+        content: |
+          [all]
+          db ansible_host="{{neoj_ip}}"
+      dest: "{{workspace}}/inventory/hosts"
+
+---
+- name: dump data from neo4j db
+  hosts: all
+  #gather_facts: yes
+  gather_facts: no
+  become: yes
+    
+  tasks:
+    - name: perform data dump
+      include_role:
+        name: data-processing
+        tasks_from: icdc-data-dump
+        vars_from: icdc_data_dump

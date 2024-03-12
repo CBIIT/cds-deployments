@@ -61,51 +61,46 @@ pipeline {
     jdk 'Default' 
   }
  environment {
-    ICDC_SLACK_URL = "${ICDC_SLACK_URL}"
     env.DUMP_FILE = "${params.DumpFileName}"
-	env.TIER      = "${params.Environment}"
+	  env.TIER      = "${params.Environment}"
+    SLACK_SECRET  = "cds_slack_url"
  }
   stages{
 
-  	stage('checkout'){
-  		steps {
-          checkout( changelog:false,
-				poll: false,
-				scm: [$class: 'GitSCM', 
-				branches: [[name: '*/master']], 
-				doGenerateSubmoduleConfigurations: false, 
-				extensions: [[$class: 'DisableRemotePoll'],
-				[$class: 'PathRestriction', excludedRegions: '*'], 
-				[$class: 'RelativeTargetDirectory', 
-				relativeTargetDir: 'icdc-devops']], 
-				submoduleCfg: [], 
-				userRemoteConfigs: 
-				[[url: 'https://github.com/CBIIT/icdc-devops.git']]
-				])
+  	// stage('checkout'){
+  	// 	steps {
+    //       checkout( changelog:false,
+		// 		poll: false,
+		// 		scm: [$class: 'GitSCM', 
+		// 		branches: [[name: '*/main']], 
+		// 		doGenerateSubmoduleConfigurations: false, 
+		// 		extensions: [[$class: 'DisableRemotePoll'],
+		// 		[$class: 'PathRestriction', excludedRegions: '*'], 
+		// 		[$class: 'RelativeTargetDirectory', 
+		// 		relativeTargetDir: 'cds-deployments']], 
+		// 		submoduleCfg: [], 
+		// 		userRemoteConfigs: 
+		// 		[[url: 'https://github.com/CBIIT/cds-deployments.git']]
+		// 		])
 
-  		}
-  	}
+  	// 	}
+  	// }
 	
   	stage('dump data'){
  		steps {
  		  wrap([$class: 'AnsiColorBuildWrapper', colorMapName: "xterm"]) {
-			
-		      script {
-                sh label: 'db-hosts', script: '''#!/bin/bash
-                  echo "Creating inventory file"
-                  echo "[icdc-neo4j]" > ${WORKSPACE}/icdc-devops/ansible/hosts
-                  echo ${NEO4J_IP} >> ${WORKSPACE}/icdc-devops/ansible/hosts
-                '''
-              }
 			    ansiblePlaybook( 
-                playbook: '${WORKSPACE}/icdc-devops/ansible/icdc-data-dump.yml',
-                inventory: '${WORKSPACE}/icdc-devops/ansible/hosts',
-				credentialsId: 'commonsdocker',
+                playbook: '${WORKSPACE}/cds-deployments/ansible/data-dump.yml',
+                inventory: '${WORKSPACE}/cds-deployments/ansible/hosts',
+                extraVars: [
+                  tier: "${params.Environment}",
+						      project_name: "${PROJECT}",
+                  workspace: "$WORKSPACE"
+						    ],
                 colorized: true)
 		  }
-
  		}
-    }
+  }
 	
 	stage('push to s3'){
 		steps{
