@@ -20,4 +20,4 @@
 
 - name: show download status
   debug:
-    msg: "{{download_result.stdout_lines}}"
+    msg: "{{download_result}}"
