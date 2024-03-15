@@ -3,6 +3,13 @@
     path: "{{ restore_directory }}"
     state: directory
 
+
+- name: show download status
+  debug:
+    msg: | 
+      "{{/{{s3_folder_name}}/{{dump_file_name}}}}"
+      "{{s3_bucket_name}}"
+
 - name: Download Neo4j dump file from S3
   aws_s3:
     bucket: "{{s3_bucket_name}}"
