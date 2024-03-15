@@ -1,0 +1,12 @@
+---
+- name: download dump file from s3
+  hosts: all
+  connection: local
+  gather_facts: yes
+    
+  tasks:
+    - name: downaload dump file
+      include_role:
+        name: data-processing
+        tasks_from: download-dump
+        vars_from: icdc_data_dump
