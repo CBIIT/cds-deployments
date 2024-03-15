@@ -1,7 +1,7 @@
 ---
 # vars file for neo4j-loader
 backup_directory: /backups
-restore_directory: /restore
+restore_directory: /tmp/neo4j
 remote_workspace: /tmp/neo4j
 s3_bucket_name: 'crdc-dev-cds-neo4j-data-backup'
 dump_file_name: "{{ lookup('env','DUMP_FILE') }}"
