@@ -1,47 +1,43 @@
 ---
 - name: ensure backup directory exists
   file:
-    path: "{{ restore_directory }}"
+    path: "{{ backup_directory}}"
     state: directory
     owner: neo4j
     group: neo4j
 
-- name: Download Neo4j dump file from S3
-  aws_s3:
-    bucket: "{{s3_bucket_name}}"
-    object: "/{{s3_folder_name}}/{{dump_file_name}}"
-    dest: "/tmp/neo4j_dump.dump"
-    mode: get
-  register: download_result
+- name: remove existing backup file
+  ansible.builtin.file:
+    path: "{{backup_directory}}/neo4j.dump"
+    state: absent
 
-- name: copy dump
+- name: copy dump to neo4j instance
   ansible.builtin.copy:
-    src: /srv/myfiles/foo.conf
-    dest: /etc/foo.conf
-    owner: foo
-    group: foo
+    src:  "/tmp/neo4j_dump.dump"
+    dest: "{{backup_directory}}/neo4j.dump"
+    owner: neo4j
+    group: neo4j
     mode: '0644'
+  register: download_result
 
 - name: Ensure Neo4j is stopped
   service:
     name: neo4j
     state: stopped
-  when: download_result.changed  # Only stop Neo4j if dump file was downloaded
+  when: download_result.changed  
 
 - name: Restore Neo4j dump
-  command: neo4j-admin load --from=/tmp/neo4j_dump.dump --database=<DATABASE_NAME> --force
-  args:
-    executable: /path/to/neo4j-admin  # Specify the path to neo4j-admin if needed
+  command: neo4j-admin load --from={{backup_directory}}/neo4j.dump --database=neo4j --force
   register: neo4j_restore_result
-  when: s3_download_result.changed  # Only restore if dump file was downloaded
+  when: download_result.changed  
 
 - name: Ensure Neo4j is started
   service:
     name: neo4j
     state: started
-  when: s3_download_result.changed  # Only start Neo4j if dump file was downloaded
+  when: download_result.changed 
 
 - name: Print restore status
   debug:
     msg: "Neo4j restore status: {{ neo4j_restore_result.stdout }}"
-  when: s3_download_result.changed  # Only print status if dump file was downloaded
+  when: download_result.changed  

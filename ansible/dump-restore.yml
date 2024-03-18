@@ -1,0 +1,13 @@
+
+---
+- name: restore data dump 
+  hosts: all
+  gather_facts: yes
+  become: yes
+  remote_user: commonsdocker
+  tasks:
+    - name: restore neo4j data dump
+      include_role:
+        name: data-processing
+        tasks_from: data-restore
+        vars_from: icdc_data_dump

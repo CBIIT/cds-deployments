@@ -3,7 +3,6 @@
     path: "{{ restore_directory }}"
     state: directory
 
-
 - name: show download status
   debug:
     msg: | 

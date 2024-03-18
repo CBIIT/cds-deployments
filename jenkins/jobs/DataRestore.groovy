@@ -51,7 +51,7 @@ pipeline {
         defaultValue: 'dev', 
         description: 'Choose the environment to build', 
         type: 'PT_SINGLE_SELECT',
-        value: 'dev,dev2,qa,qa2,stage,prod' )
+        value: 'dev,dev2,dev3,qa,qa2,stage,prod' )
     string(defaultValue: "", 
         description: 'Name of the dump file to use', 
         name: 'DumpFileName')
@@ -92,7 +92,6 @@ pipeline {
 			    ansiblePlaybook( 
                 playbook: '${WORKSPACE}/ansible/download-dump.yml',
                 inventory: '${WORKSPACE}/ansible/hosts',
-                // inventory: '${WORKSPACE}/inventory/hosts',
                 extraVars: [
                   tier: "${params.Environment}",
 						      project_name: "${PROJECT}",
@@ -102,16 +101,20 @@ pipeline {
 		  }
     }
   }
-	// stage('push to s3'){
-	// 	steps{			
-	// 		ansiblePlaybook( 
-  //               playbook: '${WORKSPACE}/ansible/data-dump-push.yml',
-  //               inventory: '${WORKSPACE}/ansible/hosts',
-	// 			        credentialsId: 'commonsdocker',
-  //               colorized: true)
+	stage('restore data dump'){
+		steps{			
+			ansiblePlaybook( 
+                playbook: '${WORKSPACE}/ansible/data-restore.yml',
+                inventory: '${WORKSPACE}/inventory/hosts',
+                extraVars: [
+                  tier: "${params.Environment}",
+						      project_name: "${PROJECT}",
+                  workspace: "$WORKSPACE"
+						    ],
+                colorized: true)
 
-	// 	}
-	// }
+		}
+	}
 	
   }
   post {
