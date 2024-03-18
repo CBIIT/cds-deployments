@@ -22,6 +22,8 @@
 
 - name: Restore Neo4j dump
   command: neo4j-admin load --from={{backup_directory}}/{{restore_file}} --database=neo4j --force
+  become: yes
+  become_user: neo4j
   register: neo4j_restore_result
   when: download_result.changed  
 
