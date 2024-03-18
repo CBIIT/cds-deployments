@@ -20,12 +20,6 @@
     mode: '0644'
   register: download_result
 
-- name: Ensure Neo4j is stopped
-  service:
-    name: neo4j
-    state: stopped
-  when: download_result.changed  
-
 - name: Restore Neo4j dump
   command: neo4j-admin load --from={{backup_directory}}/{{restore_file}} --database=neo4j --force
   register: neo4j_restore_result
