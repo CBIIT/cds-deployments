@@ -104,7 +104,7 @@ pipeline {
 	stage('restore data dump'){
 		steps{			
 			ansiblePlaybook( 
-                playbook: '${WORKSPACE}/ansible/data-restore.yml',
+                playbook: '${WORKSPACE}/ansible/dump-restore.yml',
                 inventory: '${WORKSPACE}/inventory/hosts',
                 extraVars: [
                   tier: "${params.Environment}",
