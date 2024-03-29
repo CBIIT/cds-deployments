@@ -500,9 +500,9 @@ variable "aws_prod_account_id" {
   }
 }
 
-variable "s3_opensearch_snapshot_bucket" {
-  type = string
-  description = "name of the S3 Opensearch snapshot bucket created in prod account"
-  sensitive   = false
-}
+# variable "s3_opensearch_snapshot_bucket" {
+#   type = string
+#   description = "name of the S3 Opensearch snapshot bucket created in prod account"
+#   sensitive   = false
+# }
 #s3_snapshot_bucket_name = "opensearch-snapshot-bucket"
