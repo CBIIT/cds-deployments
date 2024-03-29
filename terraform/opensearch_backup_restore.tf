@@ -179,7 +179,7 @@ module "opensearch_s3_bucket" {
 
 module "data_backup_s3_bucket" {
   source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/s3?ref=cds-rebuild"
-  bucket_name = local. data_backup_bucket_name
+  bucket_name = local.data_backup_bucket_name
   resource_prefix   = "${var.program}-${terraform.workspace}-${var.project}"
   env = terraform.workspace
   tags = var.tags

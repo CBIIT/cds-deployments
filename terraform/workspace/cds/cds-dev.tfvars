@@ -10,7 +10,9 @@ tags = {
   Project = "cds"
   CreatedWith = "Terraform"
   POC = "ye.wu@nih.gov"
-  Environment = "dev"
+  EnvironmentTier = "DEV"
+  Backup = "nonprod"
+  PatchGroup = "Non-Prod"
 }
 region = "us-east-1"
 
@@ -63,6 +65,17 @@ microservices  = {
     path = ["/api/files/*"]
     number_container_replicas = 1
   },
+  interoperation = {
+    name = "interoperation"
+    port = 4030
+    health_check_path = "/api/interoperation/ping"
+    priority_rule_number = 18
+    image_url = "cbiitssrepo/bento-interoperation:latest"
+    cpu = 256
+    memory = 512
+    path = ["/api/interoperation/*"]
+    number_container_replicas = 1
+  }
 }
 
 #opensearch
