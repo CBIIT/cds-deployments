@@ -121,3 +121,4 @@ enable_ecr_replication = false
 allow_ecr_replication = false
 project_name = "cds"
 resource_prefix = "cds-prod"
+s3_opensearch_snapshot_bucket = "crdc-stage-cds-opensearch-snapshot-bucket"

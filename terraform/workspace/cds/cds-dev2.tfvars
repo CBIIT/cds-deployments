@@ -120,3 +120,4 @@ allow_ecr_replication = false
 #metric pipeline
 enable_metric_pipeline = false
 project_name = "cds"
+s3_opensearch_snapshot_bucket = "crdc-stage-cds-opensearch-snapshot-bucket"
