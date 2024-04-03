@@ -48,7 +48,7 @@ pipeline {
       ECR_REPO     = "crdc-${env.PROJECT}-${env.SERVICE}"
 	  DEPLOY_JOB   = "DeployInteroperation"
 	  SLACK_SECRET = "cds_slack_url"
-	  CODE_REPO    = "bento-${env.PROJECT}-${env.SERVICE}"
+	  CODE_REPO    = "bento-icdc-${env.SERVICE}"
 	  JOB_PATH     = "_default/_lower/CDS/_jobs"
 	  REGION       = "us-east-1"
 	  DEPLOY_REPO  = "${env.PROJECT}-deployments"
