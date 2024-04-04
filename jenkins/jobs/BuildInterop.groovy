@@ -92,11 +92,7 @@ pipeline {
 
                 // set ECR account number
 				env.ECR_ACCOUNT = sh(label: 'Get ECR account', returnStdout: true, script: "aws secretsmanager get-secret-value --region $REGION --secret-id bento/$PROJECT/$ENV --query SecretString --output text | jq -r '.ecr_account'").trim()
-
-                // set Dcoker creds - ncidockerhub
-				//env.DOCKER_USER = sh(label: 'Get Docker User', returnStdout: true, script: "aws secretsmanager get-secret-value --region $REGION --secret-id cbiit/docker --query SecretString --output text | jq -r '.username'").trim()
-                //env.DOCKER_PASS = sh(label: 'Get Docker Password', returnStdout: true, script: "aws secretsmanager get-secret-value --region $REGION --secret-id cbiit/docker --query SecretString --output text | jq -r '.password'").trim()
-
+                env.REGISTRY_URL = "${ECR_ACCOUNT}.dkr.ecr.${REGION}.amazonaws.com"
 				// set repo URL
 				env.REPO_URL = "${ECR_ACCOUNT}.dkr.ecr.${REGION}.amazonaws.com/${ECR_REPO}"
                 //env.REPO_URL = "ncidockerhub.nci.nih.gov/icdc/${ECR_REPO}"
@@ -115,10 +111,11 @@ pipeline {
 
 			    sh label: 'Docker-Build', script: '''#!/bin/bash
 
-				# build Docker container
+				# build CDS Docker container
 				echo "Building: $ECR_REPO:$CODE_BRANCH.$BUILD_NUMBER"
-
-				cd $WORKSPACE/$CODE_FOLDER && DOCKER_BUILDKIT=1 docker build --no-cache -t $REPO_URL:$CODE_BRANCH.$BUILD_NUMBER .
+				aws_account=$(aws sts get-caller-identity --query "Account" --output text)
+				repo_url="$REGISTRY_URL/$ECR_REPO"
+				cd $WORKSPACE/$CODE_FOLDER && DOCKER_BUILDKIT=1 docker build --no-cache -t $repo_url:$CODE_BRANCH.$BUILD_NUMBER .
 
 				'''
 
@@ -158,17 +155,14 @@ pipeline {
 
 			    sh label: 'Docker-Push', script: '''#!/bin/bash
 
-				# push Docker container to ECR
+				# push CDS Docker container to ECR
 				echo "Pushing: $ECR_REPO:$CODE_BRANCH.$BUILD_NUMBER"
+				aws_account=$(aws sts get-caller-identity --query "Account" --output text)
+				repo_url="$REGISTRY_URL/$ECR_REPO"
 
 				# login and push to ECR
-				docker login -u AWS -p $(aws ecr get-login-password --region $REGION) $REPO_URL
-                #docker login -u $DOCKER_USER -p $DOCKER_PASS ncidockerhub.nci.nih.gov
-				docker push $REPO_URL:$CODE_BRANCH.$BUILD_NUMBER
-
-                # tag as latest and push to ECR
-				#docker tag $REPO_URL:$CODE_BRANCH.$BUILD_NUMBER $REPO_URL:latest
-                #docker push $REPO_URL:latest
+				docker login -u AWS -p $(aws ecr get-login-password --region $REGION) $repo_url
+				docker push $repo_url:$CODE_BRANCH.$BUILD_NUMBER
 
 				'''
 
