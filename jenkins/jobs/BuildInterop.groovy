@@ -127,6 +127,14 @@ pipeline {
 
   	stage('Test'){
 
+        agent {
+            docker {
+                image 'cbiitssrepo/cicd-ansible_4.0'
+                args '--net=host -u root -v /var/run/docker.sock:/var/run/docker.sock'
+                reuseNode true
+            }
+        }
+
  		steps {
 
  			script {
@@ -135,9 +143,11 @@ pipeline {
 
 				# Test image for vulnerabilities
                 echo "Testing Image with Trivy: $ECR_REPO:$CODE_BRANCH.$BUILD_NUMBER"
+                aws_account=$(aws sts get-caller-identity --query "Account" --output text)
+				repo_url="$REGISTRY_URL/$ECR_REPO"
 
-				#docker run --rm --name trivy -u root -v /var/run/docker.sock:/var/run/docker.sock bitnami/trivy:latest image --exit-code 1 --timeout 15m --severity HIGH,CRITICAL $REPO_URL:$CODE_BRANCH.$BUILD_NUMBER
-				docker run --rm --name trivy -u root -v /var/run/docker.sock:/var/run/docker.sock bitnami/trivy:latest image --timeout 15m --severity HIGH,CRITICAL $REPO_URL:$CODE_BRANCH.$BUILD_NUMBER
+                #trivy image --exit-code 1 --severity HIGH,CRITICAL $repo_url:$CODE_BRANCH.$BUILD_NUMBER
+                trivy image --timeout 15m --severity HIGH,CRITICAL $repo_url:$CODE_BRANCH.$BUILD_NUMBER
 
 				'''
 
