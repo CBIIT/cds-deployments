@@ -174,6 +174,10 @@ pipeline {
 				docker login -u AWS -p $(aws ecr get-login-password --region $REGION) $repo_url
 				docker push $repo_url:$CODE_BRANCH.$BUILD_NUMBER
 
+                # tag as latest and push to ECR
+				#docker tag $repo_url:$CODE_BRANCH.$BUILD_NUMBER $repo_url:latest
+                #docker push $repo_url:latest
+
 				'''
 
 			}
