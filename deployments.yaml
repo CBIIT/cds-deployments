@@ -9,3 +9,7 @@ services:
     version: 4.0.0.225
     image: 4.0.0.225
     buildNumber: '225'
+  interoperation:
+    version: 1.0.0.9
+    image: 1.0.0.9
+    buildNumber: '9'
