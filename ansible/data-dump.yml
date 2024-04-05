@@ -5,20 +5,17 @@
   gather_facts: yes
   become: yes
   remote_user: commonsdocker
-  # collections:
-  #   - amazon.aws
-  #   - git+https://github.com/CBIIT/datacommons-devops.git#/ansible/collections/bento/common/,neo4j-dump
   vars:
     - ansible_python_interpreter: /bin/python3
     
   tasks:
   #install collections
-    # - name: install aws collection
-    #   command: /usr/local/bin/ansible-galaxy collection install {{item}}
-    #   loop:
-    #     - amazon.aws
-    #     # - community.aws:<=3.2.0
-    #     - git+https://github.com/CBIIT/datacommons-devops.git#/ansible/collections/bento/common/,neo4j-dump
+    - name: install aws collection
+      command: /usr/local/bin/ansible-galaxy collection install {{item}}
+      loop:
+        # - amazon.aws
+        # - community.aws:<=3.2.0
+        - git+https://github.com/CBIIT/datacommons-devops.git#/ansible/collections/bento/common/,neo4j-dump
     
     - name: 
       include_role:
