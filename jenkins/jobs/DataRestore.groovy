@@ -1,33 +1,5 @@
 
 @Library('datacommons-jenkins-shared-library@v1.1') _
-import groovy.json.JsonOutput
-
-def sendSlackMessage() {
-  jenkins_image = ":jenkins:"
-  beer_image = ":beer:"
-  long epoch = System.currentTimeMillis()/1000
-  def BUILD_COLORS = ['SUCCESS': 'good', 'FAILURE': 'danger', 'UNSTABLE': 'danger', 'ABORTED': 'danger']
-  
-  def slack = JsonOutput.toJson(
-      [
-            icon_emoji: jenkins_image,
-            attachments: [[
-              title: "Jenkins Job Alert - ${currentBuild.currentResult}",
-              text:  "Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}  ${beer_image}\n Details at: ${env.BUILD_URL}console",
-              fallback: "Bento Jenkins Build",
-              color: "${BUILD_COLORS[currentBuild.currentResult]}",
-              footer: "bento devops",
-              ts: epoch,
-              mrkdwn_in: ["footer", "title"],
-           ]]
-        ]
-    )
-    try {
-        sh "curl -X POST -H 'Content-type: application/json' --data '${slack}'  '${ICDC_SLACK_URL}'"
-    } catch (err) {
-        echo "${err} Slack notify failed"
-    }
-}
 
 def getLabelForEnvironment(environment) {
 	if (environment == "stage" || environment == "prod"){
@@ -67,6 +39,7 @@ pipeline {
 	  TIER      = "${params.Environment}"
     SLACK_SECRET  = "cds_slack_url"
     PROJECT       = "cds"
+    S3_BUCKET     = "crdc-dev-cds-neo4j-data-backup"
  }
   stages{
 
@@ -92,11 +65,6 @@ pipeline {
 			    ansiblePlaybook( 
                 playbook: '${WORKSPACE}/ansible/download-dump.yml',
                 inventory: '${WORKSPACE}/ansible/hosts',
-                extraVars: [
-                  tier: "${params.Environment}",
-						      project_name: "${PROJECT}",
-                  workspace: "$WORKSPACE"
-						    ],
                 colorized: true)
 		  }
     }
@@ -106,11 +74,11 @@ pipeline {
 			ansiblePlaybook( 
                 playbook: '${WORKSPACE}/ansible/dump-restore.yml',
                 inventory: '${WORKSPACE}/inventory/hosts',
-                extraVars: [
-                  tier: "${params.Environment}",
-						      project_name: "${PROJECT}",
-                  workspace: "$WORKSPACE"
-						    ],
+                // extraVars: [
+                //   tier: "${params.Environment}",
+						    //   project_name: "${PROJECT}",
+                //   workspace: "$WORKSPACE"
+						    // ],
                 colorized: true)
 
 		}

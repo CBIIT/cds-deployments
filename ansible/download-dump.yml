@@ -11,4 +11,3 @@
       include_role:
         name: neo4j_dump
         tasks_from: download-dump
-        
