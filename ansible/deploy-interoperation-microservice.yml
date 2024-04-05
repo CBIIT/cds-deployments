@@ -33,9 +33,9 @@
     - name: deploy stage for {{ project }} interoperation
       include_role:
         #name: bento.common.ecs
-        name: bento.common.cloudwatch_ecs
+        name: bento.common.ecs
       vars:
-        service_name: "{{ project_name }}-{{ tier }}-files"
+        service_name: "{{ project_name }}-{{ tier }}-interoperation"
         cloudfront_key_group_name: "{{ lookup('amazon.aws.aws_secret', 'cloudfront.key_group_name', nested=true, region='us-east-1' ) }}"
         cloudfront_origin_id: "{{ lookup('amazon.aws.aws_secret', 'cloudfront.origin_id', nested=true, region='us-east-1' ) }}"
         cloudfront_domain_name: "{{ lookup('amazon.aws.aws_secret', 'cloudfront.domain_name', nested=true, region='us-east-1' ) }}"
@@ -56,7 +56,7 @@
         ecs_cluster_name: "{{ project_name }}-{{ tier }}-ecs"
         sumo_collector_endpoint: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.sumo_collector_endpoint', nested=true, region='us-east-1' ) }}"
         sumo_collector_token: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.sumo_collector_token_files', nested=true, region='us-east-1' ) }}"
-        container_port: "8081"
+        container_port: "4030"
         container_memory: "2048"
         container_cpu: "1024"
         container_image_url: "{{ ecr_repo }}/crdc-{{ project_name }}-{{ container_name }}"
@@ -90,8 +90,8 @@
         - name: NEW_RELIC_APP_NAME
           value: "{{project_name}}-{{tier}}-files-{{ansible_hostname}}"
         - name: NEO4J_USER
-          value: "{{ neo4j_user }}"
+          value: "{{neo4j_user}}"
         - name: NEO4J_PASSWORD
-          value: "{{ neo4j_password }}"
+          value: "{{neo4j_password}}"
         - name: NEO4J_URI
           value: "bolt://{{neo4j_ip}}:7687"

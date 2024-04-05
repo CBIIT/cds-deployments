@@ -137,11 +137,9 @@ pipeline {
                 reuseNode true
             }
         }
-
 	    environment {
             FE_VERSION = "${params.ImageTag}"
         }
-
  		steps {
 			wrap([$class: 'AnsiColorBuildWrapper', colorMapName: "xterm"]) {
                 ansiblePlaybook(
