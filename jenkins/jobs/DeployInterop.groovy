@@ -145,7 +145,7 @@ pipeline {
  		steps {
 			wrap([$class: 'AnsiColorBuildWrapper', colorMapName: "xterm"]) {
                 ansiblePlaybook(
-					playbook: "${WORKSPACE}/playbooks/ansible/deploy-frontend-microservice.yml", 
+					playbook: "${WORKSPACE}/playbooks/ansible/deploy-interoperation-microservice.yml", 
             		inventory: "${WORKSPACE}/playbooks/ansible/hosts",
                     extraVars: [
                         tier: "${params.Environment}",
@@ -153,7 +153,6 @@ pipeline {
                         subdomain: "dataservice",
                         domain_name: "datacommons.cancer.gov",
 						project_name: "${PROJECT}",
-						about_content_url: "https://raw.githubusercontent.com/CBIIT/bento-cds-frontend/2.0.0/src/content/${params.Environment}/aboutPagesContent.yaml"
 						],
                     colorized: true)
  			}
