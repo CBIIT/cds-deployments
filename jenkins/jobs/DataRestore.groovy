@@ -49,6 +49,11 @@ pipeline {
 			    ansiblePlaybook( 
                 playbook: '${WORKSPACE}/ansible/hostfile.yml',
                 inventory: '${WORKSPACE}/ansible/hosts',
+                extraVars: [
+                  tier: "${params.Environment}",
+						      project_name: "${PROJECT}",
+                  workspace: "$WORKSPACE"
+						    ],
                 colorized: true)
 		  }
  		}
