@@ -5,9 +5,9 @@
   gather_facts: yes
   become: yes
   remote_user: commonsdocker
-  collections:
-    - amazon.aws
-    - git+https://github.com/CBIIT/datacommons-devops.git#/ansible/collections/bento/common/,neo4j-dump
+  # collections:
+  #   - amazon.aws
+  #   - git+https://github.com/CBIIT/datacommons-devops.git#/ansible/collections/bento/common/,neo4j-dump
   vars:
     - ansible_python_interpreter: /bin/python3
     
