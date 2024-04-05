@@ -8,18 +8,10 @@
   vars:
     - ansible_python_interpreter: /bin/python3
     
-  tasks:
-  #install collections
-    - name: install aws collection
-      command: /usr/local/bin/ansible-galaxy collection install {{item}}
-      loop:
-        # - amazon.aws
-        # - community.aws:<=3.2.0
-        - git+https://github.com/CBIIT/datacommons-devops.git#/ansible/collections/bento/common/,neo4j-dump
-    
+  tasks:    
     - name: 
       include_role:
-        name: bento.common.neo4j_dump
+        name: neo4j_dump
         tasks_from: data-dump
     
         
