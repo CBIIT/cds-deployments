@@ -8,6 +8,5 @@
   tasks:
     - name: restore neo4j data dump
       include_role:
-        name: data-processing
+        name: neo4j_dump
         tasks_from: data-restore
-        vars_from: icdc_data_dump
