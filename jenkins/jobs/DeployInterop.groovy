@@ -138,7 +138,7 @@ pipeline {
             }
         }
 	    environment {
-            INTEROPERATION_VERSION = "${params.ImageTag}"
+            INTEROPERATION_VERSION = "${env.IMAGE_TAG}"
         }
  		steps {
 			wrap([$class: 'AnsiColorBuildWrapper', colorMapName: "xterm"]) {
