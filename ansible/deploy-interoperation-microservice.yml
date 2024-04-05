@@ -33,7 +33,7 @@
     - name: deploy stage for {{ project }} interoperation
       include_role:
         #name: bento.common.ecs
-        name: bento.common.ecs
+        name: bento.common.ecs_cloudwatch
       vars:
         service_name: "{{ project_name }}-{{ tier }}-files"
         cloudfront_key_group_name: "{{ lookup('amazon.aws.aws_secret', 'cloudfront.key_group_name', nested=true, region='us-east-1' ) }}"
