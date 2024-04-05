@@ -5,6 +5,8 @@
   gather_facts: yes
   become: yes
   remote_user: commonsdocker
+  vars:
+    - ansible_python_interpreter: /usr/bin/python3
   tasks:
   #install collections
     - name: install aws collection
@@ -19,5 +21,5 @@
       include_role:
         name: bento.common.neo4j_dump
         tasks_from: data-dump
-        vars_from: main
+    
         
