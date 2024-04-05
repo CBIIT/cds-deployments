@@ -27,7 +27,7 @@ pipeline {
             defaultValue: 'dev',
             description: 'Choose the environment to build',
             type: 'PT_SINGLE_SELECT',
-            value: 'dev,qa,stage,prod')
+            value: 'dev,dev2,qa,qa2,stage,prod')
 
   }
 
@@ -77,16 +77,15 @@ pipeline {
   	}
 
 	 stage('Set Environment Variables'){
-                steps {
-                        script {
-                // set central ECR account number
-                                env.ECR_ACCOUNT = sh(label: 'Get ECR account', returnStdout: true, script: "aws secretsmanager get-secret-value --region $REGION --secret-id ecr --query SecretString --output text | jq -r '.central_account_id'").trim()
-                                // set repo URL
-                                env.REGISTRY_URL = "${ECR_ACCOUNT}.dkr.ecr.${REGION}.amazonaws.com"
-                                env.DATE = sh(script: 'date +%Y-%m-%d.%H%M', returnStdout: true).trim()
-                        }
-                }
-        }
+ 		steps {
+ 			script {
+                // set ECR account number
+				env.ECR_ACCOUNT = sh(label: 'Get ECR account', returnStdout: true, script: "aws secretsmanager get-secret-value --region $REGION --secret-id ecr --query SecretString --output text | jq -r '.central_account_id'").trim()
+				// set repo URL
+				env.REGISTRY_URL = "${ECR_ACCOUNT}.dkr.ecr.${REGION}.amazonaws.com"
+			}
+ 		}
+  	}
 
       stage('Add Production Tag'){
 
@@ -131,31 +130,30 @@ pipeline {
   	}
 
   	stage('Deploy'){
-		agent {
+        agent {
             docker {
-                image 'cbiitssrepo/cicd-ansible-8.0:latest'
+                image 'cbiitssrepo/cicd-ansible_4.0'
                 args '--net=host -u root -v /var/run/docker.sock:/var/run/docker.sock'
                 reuseNode true
             }
         }
-	    
-		environment {
-            INTEROPERATION_VERSION = "${params.InteroperationTag}"
+
+	    environment {
+            FE_VERSION = "${params.ImageTag}"
         }
 
  		steps {
-
 			wrap([$class: 'AnsiColorBuildWrapper', colorMapName: "xterm"]) {
                 ansiblePlaybook(
-					playbook: "${WORKSPACE}/playbooks/ansible/playbooks/deploy-interoperation-microservice.yml", 
-            		inventory: "${WORKSPACE}/playbooks/ansible/playbooks/hosts",
+					playbook: "${WORKSPACE}/playbooks/ansible/deploy-frontend-microservice.yml", 
+            		inventory: "${WORKSPACE}/playbooks/ansible/hosts",
                     extraVars: [
                         tier: "${params.Environment}",
+                        iam_prefix: "power-user",
+                        subdomain: "dataservice",
+                        domain_name: "datacommons.cancer.gov",
 						project_name: "${PROJECT}",
-						iam_prefix: "power-user",
-						subdomain: "caninecommons",
-						domain_name: "cancer.gov",
-						auth_enabled: true
+						about_content_url: "https://raw.githubusercontent.com/CBIIT/bento-cds-frontend/2.0.0/src/content/${params.Environment}/aboutPagesContent.yaml"
 						],
                     colorized: true)
  			}

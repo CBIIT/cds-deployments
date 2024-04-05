@@ -6,8 +6,18 @@
   become: yes
   remote_user: commonsdocker
   tasks:
-    - name: perform data dump
+  #install collections
+    - name: install aws collection
+      command: ansible-galaxy collection install {{item}}
+      loop:
+        - community.docker
+        - amazon.aws
+        # - community.aws:<=3.2.0
+        - git+https://github.com/CBIIT/datacommons-devops.git#/ansible/collections/bento/common/,neo4j-dump
+    
+    - name: 
       include_role:
-        name: data-processing
-        tasks_from: icdc-data-dump
-        vars_from: icdc_data_dump
+        name: bento.common.neo4j_dump
+        tasks_from: data-dump
+        vars_from: main
+        
