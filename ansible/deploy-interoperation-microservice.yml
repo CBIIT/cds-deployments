@@ -46,9 +46,9 @@
         task_role: "{% if iam_prefix is defined and iam_prefix != '' %}{{ iam_prefix }}-{{ project_name }}-{{ tier }}-ecs-task-role{% else %}{{ project_name }}-{{ tier }}-task-role{% endif %}"
         project_name: "{{project_name}}"
         region: us-east-1
-        container_name: "files"
-        files_version: "{{ lookup('env','FILES_VERSION') }}"
-        image_version: "{{ files_version}}"
+        container_name: "interoperation"
+        interoperation_version: "{{ lookup('env','INTEROPERATION_VERSION') }}"
+        image_version: "{{ interoperation_version}}"
         tier: "{{ tier }}"
         neo4j_user: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.neo4j_user', nested=true, region='us-east-1' ) }}"
         neo4j_password: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.neo4j_password', nested=true, region='us-east-1' ) }}"
@@ -66,7 +66,7 @@
         cookie_secret: "{{ lookup('amazon.aws.aws_secret', 'auth/provider/google.cookie_secret', nested=true, region='us-east-1' ) }}"
         container_env:
         - name: VERSION
-          value: "{{files_version}}"
+          value: "{{interoperation_version}}"
         - name: DATE
           value: "{{ansible_date_time.date}}"
         - name: PROJECT
@@ -88,7 +88,7 @@
         - name: NEW_RELIC_LICENSE_KEY
           value: "{{ newrelic_license_key }}"
         - name: NEW_RELIC_APP_NAME
-          value: "{{project_name}}-{{tier}}-files-{{ansible_hostname}}"
+          value: "{{project_name}}-{{tier}}-interoperation-{{ansible_hostname}}"
         - name: NEO4J_USER
           value: "{{neo4j_user}}"
         - name: NEO4J_PASSWORD
