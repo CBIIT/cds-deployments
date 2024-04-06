@@ -8,7 +8,7 @@
     - name: install aws collection
       shell: "ansible-galaxy collection install {{ item | quote }} --force"
       loop:
-        - git+https://github.com/CBIIT/datacommons-devops.git#/ansible/collections/bento/common/,bento-ref
+        - git+https://github.com/CBIIT/datacommons-devops.git#/ansible/collections/bento/common/,v1.0
 
 
     #docker login
@@ -21,6 +21,16 @@
     - name: Get the current caller identity information
       aws_caller_info:
       register: caller_info
+
+    - name: Get ECR account
+      set_fact:
+        account: "{{ caller_info.account }}"
+        region: us-east-1
+        ecr_central_account_id: "{{ lookup('amazon.aws.aws_secret', 'ecr.central_account_id', nested=true, region='us-east-1' ) }}"
+    
+    - name: set ECR registry name
+      set_fact:
+        ecr_repo: "{{ecr_central_account_id}}.dkr.ecr.{{ region }}.amazonaws.com"
 
     - name: set account number
       set_fact:
