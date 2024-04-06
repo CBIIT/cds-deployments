@@ -8,11 +8,7 @@
     - name: install aws collection
       shell: "ansible-galaxy collection install {{ item | quote }} --force"
       loop:
-       # - community.docker:<=3.4.3
-       # - amazon.aws:<=5.4.0
-       # - community.aws:<=3.2.0
-        #- git+https://github.com/CBIIT/datacommons-devops.git#/ansible/collections/bento/common/,main
-        - git+https://github.com/CBIIT/datacommons-devops.git#/ansible/collections/bento/common/,icdc
+        - git+https://github.com/CBIIT/datacommons-devops.git#/ansible/collections/bento/common/,bento-ref
 
 
     #docker login
@@ -33,7 +29,7 @@
     - name: deploy stage for {{ project }} interoperation
       include_role:
         #name: bento.common.ecs
-        name: bento.common.ecs
+        name: bento.common.ecs_cloudwatch
       vars:
         service_name: "{{ project_name }}-{{ tier }}-interoperation"
         cloudfront_key_group_name: "{{ lookup('amazon.aws.aws_secret', 'cloudfront.key_group_name', nested=true, region='us-east-1' ) }}"
