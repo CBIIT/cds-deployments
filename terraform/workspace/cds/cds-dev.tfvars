@@ -133,3 +133,5 @@ s3_opensearch_snapshot_bucket = "crdc-stage-cds-opensearch-snapshot-bucket"
 #opensearch backup and restore
 ###########
 
+#backup bucket
+create_backup_bucket = true

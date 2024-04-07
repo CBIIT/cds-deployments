@@ -505,3 +505,8 @@ variable "s3_opensearch_snapshot_bucket" {
   description = "name of the S3 Opensearch snapshot bucket created in prod account"
   sensitive   = false
 }
+variable "create_backup_bucket" {
+  description = "set this to create backup bucket"
+  type = bool
+  default = false
+}
