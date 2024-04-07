@@ -1,5 +1,5 @@
 module "alb" {
-  source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/loadbalancer?ref=v1.13"
+  source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/loadbalancer?ref=v1.17"
   vpc_id = var.vpc_id
   alb_log_bucket_name = var.alb_log_bucket_name
   env = terraform.workspace
