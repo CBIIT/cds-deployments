@@ -105,7 +105,7 @@ pipeline {
 
 			    sh label: 'Docker-Build', script: '''#!/bin/bash
 
-				# build CTDC Docker container
+				# build CDS Docker container
 				echo "Building: $ECR_REPO:$CODE_BRANCH.$BUILD_NUMBER"
 				aws_account=$(aws sts get-caller-identity --query "Account" --output text)
 				repo_url="$REGISTRY_URL/$ECR_REPO"
