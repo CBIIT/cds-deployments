@@ -8,7 +8,7 @@
   tasks:
     #install collections
     - name: install aws collection
-      shell: "ansible-galaxy collection install {{ item | quote }} --force"
+      shell: "/usr/local/bin/ansible-galaxy collection install {{ item | quote }} --force"
       loop:
         - git+https://github.com/CBIIT/datacommons-devops.git#/ansible/collections/bento/common/,neo4j-dump
 
