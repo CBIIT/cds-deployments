@@ -17,10 +17,7 @@
         state: directory
     - name: generate inventory file
       ansible.builtin.copy:
-        # content: |
-        #   [all]
-        #   db ansible_host="{{neo4j_ip}}"
         content: |
-          [neo4j]
+          [all]
           db ansible_host="{{neo4j_ip}}"
         dest: "{{workspace}}/inventory/hosts"

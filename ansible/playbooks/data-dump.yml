@@ -3,7 +3,7 @@
   gather_facts: yes
   #gather_facts: no
   become: yes
-  #remote_user: commonsdocker
+  remote_user: commonsdocker
 
   tasks:
     #install collections
@@ -12,27 +12,10 @@
       loop:
         - git+https://github.com/CBIIT/datacommons-devops.git#/ansible/collections/bento/common/,neo4j-dump
 
-    # neo4j_dump
-    # - name: neo4j_dump
-    #   include_role:
-    #     name: bento.common.neo4j_dump
-    #   vars:
-    #     ansible_python_interpreter: /bin/python3
-    #     push_stage: true
-
-- name: dump data from neo4j db
-  #hosts: all
-  hosts: neo4j
-  gather_facts: yes
-  #gather_facts: no
-  become: yes
-  remote_user: commonsdocker
-
-  tasks:
-    # neo4j_dump
+    #neo4j_dump
     - name: neo4j_dump
       include_role:
+        ansible_python_interpreter: /bin/python3
         name: bento.common.neo4j_dump
       vars:
-        ansible_python_interpreter: /bin/python3
         push_stage: true
