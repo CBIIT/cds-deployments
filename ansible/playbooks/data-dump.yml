@@ -15,6 +15,7 @@
 
     #neo4j_dump
     - name: neo4j_dump
+      become: yes
       include_role:
         name: bento.common.neo4j_dump
       vars:
