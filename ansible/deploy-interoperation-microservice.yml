@@ -56,9 +56,6 @@
         interoperation_version: "{{ lookup('env','INTEROPERATION_VERSION') }}"
         image_version: "{{ interoperation_version}}"
         tier: "{{ tier }}"
-        neo4j_user: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.neo4j_user', nested=true, region='us-east-1' ) }}"
-        neo4j_password: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.neo4j_password', nested=true, region='us-east-1' ) }}"
-        neo4j_ip: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.neo4j_ip', nested=true, region='us-east-1' ) }}"
         ecs_cluster_name: "{{ project_name }}-{{ tier }}-ecs"
         sumo_collector_endpoint: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.sumo_collector_endpoint', nested=true, region='us-east-1' ) }}"
         sumo_collector_token: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.sumo_collector_token_files', nested=true, region='us-east-1' ) }}"
@@ -77,27 +74,27 @@
           value: "{{ansible_date_time.date}}"
         - name: PROJECT
           value: "{{project_name}}"
-        - name: CF_URL
+        - name: CLOUDFRONT_DOMAIN
           value: https://{{cloudfront_domain_name}}
-        - name: CF_PRIVATE_KEY
+        - name: CLOUDFRONT_PRIVATE_KEY
           value: "{{cloudfront_private_key}}"
-        - name: CF_KEY_PAIR_ID
+        - name: CLOUDFRONT_KEY_PAIR_ID
           value: "{{cloudfront_key_group_id}}"
-        - name: URL_SRC
-          value: "{{url_src}}"
-        - name: AUTH_ENABLED
-          value: "{{auth_enabled}}"
-        - name: AUTH_URL
-          value: "{% if tier == 'prod'  and project_name == 'bento' %}https://{{domain_name}}/api/auth/authenticated{% elif tier == 'prod' %}https://{{subdomain}}.{{domain_name}}/api/auth/authenticated{% else %}https://{{subdomain}}-{{tier}}.{{domain_name}}/api/auth/authenticated{% endif %}"
-        - name: BACKEND_URL
+        - name: BENTO_BACKEND_GRAPHQL_URI
           value: "{% if tier == 'prod'  and project_name == 'bento' %}https://{{domain_name}}/v1/graphql/{% elif tier == 'prod' %}https://{{subdomain}}.{{domain_name}}/v1/graphql/{% else %}https://{{subdomain}}-{{tier}}.{{domain_name}}/v1/graphql/{% endif %}"
         - name: NEW_RELIC_LICENSE_KEY
           value: "{{ newrelic_license_key }}"
         - name: NEW_RELIC_APP_NAME
           value: "{{project_name}}-{{tier}}-interoperation-{{ansible_hostname}}"
-        - name: NEO4J_USER
-          value: "{{neo4j_user}}"
-        - name: NEO4J_PASSWORD
-          value: "{{neo4j_password}}"
-        - name: NEO4J_URI
-          value: "bolt://{{neo4j_ip}}:7687"
+        - name: REDIS_HOST
+          value: localhost
+        - name: REDIS_PORT
+          value: 6001
+        - name: SIGNED_URL_EXPIRY_SECONDS
+          value: 8664
+        - name: S3_SECRET_ACCESS_KEY
+          value: ""
+        - name: S3_ACCESS_KEY_ID
+          value: ""
+
+
