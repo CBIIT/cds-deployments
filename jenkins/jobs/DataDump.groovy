@@ -59,6 +59,16 @@ pipeline {
     
   }
   stage("take data dump"){
+    
+    agent {
+            docker {
+                image 'cbiitssrepo/cicd-ansible_4.0'
+                args '--net=host -u root -v /var/run/docker.sock:/var/run/docker.sock'
+                reuseNode true
+            }
+    }
+
+    
     steps{
       wrap([$class: 'AnsiColorBuildWrapper', colorMapName: "xterm"]) {
 			    ansiblePlaybook( 
