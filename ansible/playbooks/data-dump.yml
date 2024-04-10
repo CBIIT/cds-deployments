@@ -19,4 +19,4 @@
         name: bento.common.neo4j_dump
       vars:
         ansible_python_interpreter: /bin/python3
-        push_stage: true
+        dump_stage: true

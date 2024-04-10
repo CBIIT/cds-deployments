@@ -20,10 +20,10 @@
         content: |
           [all]
           db ansible_host="{{neo4j_ip}}"
-        dest: "{{workspace}}/inventory/hosts"
+        dest: "{{workspace}}/inventory/hosts-db"
 
     - name: Display hosts contents
-      command: cat hosts chdir="{{workspace}}/inventory"
+      command: cat hosts-db chdir="{{workspace}}/inventory"
       register: command_output
 
     - name: Print to console
