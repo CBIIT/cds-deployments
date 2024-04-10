@@ -21,3 +21,11 @@
           [all]
           db ansible_host="{{neo4j_ip}}"
         dest: "{{workspace}}/inventory/hosts"
+
+    - name: Display hosts contents
+      command: cat hosts chdir="{{workspace}}/inventory"
+      register: command_output
+
+    - name: Print to console
+      debug:
+        msg: "{{command_output.stdout}}"
