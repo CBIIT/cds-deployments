@@ -93,8 +93,8 @@
         - name: SIGNED_URL_EXPIRY_SECONDS
           value: 8664
         - name: S3_SECRET_ACCESS_KEY
-          value: ""
+          value: "akdkddkdkdkdkd"
         - name: S3_ACCESS_KEY_ID
-          value: ""
-
-
+          value: "akdkdkdkdkdkkd"
+        - name: FILE_MANIFEST_BUCKET_NAME
+          value: "cds-nonprod-metadata"
