@@ -1,0 +1,20 @@
+- name: dump data from neo4j db
+  hosts: all
+  gather_facts: yes
+  become: yes
+  remote_user: commonsdocker
+
+  tasks:
+    #install collections
+    - name: install aws collection
+      shell: "ansible-galaxy collection install {{ item | quote }} --force"
+      loop:
+        - git+https://github.com/CBIIT/datacommons-devops.git#/ansible/collections/bento/common/,neo4j-dump
+
+    # neo4j_dump
+    - name: neo4j_dump
+      include_role:
+        name: bento.common.neo4j_dump
+      vars:
+        ansible_python_interpreter: /bin/python3
+        push_stage: true
