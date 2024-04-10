@@ -62,7 +62,8 @@ pipeline {
     steps{
       wrap([$class: 'AnsiColorBuildWrapper', colorMapName: "xterm"]) {
 			    ansiblePlaybook( 
-                playbook: '${WORKSPACE}/ansible/data-dump.yml',
+                //playbook: '${WORKSPACE}/ansible/data-dump.yml',
+                playbook: '${WORKSPACE}/ansible/playbooks/data-dump.yml',
                 inventory: '${WORKSPACE}/inventory/hosts',
                 // extraVars: [
                 //   tier: "${params.Environment}",
@@ -73,25 +74,25 @@ pipeline {
 		  }
     }
   }
-	stage('push to s3'){
-		steps{			
-			ansiblePlaybook( 
-                playbook: '${WORKSPACE}/ansible/data-dump-push.yml',
-                inventory: '${WORKSPACE}/ansible/hosts',
-				        credentialsId: 'commonsdocker',
-                colorized: true)
+	// stage('push to s3'){
+	// 	steps{			
+	// 		ansiblePlaybook( 
+  //               playbook: '${WORKSPACE}/ansible/data-dump-push.yml',
+  //               inventory: '${WORKSPACE}/ansible/hosts',
+	// 			        credentialsId: 'commonsdocker',
+  //               colorized: true)
 
-		}
-	}
+	// 	}
+	// }
 	
   }
   post {
-    always {
-       notify(
-            secretPath: "notification/slack",
-            secretName: "${env.SLACK_SECRET}"
-        ) 
-      }
+    // always {
+    //    notify(
+    //         secretPath: "notification/slack",
+    //         secretName: "${env.SLACK_SECRET}"
+    //     ) 
+    //   }
     cleanup {
       cleanWs()
       }
