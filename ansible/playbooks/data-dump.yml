@@ -4,6 +4,7 @@
   #gather_facts: no
   become: yes
   #connection: local
+  delegate_to: localhost
   remote_user: commonsdocker
 
   tasks:
