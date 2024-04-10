@@ -96,15 +96,15 @@ pipeline {
 	// }
 	
   }
-  post {
-    // always {
-    //    notify(
-    //         secretPath: "notification/slack",
-    //         secretName: "${env.SLACK_SECRET}"
-    //     ) 
-    //   }
-    cleanup {
-      cleanWs()
-      }
-  }
+  // post {
+  //   // always {
+  //   //    notify(
+  //   //         secretPath: "notification/slack",
+  //   //         secretName: "${env.SLACK_SECRET}"
+  //   //     ) 
+  //   //   }
+  //   cleanup {
+  //     cleanWs()
+  //     }
+  // }
 }
