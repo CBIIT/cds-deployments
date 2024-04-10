@@ -74,7 +74,7 @@ pipeline {
 			    ansiblePlaybook( 
                 //playbook: '${WORKSPACE}/ansible/data-dump.yml',
                 playbook: '${WORKSPACE}/ansible/playbooks/data-dump.yml',
-                inventory: '${WORKSPACE}/inventory/hosts-db',
+                inventory: '${WORKSPACE}/inventory/hosts',
                 // extraVars: [
                 //   tier: "${params.Environment}",
 						    //   project_name: "${PROJECT}",
