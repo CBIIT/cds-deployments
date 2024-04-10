@@ -1,6 +1,7 @@
 - name: dump data from neo4j db
   hosts: all
-  gather_facts: yes
+  #gather_facts: yes
+  gather_facts: no
   become: yes
   remote_user: commonsdocker
 
