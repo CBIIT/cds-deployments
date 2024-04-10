@@ -3,7 +3,7 @@
   gather_facts: yes
   #gather_facts: no
   #become: yes
-  connection: local
+  #connection: local
   remote_user: commonsdocker
 
   tasks:
