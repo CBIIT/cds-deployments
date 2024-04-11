@@ -4,21 +4,18 @@
   #gather_facts: no
   become: yes
   #connection: local
-  #delegate_to: localhost
   remote_user: commonsdocker
 
   tasks:
     #install collections
     - name: install aws collection
-      shell: "/usr/local/bin/ansible-galaxy collection install {{ item | quote }} --force"
+      shell: "/usr/local/bin/ansible-galaxy --roles-path=roles collection install {{ item | quote }} --force"
       #shell: "ansible-galaxy collection install {{ item | quote }} --force"
       loop:
         - git+https://github.com/CBIIT/datacommons-devops.git#/ansible/collections/bento/common/,neo4j-dump
 
     #neo4j_dump
     - name: neo4j_dump
-      # delegate_to: localhost
-      become: yes
       include_role:
         name: bento.common.neo4j_dump
       vars:
