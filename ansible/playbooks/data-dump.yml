@@ -2,7 +2,7 @@
   hosts: all
   gather_facts: yes
   #gather_facts: no
-  #become: yes
+  become: yes
   #connection: local
   #delegate_to: localhost
   remote_user: commonsdocker
@@ -18,6 +18,7 @@
     #neo4j_dump
     - name: neo4j_dump
       # delegate_to: localhost
+      become: yes
       include_role:
         name: bento.common.neo4j_dump
       vars:
