@@ -17,7 +17,7 @@
 
     #neo4j_dump
     - name: neo4j_dump
-      delegate_to: localhost
+      # delegate_to: localhost
       include_role:
         name: bento.common.neo4j_dump
       vars:
