@@ -49,7 +49,7 @@ pipeline {
 	  DEPLOY_JOB   = "DeployInteroperation"
 	  SLACK_SECRET = "cds_slack_url"
 	  CODE_REPO    = "bento-${PROJECT}-${env.SERVICE}"
-	  JOB_PATH     = "_default/_lower/CDS/_jobs"
+	  JOB_PATH     = "_default/_lower/CDS/OneClickDeployment/_jobs"
 	  REGION       = "us-east-1"
 	  DEPLOY_REPO  = "${env.PROJECT}-deployments"
       CODE_BRANCH  = "${params.CodeBranch}"
