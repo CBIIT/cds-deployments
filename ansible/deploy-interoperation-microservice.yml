@@ -8,6 +8,7 @@
     - name: install aws collection
       shell: "ansible-galaxy collection install {{ item | quote }} --force"
       loop:
+        - amazon.aws
         - community.aws
         - git+https://github.com/CBIIT/datacommons-devops.git#/ansible/collections/bento/common/,bento-ref
 
