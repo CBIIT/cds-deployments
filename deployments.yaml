@@ -9,3 +9,7 @@ services:
     version: 4.2.0.239
     image: 4.2.0.239
     buildNumber: '239'
+  interoperation:
+    version: 1.0.0.14
+    image: 1.0.0.14
+    buildNumber: '14'
