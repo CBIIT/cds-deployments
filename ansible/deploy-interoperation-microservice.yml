@@ -6,11 +6,11 @@
   tasks:
     #install collections
     - name: install aws collection
-      shell: "ansible-galaxy collection install {{ item | quote }} --force"
+      shell: ansible-galaxy collection install {{item}}
       loop:
         - amazon.aws
         # - community.aws
-        - git+https://github.com/CBIIT/datacommons-devops.git#/ansible/collections/bento/common/,v1.0
+        - git+https://github.com/CBIIT/datacommons-devops.git#/ansible/collections/bento/common/,bento-ref
 
 
     #docker login
@@ -41,7 +41,7 @@
     - name: deploy stage for {{ project }} interoperation
       include_role:
         #name: bento.common.ecs
-        name: bento.common.ecs
+        name: bento.common.ecs_cloudwatch
       vars:
         service_name: "{{ project_name }}-{{ tier }}-interoperation"
         cloudfront_key_group_name: "{{ lookup('amazon.aws.aws_secret', 'cloudfront.key_group_name', nested=true, region='us-east-1' ) }}"
