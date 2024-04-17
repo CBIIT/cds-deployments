@@ -6,10 +6,10 @@ services:
     image: 2.1.0.62
     buildNumber: '62'
   frontend:
-    version: 4.2.0.241
-    image: 4.2.0.241
-    buildNumber: '241'
+    version: 4.2.0.242
+    image: 4.2.0.242
+    buildNumber: '242'
   interoperation:
-    version: 1.0.0.14
-    image: 1.0.0.14
-    buildNumber: '14'
+    version: 1.0.0.18
+    image: 1.0.0.18
+    buildNumber: '18'
