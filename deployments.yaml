@@ -10,6 +10,6 @@ services:
     image: 4.2.0.242
     buildNumber: '242'
   interoperation:
-    version: 1.0.0.14.17
-    image: 1.0.0.14.17
-    buildNumber: '17'
+    version: 1.0.0.18
+    image: 1.0.0.18
+    buildNumber: '18'
