@@ -6,9 +6,9 @@ services:
     image: 2.1.0.62
     buildNumber: '62'
   frontend:
-    version: 4.2.0.241
-    image: 4.2.0.241
-    buildNumber: '241'
+    version: 4.2.0.242
+    image: 4.2.0.242
+    buildNumber: '242'
   interoperation:
     version: cds-conversion.15
     image: cds-conversion.15
