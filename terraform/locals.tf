@@ -1,4 +1,5 @@
 locals {
+  level        = terraform.workspace == "stage" || terraform.workspace == "prod" ? "Prod" : "non-prod"
   http_port    = 80
   any_port     = 0
   any_protocol = "-1"
@@ -12,7 +13,6 @@ locals {
   s3_snapshot_bucket_name = "opensearch-snapshot-bucket"
   data_backup_bucket_name = "neo4j-data-backup"
   integration_server_profile_name = "${var.iam_prefix}-integration-server-profile"
-  level    = terraform.workspace == "dev"  || terraform.workspace == "qa" ? "non-prod" : "prod"
   permissions_boundary   = terraform.workspace == "dev" || terraform.workspace == "qa" ? "arn:aws:iam::${data.aws_caller_identity.current.account_id}:policy/PermissionBoundary_PowerUser" : null
   cert_types = var.cloud_platform == "leidos" ? "AMAZON_ISSUED" : "IMPORTED"
   #nih_ip_cidrs =  terraform.workspace == "prod" || terraform.workspace == "stage" || var.cloud_platform == "leidos" ? ["0.0.0.0/0"]: [ "129.43.0.0/16" , "137.187.0.0/16"  , "165.112.0.0/16" , "156.40.0.0/16"  , "128.231.0.0/16" , "130.14.0.0/16" , "157.98.0.0/16"]

@@ -12,9 +12,21 @@ provider "aws" {
   region = var.region
   default_tags {
     tags = {
+      EnvironmentTier = terraform.workspace
+      Customer        = "nci od cbiit ods"
+      DevLead         = "Amanda Bell"
+      CreatedBy       = "vincent.donkor@gmail.com"
+      ResourceName    = "NCI-cds-${terraform.workspace}"
+      FISMA           = "moderate"
+      ManagedBy       = "terraform"
+      OpsModel        = "cbiit managed hybrid"
+      Program         = "crdc"
+      PII             = "yes"
+      Backup          = local.level
+      PatchGroup      = local.level
       ApplicationName = "CDS"
+      ProjectManager  = "Hayley Dingerdissen"
       Project         = "CRDC-CDS"
-      CreatedBy       = "vincent.donkor@nih.gov"
       Runtime         = "24hours"
       CreateDate      = "11/22/2021"
     }
