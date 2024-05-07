@@ -10,6 +10,6 @@ services:
     image: 4.1.0.244
     buildNumber: '244'
   interoperation:
-    version: 1.0.0.18
-    image: 1.0.0.18
-    buildNumber: '18'
+    version: 1.0.0.33
+    image: 1.0.0.33
+    buildNumber: '33'
