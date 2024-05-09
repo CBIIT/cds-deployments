@@ -1,26 +1,171 @@
 @Library('datacommons-jenkins-shared-library') _
-loadOpensearch(
-    label: "slave-ncias-d2943-c",
-    // label: "slave-ncias-s2979-c",
-    playbook: "ansible/load-opensearch-microservice.yml",
-    inventory: "ansible/hosts",
-    tier: "${params.Environment}",
-    projectName: "${params.ProjectName}",
-    model_file1: "cds-model.yml",
-    model_file2: "cds-model-props.yml",
-    property_file: "props-cds.yml",
-    indices_file: "es_indices_cds.yml",
-    slackSecretPath: "notification/slack",
-    slackSecretName: "cds_slack_url",
-    modelRepoUrl: "https://github.com/CBIIT/cds-model",
-    frontendRepoUrl: "https://github.com/CBIIT/bento-cds-frontend",
-    backendRepoUrl: "https://github.com/CBIIT/bento-backend",
-    useDockerAgent: false,
-    agentImage: "ncidockerhub.nci.nih.gov/icdc/cicd-microservices-ecs",
-    dockerRegistryUrl: "https://ncidockerhub.nci.nih.gov",
-    registryCredentialsId: "ncidockerhub",
-    useCustomBranch: "yes",
-    customBranch: "main"
-)
 
+def getLabelForEnvironment(environment) {
+	if (environment == "stage" || environment == "prod"){
+		return "slave-ncias-s2979-c"
+	}else {
+		return "slave-ncias-d2943-c"
+	}
+}
 
+pipeline {
+	agent {
+		node {
+			label getLabelForEnvironment(params.Environment)
+		}
+	}
+	parameters {
+	extendedChoice(
+        name: 'Environment',
+        defaultValue: 'dev',
+        description: 'Choose the environment to build',
+        type: 'PT_SINGLE_SELECT',
+        value: 'dev,dev2,qa,qa2,stage,prod' )
+
+    gitParameter(
+        branchFilter: 'origin/(.*)',
+        defaultValue: 'master',
+        name: 'Model_Branch',
+        type: 'PT_BRANCH_TAG',
+        quickFilterEnabled: false,
+        selectedValue: 'DEFAULT',
+        sortMode: 'ASCENDING_SMART',
+        tagFilter: '*',
+        useRepository: 'https://github.com/CBIIT/icdc-model-tool')
+    
+    gitParameter(
+        branchFilter: 'origin/(.*)',
+        defaultValue: 'master',
+        name: 'LoaderTag',
+        type: 'PT_BRANCH_TAG',
+        quickFilterEnabled: false,
+        selectedValue: 'DEFAULT',
+        sortMode: 'ASCENDING_SMART',
+        tagFilter: '*',
+        useRepository: 'https://github.com/CBIIT/icdc-dataloader'
+        )
+    gitParameter(
+        branch: "",
+        branchFilter: "origin/(.*)",
+        defaultValue: defaultBranch,
+        description: "Filter Repo",
+        name: "ModelTag",
+        quickFilterEnabled: false,
+        selectedValue: "NONE",
+        sortMode: "NONE",
+        tagFilter: "*",
+        type: "PT_BRANCH_TAG",
+        useRepository: "https://github.com/CBIIT/cds-model")
+
+    gitParameter(branchFilter: 'origin/(.*)',
+        defaultValue: "master",
+        name: 'BackendTag',
+        type: 'PT_BRANCH_TAG',
+        quickFilterEnabled: false,
+        selectedValue: 'DEFAULT',
+        sortMode: 'ASCENDING_SMART',
+        tagFilter: '*',
+        useRepository: "https://github.com/CBIIT/bento-cds-backend"
+        )
+
+    gitParameter(branchFilter: 'origin/(.*)',
+        defaultValue: defaultBranch,
+        name: 'FrontendTag',
+        type: 'PT_BRANCH_TAG',
+        quickFilterEnabled: false,
+        selectedValue: 'DEFAULT',
+        sortMode: 'ASCENDING_SMART',
+        tagFilter: '*',
+        useRepository: "https://github.com/CBIIT/bento-cds-frontend"
+    )
+	
+    }
+    options {
+      ansiColor('xterm')
+    }
+    tools {
+  	  maven 'Default' 
+      jdk 'Default' 
+    }
+    stages {
+  	  stage('checkout'){
+  		steps {
+  			checkout([$class: 'GitSCM', 
+  				branches: [[name: "${params.LoaderTag}"]], 
+  				doGenerateSubmoduleConfigurations: 
+  				false, extensions: [], submoduleCfg: [], 
+                recursiveSubmodules: true,
+  				userRemoteConfigs: 
+  				[[url: 'https://github.com/CBIIT/icdc-dataloader']]])
+
+			checkout([$class: 'GitSCM',
+				branches: [[name: "${params.FrontendTag}"]],
+				doGenerateSubmoduleConfigurations: false,
+				extensions: [[$class: 'RelativeTargetDirectory',
+				relativeTargetDir: 'icdc-frontend']],
+				submoduleCfg: [],
+				userRemoteConfigs: 
+				[[url: 'https://github.com/CBIIT/bento-cds-frontend']]])
+
+			checkout([$class: 'GitSCM',
+				branches: [[name: "${params.BackendTag}"]],
+				doGenerateSubmoduleConfigurations: false,
+				extensions: [[$class: 'RelativeTargetDirectory',
+				relativeTargetDir: 'bento-backend']],
+				submoduleCfg: [],
+				userRemoteConfigs: 
+				[[url: 'https://github.com/CBIIT/bento-cds-backend']]])
+	
+			dir('cds-model'){
+                git branch: "${params.ModelTag}",
+                url: 'https://github.com/CBIIT/cds-model'}
+			
+			sh 'git submodule update --init'
+  			
+			checkout([$class: 'GitSCM',
+				branches: [[name: "main"]],
+				doGenerateSubmoduleConfigurations: false,
+				extensions: [[$class: 'RelativeTargetDirectory',
+				relativeTargetDir: 'cds-deployments']],
+				submoduleCfg: [],
+				userRemoteConfigs: 
+				[[url: 'https://github.com/CBIIT/cds-deployments']]])
+
+  		}
+  	  }
+	stage('load-opensearch-data'){
+        steps {
+          wrap([$class: 'AnsiColorBuildWrapper', colorMapName: "xterm"]) {
+ 			    ansiblePlaybook(
+                playbook: '${WORKSPACE}/cds-deployments/ansible/load-opensearch-microservice.yml',
+            	inventory: '${WORKSPACE}/cds-deployments/ansible/hosts',
+				    colorized: true,
+                    extraVars: [
+                                model_file_1: "cds-model.yml",
+                                model_file_2: "cds-model-props.yml",
+                                property_File: "props-cds.yml",
+                                tier: "${params.Environment}",
+                                projectName: "cds",
+                                indices_File: "es_indices_cds.yml"
+                        ]
+              )
+          }
+ 		    }
+    }
+	
+ }
+ 
+  post {
+    
+
+    always {
+        notify(
+            secretPath: "notifications/slack",
+            secretName: "cds_slack_url"
+        ) 
+	  cleanWs()
+    }
+
+  }
+
+}
