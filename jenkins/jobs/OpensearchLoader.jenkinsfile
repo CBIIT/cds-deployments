@@ -90,7 +90,7 @@ pipeline {
 				branches: [[name: "${params.FrontendTag}"]],
 				doGenerateSubmoduleConfigurations: false,
 				extensions: [[$class: 'RelativeTargetDirectory',
-				relativeTargetDir: 'icdc-frontend']],
+				relativeTargetDir: 'cds-frontend']],
 				submoduleCfg: [],
 				userRemoteConfigs: 
 				[[url: 'https://github.com/CBIIT/bento-cds-frontend']]])
@@ -99,7 +99,7 @@ pipeline {
 				branches: [[name: "${params.BackendTag}"]],
 				doGenerateSubmoduleConfigurations: false,
 				extensions: [[$class: 'RelativeTargetDirectory',
-				relativeTargetDir: 'bento-backend']],
+				relativeTargetDir: 'cds-backend']],
 				submoduleCfg: [],
 				userRemoteConfigs: 
 				[[url: 'https://github.com/CBIIT/bento-cds-backend']]])
