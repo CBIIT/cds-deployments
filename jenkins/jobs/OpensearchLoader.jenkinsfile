@@ -132,7 +132,7 @@ pipeline {
     }
 	
  }
- 
+    }
   post {
     
 
@@ -145,5 +145,4 @@ pipeline {
     }
 
   }
-
 }
