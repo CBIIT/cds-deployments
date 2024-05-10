@@ -112,8 +112,10 @@ pipeline {
   		}
   }
 	stage('load-opensearch-data'){
+        sh "ls -la $WORKSPACE/"
         steps {
           wrap([$class: 'AnsiColorBuildWrapper', colorMapName: "xterm"]) {
+          sh "ls -l $"
  			    ansiblePlaybook(
                 playbook: '${WORKSPACE}/cds-deployments/ansible/load-opensearch-microservice.yml',
             	inventory: '${WORKSPACE}/cds-deployments/ansible/hosts',
