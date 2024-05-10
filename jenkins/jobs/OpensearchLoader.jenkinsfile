@@ -109,8 +109,8 @@ pipeline {
 			// 	userRemoteConfigs: 
 			// 	[[url: 'https://github.com/CBIIT/cds-deployments']]])
 
-  		// }
-  	  }
+  		}
+  }
 	stage('load-opensearch-data'){
         steps {
           wrap([$class: 'AnsiColorBuildWrapper', colorMapName: "xterm"]) {
@@ -132,7 +132,6 @@ pipeline {
     }
 	
  }
-    }
   post {
     
 
