@@ -47,7 +47,7 @@ pipeline {
     gitParameter(
         branch: "",
         branchFilter: "origin/(.*)",
-        defaultValue: defaultBranch,
+        defaultValue: "main",
         description: "Filter Repo",
         name: "ModelTag",
         quickFilterEnabled: false,
@@ -69,7 +69,7 @@ pipeline {
         )
 
     gitParameter(branchFilter: 'origin/(.*)',
-        defaultValue: defaultBranch,
+        defaultValue: "main",
         name: 'FrontendTag',
         type: 'PT_BRANCH_TAG',
         quickFilterEnabled: false,
@@ -121,7 +121,7 @@ pipeline {
                 url: 'https://github.com/CBIIT/cds-model'}
 			
 			sh 'git submodule update --init'
-  			
+
 			checkout([$class: 'GitSCM',
 				branches: [[name: "main"]],
 				doGenerateSubmoduleConfigurations: false,
