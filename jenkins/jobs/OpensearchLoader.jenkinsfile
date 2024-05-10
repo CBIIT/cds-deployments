@@ -136,6 +136,7 @@ pipeline {
                                 property_File: "props-cds.yml",
                                 tier: "${params.Environment}",
                                 projectName: "cds",
+                                project_name: "cds",
                                 indices_File: "es_indices_cds.yml"
                         ]
               )
