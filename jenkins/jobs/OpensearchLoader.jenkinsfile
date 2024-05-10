@@ -100,14 +100,14 @@ pipeline {
 			
 			sh 'git submodule update --init'
 
-			// checkout([$class: 'GitSCM',
-			// 	branches: [[name: "main"]],
-			// 	doGenerateSubmoduleConfigurations: false,
-			// 	extensions: [[$class: 'RelativeTargetDirectory',
-			// 	relativeTargetDir: 'cds-deployments']],
-			// 	submoduleCfg: [],
-			// 	userRemoteConfigs: 
-			// 	[[url: 'https://github.com/CBIIT/cds-deployments']]])
+			checkout([$class: 'GitSCM',
+				branches: [[name: "main"]],
+				doGenerateSubmoduleConfigurations: false,
+				extensions: [[$class: 'RelativeTargetDirectory',
+				relativeTargetDir: 'cds-deployments']],
+				submoduleCfg: [],
+				userRemoteConfigs: 
+				[[url: 'https://github.com/CBIIT/cds-deployments']]])
 
   		}
   }
