@@ -22,6 +22,16 @@ pipeline {
         type: 'PT_SINGLE_SELECT',
         value: 'dev,dev2,qa,qa2,stage,prod' )
 
+    gitParameter(branchFilter: 'origin/(.*)', 
+        defaultValue: 'master', 
+        name: 'LoaderTag', 
+        type: 'PT_BRANCH_TAG',
+        quickFilterEnabled: false, 
+        selectedValue: 'DEFAULT', 
+        sortMode: 'ASCENDING_SMART', 
+        tagFilter: '*', 
+        useRepository: 'https://github.com/CBIIT/icdc-dataloader')
+
     gitParameter(
         branch: "",
         branchFilter: "origin/(.*)",
