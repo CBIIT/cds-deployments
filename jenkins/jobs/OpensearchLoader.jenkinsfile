@@ -112,8 +112,9 @@ pipeline {
   		}
   }
 	stage('load-opensearch-data'){
-        sh "ls -la $WORKSPACE/"
+        
         steps {
+          sh "ls -la $WORKSPACE/"
           wrap([$class: 'AnsiColorBuildWrapper', colorMapName: "xterm"]) {
           sh "ls -l $"
  			    ansiblePlaybook(
