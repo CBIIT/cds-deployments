@@ -10,6 +10,6 @@ services:
     image: 4.2.0.245
     buildNumber: '245'
   interoperation:
-    version: 1.0.0.33
-    image: 1.0.0.33
-    buildNumber: '33'
+    version: 1.0.0.34
+    image: 1.0.0.34
+    buildNumber: '34'
