@@ -27,7 +27,6 @@ provider "aws" {
       ProjectManager  = "Amanda Bell"
       Project         = "CRDC-CDS"
       Runtime         = "OfficeHours-MF-07AM-07PM"
-      CreateDate      = "11/22/2021"
     }
   }
 }
