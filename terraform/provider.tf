@@ -16,7 +16,6 @@ provider "aws" {
       Customer        = "nci od cbiit ods"
       DevLead         = "Amanda Bell"
       CreatedBy       = "vincent.donkor@gmail.com"
-      ResourceName    = "NCI-cds-${terraform.workspace}"
       FISMA           = "moderate"
       ManagedBy       = "terraform"
       OpsModel        = "cbiit managed hybrid"
@@ -25,9 +24,9 @@ provider "aws" {
       Backup          = local.level
       PatchGroup      = local.level
       ApplicationName = "CDS"
-      ProjectManager  = "Hayley Dingerdissen"
+      ProjectManager  = "Amanda Bell"
       Project         = "CRDC-CDS"
-      Runtime         = "24hours"
+      Runtime         = "OfficeHours-MF-07AM-07PM"
       CreateDate      = "11/22/2021"
     }
   }
