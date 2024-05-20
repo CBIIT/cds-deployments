@@ -44,7 +44,7 @@ resource "aws_s3_bucket_versioning" "interoperation" {
 }
 
 
-resource "aws_iam_policy" "extra_s3_policy" {
+resource "aws_iam_policy" "interoperation" {
   name   = "power-user-${terraform.workspace}-iam-extra-s3-policy"
   policy = data.aws_iam_policy_document.task_execution_s3.json
 }
@@ -53,7 +53,7 @@ resource "aws_iam_policy" "extra_s3_policy" {
 resource "aws_iam_policy_attachment" "attach" {
   name       = "iam-policy-attach"
   roles      = [data.aws_iam_role.role.name]
-  policy_arn = aws_iam_policy.extra_s3_policy.arn
+  policy_arn = aws_iam_policy.interoperation.arn
 }
 
 data "aws_iam_policy_document" "task_execution_s3" {
@@ -85,9 +85,4 @@ data "aws_iam_policy_document" "task_execution_s3" {
 data "aws_s3_bucket" "interoperation" {
     count = var.create_interoperation_bucket ? 0 : 1
     bucket = local.interoperation_bucket_name
-}
-
-resource "aws_iam_policy" "extra_s3_policy" {
-  name    = "power-user-${terraform.workspace}-iam-extra-s3-policy"
-  policy = data.aws_iam_policy_document.task_execution_s3.json
 }
