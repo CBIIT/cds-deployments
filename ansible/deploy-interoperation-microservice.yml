@@ -100,4 +100,4 @@
         - name: S3_ACCESS_KEY_ID
           value: "akdkdkdkdkdkkd"
         - name: FILE_MANIFEST_BUCKET_NAME
-          value: "cloudone-cds-dev2-files"
+          value: "crdc-cds-nonprod-interoperation-files"
