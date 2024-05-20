@@ -124,3 +124,5 @@ resource_prefix = "cds-dev2"
 s3_opensearch_snapshot_bucket = "crdc-stage-cds-opensearch-snapshot-bucket"
 
 #backup bucket
+#interoperation bucket
+create_interoperation_bucket = true

@@ -122,3 +122,8 @@ allow_ecr_replication = false
 project_name = "cds"
 resource_prefix = "cds-prod"
 s3_opensearch_snapshot_bucket = "crdc-stage-cds-opensearch-snapshot-bucket"
+
+
+#interoperation
+#interoperation bucket
+create_interoperation_bucket = false

@@ -135,3 +135,6 @@ s3_opensearch_snapshot_bucket = "crdc-stage-cds-opensearch-snapshot-bucket"
 
 #backup bucket
 create_backup_bucket = true
+
+#interoperation bucket
+create_interoperation_bucket = false

@@ -129,3 +129,7 @@ destination_bucket_name = "cds-prod-metadata"
 s3_opensearch_snapshot_bucket = "crdc-stage-cds-opensearch-snapshot-bucket"
 project_name = "cds"
 resource_prefix = "cds-qa2"
+
+
+#interoperation bucket
+create_interoperation_bucket = false

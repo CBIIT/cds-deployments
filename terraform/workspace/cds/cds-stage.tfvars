@@ -137,6 +137,9 @@ resource_prefix = "cds-stage"
 
 #opensearch
 s3_opensearch_snapshot_bucket =  "opensearch-snapshot-bucket"
+
+#interoperation bucket
+create_interoperation_bucket = true
                               
 
 

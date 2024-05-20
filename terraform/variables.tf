@@ -510,3 +510,9 @@ variable "create_backup_bucket" {
   type = bool
   default = false
 }
+
+variable "create_interoperation_bucket" {
+  description = "set this to create interoperation bucket"
+  type = bool
+  default = false
+}
