@@ -137,7 +137,8 @@ pipeline {
                                 tier: "${params.Environment}",
                                 projectName: "cds",
                                 project_name: "cds",
-                                indices_File: "es_indices_cds.yml"
+                                indices_File: "es_indices_cds.yml",
+                                page_size: "50000"
                         ]
               )
           }
