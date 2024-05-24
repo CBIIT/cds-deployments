@@ -98,8 +98,8 @@ create_instance_profile = false
 
 #cloudfront
 create_cloudfront = true
-create_files_bucket = true
-cloudfront_distribution_bucket_name = "cloudone-cds-nonprod-files"
+create_files_bucket = false
+cloudfront_distribution_bucket_name = "crdc-cds-nonprod-interoperation-files "
 cloudfront_slack_channel_name = "cds-cloudfront-wafv2"
 alarms = {
   error4xx = {
