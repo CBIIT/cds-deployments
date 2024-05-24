@@ -1,10 +1,16 @@
 locals {
-  iam_role_name = "power-user-${var.project}-${terraform.workspace}-ecs-task-execution-role"
+  exec_iam_role_name = "power-user-${var.project}-${terraform.workspace}-ecs-task-execution-role"
+  task_iam_role_name = "power-user-${var.project}-${terraform.workspace}-ecs-task-role"
   interoperation_bucket_name = terraform.workspace == "stage" || terraform.workspace == "prod" ? "crdc-cds-prod-interoperation-files" : "crdc-cds-nonprod-interoperation-files"
   interoperation_bucket_arn  = var.create_interoperation_bucket ? aws_s3_bucket.interoperation[0].arn : data.aws_s3_bucket.interoperation[0].arn
 }
-data "aws_iam_role" "role" {
-  name       = local.iam_role_name
+data "aws_iam_role" "exec_role" {
+  name       = local.exec_iam_role_name
+  depends_on = [module.ecs]
+}
+
+data "aws_iam_role" "task_role" {
+  name       = local.task_iam_role_name
   depends_on = [module.ecs]
 }
 
@@ -50,9 +56,15 @@ resource "aws_iam_policy" "interoperation" {
 }
 
 #attach the iam policy to the iam role
-resource "aws_iam_policy_attachment" "attach" {
+resource "aws_iam_policy_attachment" "exec_attach" {
   name       = "iam-policy-attach"
-  roles      = [data.aws_iam_role.role.name]
+  roles      = [data.aws_iam_role.exec_role.name]
+  policy_arn = aws_iam_policy.interoperation.arn
+}
+
+resource "aws_iam_policy_attachment" "task_attach" {
+  name       = "iam-policy-attach"
+  roles      = [data.aws_iam_role.task_role.name]
   policy_arn = aws_iam_policy.interoperation.arn
 }
 

@@ -101,3 +101,5 @@
           value: "akdkdkdkdkdkkd"
         - name: FILE_MANIFEST_BUCKET_NAME
           value: "crdc-cds-nonprod-interoperation-files"
+        - name: REACT_APP_INTEROP_SERVICE_API
+          value:  "{% if tier == 'prod'  and project_name == 'bento' %}https://{{domain_name}}/api/interoperation/{% elif tier == 'prod' %}https://{{subdomain}}.{{domain_name}}/api/interoperation/{% else %}https://{{subdomain}}-{{tier}}.{{domain_name}}/api/interoperation/{% endif %}"
