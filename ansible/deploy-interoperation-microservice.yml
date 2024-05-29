@@ -100,4 +100,5 @@
         - name: S3_ACCESS_KEY_ID
           value: "akdkdkdkdkdkkd"
         - name: FILE_MANIFEST_BUCKET_NAME
-          value: "crdc-cds-nonprod-interoperation-files"
+          value: "{% if tier == 'prod' or tier == 'stage' %}crdc-cds-prod-interoperation-files{% else %}crdc-cds-nonprod-interoperation-files{% endif %}"
+      
