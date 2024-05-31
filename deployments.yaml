@@ -6,9 +6,9 @@ services:
     image: 2.1.0.82
     buildNumber: '82'
   frontend:
-    version: 4.2.0.264
-    image: 4.2.0.264
-    buildNumber: '264'
+    version: CDS-780_Export-Velsera-Button.265
+    image: CDS-780_Export-Velsera-Button.265
+    buildNumber: '265'
   interoperation:
     version: 1.0.0.33
     image: 1.0.0.33
