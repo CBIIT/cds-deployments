@@ -6,9 +6,9 @@ services:
     image: 2.1.0.90
     buildNumber: '90'
   frontend:
-    version: 4.2.0.267
-    image: 4.2.0.267
-    buildNumber: '267'
+    version: cds_velsera_hotfix.268
+    image: cds_velsera_hotfix.268
+    buildNumber: '268'
   interoperation:
     version: 1.0.0.33
     image: 1.0.0.33
