@@ -512,7 +512,7 @@ variable "create_backup_bucket" {
 }
 
 variable "create_interoperation_bucket" {
-  description = "set this to create interoperation bucket"
+  desreaription = "set this to create interoperation bucket"
   type = bool
   default = false
 }
