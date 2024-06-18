@@ -1,5 +1,5 @@
 locals {
-  level        = terraform.workspace == "stage" || terraform.workspace == "prod" ? "Prod" : "non-prod"
+  level        = terraform.workspace == "stage" || terraform.workspace == "prod" ? "prod" : "non-prod"
   http_port    = 80
   any_port     = 0
   any_protocol = "-1"
