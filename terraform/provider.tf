@@ -26,7 +26,7 @@ provider "aws" {
       ApplicationName = "CDS"
       ProjectManager  = "Amanda Bell"
       Project         = "CRDC-CDS"
-      Runtime         = "OfficeHours-MF-07AM-07PM"
+      Runtime         = local.runtime
     }
   }
 }

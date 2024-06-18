@@ -1,5 +1,6 @@
 locals {
   level        = terraform.workspace == "stage" || terraform.workspace == "prod" ? "prod" : "non-prod"
+  runtime      = terraform.workspace == "stage" || terraform.workspace == "prod" ? "NotScheduled" : "OfficeHours-MF-07AM-07PM"
   http_port    = 80
   any_port     = 0
   any_protocol = "-1"
