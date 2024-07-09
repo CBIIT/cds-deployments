@@ -117,6 +117,9 @@
             value:  "{% if tier == 'prod'  and project_name == 'bento' %}https://{{domain_name}}/api/interoperation/{% elif tier == 'prod' %}https://{{subdomain}}.{{domain_name}}/api/interoperation/{% else %}https://{{subdomain}}-{{tier}}.{{domain_name}}/api/interoperation/{% endif %}"
           - name: REACT_APP_STATIC_CONTENT_URL
             value: https://raw.githubusercontent.com/CBIIT/bento-cds-static-content/{{tier}}/
+          - name: REACT_APP_GA_TRACKING_ID
+            value: "{{ lookup('amazon.aws.aws_secret', 'bento/{{ project_name }}/{{ tier }}.ga_tracking_id', nested=true, region='us-east-1' ) }}"
+
           
 
 
