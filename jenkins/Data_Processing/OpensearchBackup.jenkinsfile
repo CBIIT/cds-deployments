@@ -24,29 +24,21 @@ pipeline {
         defaultValue: 'dev', 
         type: 'PT_SINGLE_SELECT',
         value: 'dev' )
-    // string(name: 'PROJECT_NAME',
-    //     description: 'Project name.',
-    //     defaultValue: "cds")
+
     string(name: 'SNAPSHOT_NAME',
         description: 'Snapshot name used for backup/restore operation.')
+
     string(name: 'INDICES',
         description: 'Indices to be backed up from Opensearch. Values should comma seperated. If left blank all indices will be selected.')
+
     string(name: 'S3_BUCKET',
         description: 'S3 bucket which holds the snapshot.',
         defaultValue: "crdc-stage-cds-opensearch-snapshot-bucket")
-    // string(name: 'BASE_PATH',
-    //     description: 'A sub folder in S3 bucket where snapshots are stored.',
-    //     defaultValue: "icdc")
   }
 
   options {
   	ansiColor('xterm')
   }
-
-  // tools {
-  // 	maven 'Default' 
-  //   jdk 'Default' 
-  // }
 
   environment {
     PROGRAM       = "crdc"
@@ -97,36 +89,16 @@ pipeline {
   	}
 
   	stage('opensearch_backup'){
-      // environment {
-      //   TIER = "${env.ENV}"
-      // }
-      // agent {
-      //       docker {
-      //           image 'cbiitssrepo/cicd-ansible_4.0'
-      //           args '--net=host -u root -v /var/run/docker.sock:/var/run/docker.sock'
-      //           reuseNode true
-      //       }
-      // }
  		  steps{
         wrap([$class: 'AnsiColorBuildWrapper', colorMapName: "xterm"]){
              ansiblePlaybook( 
                 playbook: '${WORKSPACE}/cds-deployments/ansible/dataloader/opensearchbackup.yml',
                 inventory: '${WORKSPACE}/cds-deployments/ansible/hosts',
                 extraVars: [
-                    // tier: "${ENV}",
-                    // project_name: "${PROJECT}",
-                    // snapshot_repo: "${ENV}", 
-                    // snapshot_value: "${params.SNAPSHOT_VALUE}",
-                    // base_path: "${params.BASE_PATH}",
-                    // indices: "${params.INDICES}",
-                    // s3_bucket: "${params.S3_BUCKET}",
-                    // project: "${PROJECT}",
                     role_arn: "arn:aws:iam::${AWS_ACCOUNT}:role/power-user-crdc-dev-cds-opensearch-snapshot"
                     ],
                   hostKeyChecking: false,
-                  //colorized: true)
-                  colorized: true,
-                  extras: '-vvv') 
+                  colorized: true)
         }
       }
     }
