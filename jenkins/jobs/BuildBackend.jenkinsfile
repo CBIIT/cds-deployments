@@ -160,28 +160,28 @@ pipeline {
 
   	}
 
-  	stage('push to ECR'){
+  	// stage('push to ECR'){
 
- 		steps {
+ 	// 	steps {
 
- 			script {
+ 	// 		script {
 
-			    sh label: 'Docker-Push', script: '''#!/bin/bash
+	// 		    sh label: 'Docker-Push', script: '''#!/bin/bash
 
-				# push Docker container to ECR
-				echo "Pushing: $ECR_REPO:$CODE_BRANCH.$BUILD_NUMBER"
+	// 			# push Docker container to ECR
+	// 			echo "Pushing: $ECR_REPO:$CODE_BRANCH.$BUILD_NUMBER"
 
-				# login and push to ECR
-				docker login -u AWS -p $(aws ecr get-login-password --region $REGION) $REPO_URL
-				docker push $REPO_URL:$CODE_BRANCH.$BUILD_NUMBER
+	// 			# login and push to ECR
+	// 			docker login -u AWS -p $(aws ecr get-login-password --region $REGION) $REPO_URL
+	// 			docker push $REPO_URL:$CODE_BRANCH.$BUILD_NUMBER
 
-				'''
+	// 			'''
 
-			}
+	// 		}
 
- 		}
+ 	// 	}
 
-  	}
+  	// }
 
   	stage('Update Deployment Manifest'){
 
@@ -204,23 +204,23 @@ pipeline {
 
   	}
 
-  	stage('Update Code Tag'){
+  	// stage('Update Code Tag'){
 
- 		steps {
+ 	// 	steps {
  			
-			script {
+	// 		script {
 
-                tagRepo ( 
-                    gitTag: "${env.CODE_BRANCH}",
-                    gitUrl: "github.com/CBIIT/${env.CODE_REPO}",
-                    checkoutDirectory: "${env.CODE_FOLDER}"
-                )
+    //             tagRepo ( 
+    //                 gitTag: "${env.CODE_BRANCH}",
+    //                 gitUrl: "github.com/CBIIT/${env.CODE_REPO}",
+    //                 checkoutDirectory: "${env.CODE_FOLDER}"
+    //             )
 
-            }
+    //         }
 
- 		}
+ 	// 	}
 
-  	}
+  	// }
 
   }
 
@@ -236,14 +236,14 @@ pipeline {
 		}
     }
 
-    always {
+    // always {
 
-        notify(
-            secretPath: "notification/slack",
-            secretName: "${env.SLACK_SECRET}"
-        ) 
+    //     notify(
+    //         secretPath: "notification/slack",
+    //         secretName: "${env.SLACK_SECRET}"
+    //     ) 
 
-    }
+    // }
 
     cleanup {
 
