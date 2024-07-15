@@ -22,17 +22,17 @@ pipeline {
             defaultValue: 'dev',
             description: 'Choose the environment to build',
             type: 'PT_SINGLE_SELECT',
-            value: 'dev')
+            value: 'dev,dev2,qa,qa2,stage,prod')
 
         gitParameter(branchFilter: 'origin/(.*)',
-            defaultValue: '1.0.0',
+            defaultValue: 'main',
             name: 'CodeBranch',
             type: 'GitParameterDefinition',
             quickFilterEnabled: true,
             selectedValue: 'DEFAULT',
             sortMode: 'ASCENDING_SMART',
             tagFilter: '*',
-            useRepository: 'https://github.com/CBIIT/bento-cds-interoperation')
+            useRepository: 'https://github.com/CBIIT/bento-cds-backend')
 
         booleanParam(
             defaultValue: true,
@@ -41,6 +41,10 @@ pipeline {
         booleanParam(
             defaultValue: true,
             name: 'RunDeployStage')
+
+        booleanParam(
+            defaultValue: true,
+            name: 'TrivyTestScan')
 
   }
 
@@ -52,17 +56,17 @@ pipeline {
   environment {
 
       PROJECT      = "cds"
-	  SERVICE      = "interoperation"
-      ECR_REPO     = "crdc-${env.PROJECT}-${env.SERVICE}"
-	  DEPLOY_JOB   = "DeployInteroperation"
+	  SERVICE      = "backend"
+	  ECR_REPO     = "crdc-cds-backend"
+	  DEPLOY_JOB   = "DeployBackend"
 	  SLACK_SECRET = "cds_slack_url"
-	  CODE_REPO    = "bento-${PROJECT}-${env.SERVICE}"
+	  CODE_REPO    = "bento-cds-backend"
 	  JOB_PATH     = "_default/_lower/CDS/OneClickDeployment/_jobs"
 	  REGION       = "us-east-1"
-	  ENV          = "${params.Environment}"
+      ENV          = "${params.Environment}"
 	  DEPLOY_REPO  = "${env.PROJECT}-deployments"
       CODE_BRANCH  = "${params.CodeBranch}"
-      CODE_FOLDER  = "${env.PROJECT}-${env.SERVICE}"
+      CODE_FOLDER  = "${PROJECT}-${env.SERVICE}"
 
   }
 
@@ -80,7 +84,7 @@ pipeline {
 			[[url: "https://github.com/CBIIT/${env.CODE_REPO}"]]])
 
   		checkout([$class: 'GitSCM',
-			branches: [[name: "${params.Environment}"]],
+			branches: [[name: "${env.ENV}"]],
 			extensions: [[$class: 'SubmoduleOption', 
 			recursiveSubmodules: true],
 			[$class: 'RelativeTargetDirectory',
