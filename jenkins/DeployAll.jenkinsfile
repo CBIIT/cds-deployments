@@ -13,7 +13,7 @@ pipeline {
 		extendedChoice(
             name: 'Environment',
             defaultValue: 'dev',
-            description: 'Choose the environment to build',
+            description: 'Choose the environment to deploy',
             type: 'PT_SINGLE_SELECT',
             value: 'dev,dev2,qa,qa2,stage,prod')
 
