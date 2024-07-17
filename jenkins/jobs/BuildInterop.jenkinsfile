@@ -19,7 +19,7 @@ pipeline {
 
         extendedChoice(
             name: 'Environment',
-            defaultValue: 'dev',
+            defaultValue: 'dev2',
             description: 'Choose the environment to build',
             type: 'PT_SINGLE_SELECT',
             value: 'dev2')
