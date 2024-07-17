@@ -13,7 +13,3 @@ services:
     version: 1.0.0.36
     image: 1.0.0.36
     buildNumber: '36'
-  'null':
-    version: 2.2.0.93
-    image: 2.2.0.93
-    buildNumber: '93'
