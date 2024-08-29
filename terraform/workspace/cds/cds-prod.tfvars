@@ -80,7 +80,7 @@ microservices  = {
 #opensearch
 create_opensearch_cluster = true
 opensearch_ebs_volume_size = 200
-opensearch_instance_type = "t3.medium.search"
+opensearch_instance_type = "m5.xlarge.search"
 opensearch_version = "OpenSearch_1.2"
 allowed_ip_blocks = ["10.208.16.0/21","10.208.24.0/21"]
 create_os_service_role = false
