@@ -54,17 +54,6 @@ microservices  = {
     path = ["/v1/graphql/*","/version"]
     number_container_replicas = 1
   },
-  files = {
-    name = "files"
-    port = 8081
-    health_check_path = "/api/files/ping"
-    priority_rule_number = 19
-    image_url = "cbiitssrepo/bento-auth:latest"
-    cpu = 256
-    memory = 512
-    path = ["/api/files/*"]
-    number_container_replicas = 1
-  },
   interoperation = {
     name = "interoperation"
     port = 4030
@@ -81,7 +70,7 @@ microservices  = {
 #opensearch
 create_opensearch_cluster = true
 opensearch_ebs_volume_size = 200
-opensearch_instance_type = "t3.medium.search"
+opensearch_instance_type = "m5.xlarge.search"
 opensearch_version = "OpenSearch_1.2"
 allowed_ip_blocks = ["10.208.0.0/21","10.210.0.0/24","10.208.8.0/21"]
 create_os_service_role = true
@@ -101,8 +90,8 @@ target_account_cloudone = true
 create_instance_profile = true
 
 #cloudfront
-create_cloudfront = true
-create_files_bucket = true
+create_cloudfront = false
+create_files_bucket = false
 cloudfront_distribution_bucket_name = "cds-nonprod-annotation-files"
 cloudfront_slack_channel_name = "cds-cloudfront-wafv2"
 alarms = {
