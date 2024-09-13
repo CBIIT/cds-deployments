@@ -80,7 +80,7 @@ pipeline {
 
 				// set account number
 				env.AWS_ACCOUNT = sh(label: 'Get account number', returnStdout: true, script: "aws sts get-caller-identity --query \"Account\" --output text").trim()
-
+        env.ACCOUNT_ENV = (params.Environment == "stage" || params.Environment == "prod") ? "stage" : "dev"
 			}
 
  		}
@@ -102,7 +102,7 @@ pipeline {
                 playbook: '${WORKSPACE}/cds-deployments/ansible/dataloader/opensearchbackup.yml',
                 inventory: '${WORKSPACE}/cds-deployments/ansible/hosts',
                 extraVars: [
-                    role_arn: "arn:aws:iam::${AWS_ACCOUNT}:role/power-user-crdc-dev-cds-opensearch-snapshot"
+                    role_arn: "arn:aws:iam::${AWS_ACCOUNT}:role/power-user-crdc-${ACCOUNT_ENV}-cds-opensearch-snapshot"
                     ],
                   hostKeyChecking: false,
                   colorized: true)
