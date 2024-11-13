@@ -6,9 +6,9 @@ services:
     image: 2.1.2.104
     buildNumber: '104'
   frontend:
-    version: 4.3.0.282
-    image: 4.3.0.282
-    buildNumber: '282'
+    version: 4.3.0-vul-fix.305
+    image: 4.3.0-vul-fix.305
+    buildNumber: '305'
   interoperation:
     version: 1.0.0.36
     image: 1.0.0.36
