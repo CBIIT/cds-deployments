@@ -10,6 +10,6 @@ services:
     image: 4.3.0.300
     buildNumber: '300'
   interoperation:
-    version: 1.0.0.36
-    image: 1.0.0.36
-    buildNumber: '36'
+    version: 1.1.0-vun-fix.40
+    image: 1.1.0-vun-fix.40
+    buildNumber: '40'
