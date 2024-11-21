@@ -1,5 +1,5 @@
 module "alb" {
-  source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/loadbalancer?ref=cds-rebuild"
+  source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/loadbalancer?ref=v1.19"
   vpc_id = var.vpc_id
   alb_log_bucket_name = var.alb_log_bucket_name
   env = terraform.workspace
@@ -14,7 +14,7 @@ module "alb" {
 }
 
 module "s3" {
-  source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/s3?ref=cds-rebuild"
+  source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/s3?ref=v1.19"
   bucket_name = local.alb_log_bucket_name
   stack_name = var.stack_name
   env = terraform.workspace
@@ -28,7 +28,7 @@ module "s3" {
 }
 
 module "ecs" {
-  source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/ecs?ref=v1.13"
+  source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/ecs?ref=v1.19"
   stack_name = var.stack_name
   tags = var.tags
   vpc_id = var.vpc_id
@@ -47,7 +47,7 @@ module "ecs" {
 #create ecr
 module "ecr" {
    count = var.create_ecr_repos ? 1: 0
-   source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/ecr?ref=v1.13"
+   source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/ecr?ref=v1.19"
    ecr_repo_names = var.ecr_repo_names
    tags = var.tags
    env = terraform.workspace
@@ -62,7 +62,7 @@ module "ecr" {
 #create opensearch
 module "opensearch" {
   count = var.create_opensearch_cluster ? 1: 0
-  source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/opensearch?ref=cds-rebuild"
+  source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/opensearch?ref=v1.19"
   stack_name = var.stack_name
   tags = var.tags
   opensearch_instance_type = var.opensearch_instance_type
@@ -83,7 +83,7 @@ module "opensearch" {
 
 module "dns" {
   count = var.create_dns_record ? 1: 0
-  source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/route53?ref=v1.13"
+  source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/route53?ref=v1.19"
   env = terraform.workspace
   alb_zone_id = module.alb.alb_zone_id
   alb_dns_name = module.alb.alb_dns_name
@@ -93,7 +93,7 @@ module "dns" {
 
 module "neo4j" {
   count = var.create_db_instance ? 1: 0
-  source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/neo4j?ref=cds-rebuild"
+  source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/neo4j?ref=v1.19"
   env = terraform.workspace
   vpc_id = var.vpc_id
   db_subnet_id = var.db_subnet_id
@@ -110,7 +110,7 @@ module "neo4j" {
 
 module "user_neo4j" {
   count = var.create_db_instance ? 1: 0
-  source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/neo4j?ref=cds-rebuild"
+  source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/neo4j?ref=v1.19"
   env = terraform.workspace
   vpc_id = var.vpc_id
   db_subnet_id = var.db_subnet_id
@@ -134,7 +134,7 @@ module "user_neo4j" {
 #aurora
 module "aurora" {
   count = var.create_aurora_rds ? 1: 0
-  source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/aurora?ref=v1.13"
+  source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/aurora?ref=v1.19"
   env    =  terraform.workspace
   stack_name = var.stack_name
   tags = var.tags
@@ -153,7 +153,7 @@ module "aurora" {
 #cloudfront
 module "cloudfront" {
   count = var.create_cloudfront ? 1 : 0
-  source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/cloudfront"
+  source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/cloudfront?ref=v1.19"
   alarms = var.alarms
   domain_name = var.domain_name
   cloudfront_distribution_bucket_name = var.cloudfront_distribution_bucket_name
@@ -170,7 +170,7 @@ module "cloudfront" {
 
 module "s3-replication-source" {
   count = var.create_s3_replication ? 1 : 0
-  source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/s3-replication-source?ref=cds-rebuild"
+  source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/s3-replication-source?ref=v1.19"
   destination_bucket_name = var.destination_bucket_name 
   env =  terraform.workspace
   source_bucket_name = var.source_bucket_name
@@ -184,7 +184,7 @@ module "s3-replication-source" {
 
 module "s3-replication-destination" {
   count = var.enable_s3_replication ? 1 : 0
-  source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/s3-replication-destination?ref=v1.13"
+  source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/s3-replication-destination?ref=v1.19"
   destination_bucket_name = var.destination_bucket_name 
   tags = var.tags
   replication_role_arn = var.replication_role_arn
