@@ -10,6 +10,6 @@ services:
     image: 4.3.0.307
     buildNumber: '307'
   interoperation:
-    version: 1.1.0.44
-    image: 1.1.0.44
-    buildNumber: '44'
+    version: 1.1.0.45
+    image: 1.1.0.45
+    buildNumber: '45'
