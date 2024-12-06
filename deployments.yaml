@@ -6,10 +6,10 @@ services:
     image: 2.2.0.130
     buildNumber: '130'
   frontend:
-    version: 4.3.0.307
-    image: 4.3.0.307
-    buildNumber: '307'
+    version: 4.3.0.308
+    image: 4.3.0.308
+    buildNumber: '308'
   interoperation:
-    version: 1.1.0.44
-    image: 1.1.0.44
-    buildNumber: '44'
+    version: 1.1.0.45
+    image: 1.1.0.45
+    buildNumber: '45'
