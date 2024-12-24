@@ -6,9 +6,9 @@ services:
     image: 2.2.0.131
     buildNumber: '131'
   frontend:
-    version: 4.3.0.310
-    image: 4.3.0.310
-    buildNumber: '310'
+    version: 4.4.0.311
+    image: 4.4.0.311
+    buildNumber: '311'
   interoperation:
     version: 1.1.0.45
     image: 1.1.0.45
