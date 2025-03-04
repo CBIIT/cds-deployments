@@ -124,7 +124,7 @@ pipeline {
 	stage('load-opensearch-data'){
        agent {
             docker {
-                image 'cbiitssrepo/cicd-ansible_4.0'
+                image 'ncidockerhub.nci.nih.gov/icdc/opensearch-agent'
                 args '--net=host -u root -v /var/run/docker.sock:/var/run/docker.sock'
                 reuseNode true
             }
