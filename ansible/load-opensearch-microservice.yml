@@ -6,7 +6,7 @@
   tasks:
     #install collections
     - name: install aws collection
-      cshell: "ansible-galaxy collection install {{ item | quote }} --force"
+      shell: "ansible-galaxy collection install {{ item | quote }} --force"
       loop:
         - community.docker
         - amazon.aws
