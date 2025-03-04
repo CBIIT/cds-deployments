@@ -6,12 +6,12 @@
   tasks:
     #install collections
     - name: install aws collection
-      command: ansible-galaxy collection install {{item}}
+      cshell: "ansible-galaxy collection install {{ item | quote }} --force"
       loop:
         - community.docker
         - amazon.aws
         - community.aws:<=3.2.0
-        - "git+https://github.com/CBIIT/datacommons-devops.git#/ansible/collections/bento/common"
+        - git+https://github.com/CBIIT/datacommons-devops.git#/ansible/collections/bento/common/,main
     - set_fact:
        workspace: "{{ lookup('env','WORKSPACE') }}"
 #
