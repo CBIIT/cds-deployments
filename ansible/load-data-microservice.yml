@@ -8,7 +8,7 @@
   tasks:
     #install collections
     - name: install aws collection
-      command: ansible-galaxy collection install {{item}}
+      command: shell: "ansible-galaxy collection install {{ item | quote }} --force"
       loop:
         - community.docker
         - amazon.aws
@@ -56,7 +56,7 @@
         model_file1: "{{workspace}}/{{project_name}}-model/model-desc/{{model_file_1}}"
         model_file2: "{{workspace}}/{{project_name}}-model/model-desc/{{model_file_2}}"
         property_file: "{{workspace}}/config/{{property_File}}"
-        ansible_python_interpreter: /usr/bin/python3
+        ansible_python_interpreter: /usr/local/bin/python
         project_name: "{{project_name}}"
         platform: aws
         region: us-east-1
