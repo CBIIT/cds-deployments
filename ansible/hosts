@@ -2,4 +2,4 @@
 localhost  ansible_python_interpreter=/usr/bin/python3
 
 [opensearch]
-localhost ansible_python_interpreter: /usr/local/bin/python
+localhost ansible_python_interpreter=/usr/local/bin/python
