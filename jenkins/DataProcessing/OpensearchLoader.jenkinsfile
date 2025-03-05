@@ -122,14 +122,13 @@ pipeline {
   		}
   }
 	stage('load-opensearch-data'){
-      //  agent {
-      //       docker {
-      //           image 'ncidockerhub.nci.nih.gov/icdc/opensearch-agent'
-      //           args '--net=host -u root -v /var/run/docker.sock:/var/run/docker.sock'
-      //           reuseNode true
-      //       }
-      //   }
-        //--net=host
+      agent {
+            docker {
+                image 'cbiitssrepo/cicd-ansible_4.0'
+                args '--net=host -u root -v /var/run/docker.sock:/var/run/docker.sock'
+                reuseNode true
+            }
+        }
         steps {
           sh "ls -la $WORKSPACE/cds-deployments/"
           wrap([$class: 'AnsiColorBuildWrapper', colorMapName: "xterm"]) {
