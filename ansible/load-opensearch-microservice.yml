@@ -1,9 +1,8 @@
 - name: load opensearch
-  hosts: opensearch
+  hosts: all
   connection: local
   gather_facts: yes
-  vars:
-    ansible_python_interpreter: /usr/local/bin/python3
+  
   tasks:
     #install collections
     - name: install aws collection
@@ -22,7 +21,7 @@
       include_role:
         name: bento.common.opensearch_loader
       vars:
-        ansible_python_interpreter: /usr/local/bin/python3
+        ansible_python_interpreter: /usr/bin/python3
         project_name: "{{project_name}}"
         platform: aws
         region: us-east-1
