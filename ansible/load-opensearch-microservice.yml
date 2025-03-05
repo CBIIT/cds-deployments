@@ -2,7 +2,8 @@
   hosts: opensearch
   connection: local
   gather_facts: yes
-  
+  vars:
+    ansible_python_interpreter: /usr/local/bin/python3
   tasks:
     #install collections
     - name: install aws collection
