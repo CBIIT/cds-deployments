@@ -2,7 +2,8 @@
   hosts: all
   connection: local
   gather_facts: no
-
+  vars:
+    ansible_python_interpreter: /usr/local/bin/python
   tasks:
     #install collections
     - name: install aws collection
