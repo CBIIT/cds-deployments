@@ -145,7 +145,8 @@ pipeline {
                                 projectName: "cds",
                                 project_name: "cds",
                                 indices_File: "es_indices_cds.yml",
-                                page_size: "50000"
+                                page_size: "50000",
+                                ansible_python_interpreter: "/usr/local/bin/python3"
                         ]
               )
           }
