@@ -21,7 +21,7 @@
       include_role:
         name: bento.common.opensearch_loader
       vars:
-        ansible_python_interpreter: /bin/python3
+        ansible_python_interpreter: /bin/python
         project_name: "{{project_name}}"
         platform: aws
         region: us-east-1
