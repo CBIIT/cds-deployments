@@ -67,9 +67,9 @@ pipeline {
         useRepository: "https://github.com/CBIIT/bento-cds-frontend"
     )
 
-    parameters {
-        string(name: 'Indices_List', defaultValue: 'index1,index2,index3', description: 'Enter indeces separated by commas')
-    }
+
+    string(name: 'Indices_List', defaultValue: 'index1,index2,index3', description: 'Enter indeces separated by commas')
+  
 	
     }
     options {
