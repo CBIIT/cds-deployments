@@ -137,7 +137,7 @@ pipeline {
           script {
             def indices = params.Indices_List.split(',')
             echo "Indices: ${indices}"
-            env.INDICES = ${indices}"
+            env.INDICES = "${indices}"
           }
           wrap([$class: 'AnsiColorBuildWrapper', colorMapName: "xterm"]) {
  			    ansiblePlaybook(
