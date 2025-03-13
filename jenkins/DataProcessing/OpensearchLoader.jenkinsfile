@@ -152,7 +152,7 @@ pipeline {
                                 projectName: "cds",
                                 project_name: "cds",
                                 indices_File: "es_indices_cds.yml",
-                                indices_list: "${env.INDICES}",
+                                indices_list: "${indices}",
                                 page_size: "50000"
                         ]
               )
