@@ -137,6 +137,7 @@ pipeline {
           script {
             def indices = params.Indices_List.split(',')
             echo "Indices: ${indices}"
+            env.INDECES = indeces
           }
           wrap([$class: 'AnsiColorBuildWrapper', colorMapName: "xterm"]) {
  			    ansiblePlaybook(
@@ -151,7 +152,7 @@ pipeline {
                                 projectName: "cds",
                                 project_name: "cds",
                                 indices_File: "es_indices_cds.yml",
-                                indices_list: "${indices}",
+                                indices_list: "${env.INDECES}",
                                 page_size: "50000"
                         ]
               )
