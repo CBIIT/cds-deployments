@@ -6,9 +6,9 @@ services:
     image: 2.3.0.143
     buildNumber: '143'
   frontend:
-    version: 4.5.0.346
-    image: 4.5.0.346
-    buildNumber: '346'
+    version: CDS-1268.348
+    image: CDS-1268.348
+    buildNumber: '348'
   interoperation:
     version: 1.1.0.45
     image: 1.1.0.45
