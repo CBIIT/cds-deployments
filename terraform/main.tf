@@ -16,7 +16,7 @@ module "alb" {
 module "s3" {
   source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/s3?ref=cds-rebuild"
   bucket_name = local.alb_log_bucket_name
-  # stack_name = var.stack_name
+  stack_name = var.stack_name
   env = terraform.workspace
   tags = var.tags
   s3_force_destroy = var.s3_force_destroy
