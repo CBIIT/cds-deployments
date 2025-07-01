@@ -116,7 +116,7 @@ module "user_neo4j" {
   db_subnet_id = var.db_subnet_id
   db_instance_volume_size = var.db_instance_volume_size
   public_ssh_key_ssm_parameter_name = var.public_ssh_key_ssm_parameter_name
-  # stack_name = var.stack_name
+  stack_name = var.stack_name
   db_private_ip = var.user_neo4j_db_private_ip
   database_instance_type = var.database_instance_type
   tags = var.tags
@@ -136,7 +136,7 @@ module "aurora" {
   count = var.create_aurora_rds ? 1: 0
   source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/aurora?ref=v1.19"
   env    =  terraform.workspace
-  # stack_name = var.stack_name
+  stack_name = var.stack_name
   tags = var.tags
   vpc_id = var.vpc_id
   db_engine_mode = var.db_engine_mode
@@ -159,7 +159,7 @@ module "cloudfront" {
   cloudfront_distribution_bucket_name = var.cloudfront_distribution_bucket_name
   cloudfront_slack_channel_name =  var.cloudfront_slack_channel_name
   env = terraform.workspace
-  # stack_name = var.stack_name
+  stack_name = var.stack_name
   slack_secret_name = var.slack_secret_name
   tags = var.tags
   create_files_bucket = var.create_files_bucket
@@ -174,7 +174,7 @@ module "s3-replication-source" {
   destination_bucket_name = var.destination_bucket_name 
   env =  terraform.workspace
   source_bucket_name = var.source_bucket_name
-  # stack_name = var.stack_name
+  stack_name = var.stack_name
   tags = var.tags
   target_account_cloudone = var.target_account_cloudone
   create_source_bucket = var.create_source_bucket 
