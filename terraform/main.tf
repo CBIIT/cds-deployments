@@ -62,12 +62,12 @@ module "ecr" {
 #create opensearch
 module "opensearch" {
   count = var.create_opensearch_cluster ? 1: 0
-  source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/opensearch?ref=v1.17"
+  source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/opensearch?ref=bento-ref"
   # stack_name = var.stack_name
   tags = var.tags
-  opensearch_instance_type = var.opensearch_instance_type
-  env = terraform.workspace
-  opensearch_subnet_ids = var.private_subnet_ids
+  instance_type = var.opensearch_instance_type
+  # env = terraform.workspace
+  subnet_ids = var.private_subnet_ids
   engine_version = var.opensearch_version
   automated_snapshot_start_hour =  var.automated_snapshot_start_hour
   volume_size    =  var.opensearch_ebs_volume_size
