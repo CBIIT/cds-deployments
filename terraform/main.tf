@@ -68,11 +68,11 @@ module "opensearch" {
   opensearch_instance_type = var.opensearch_instance_type
   env = terraform.workspace
   opensearch_subnet_ids = var.private_subnet_ids
-  opensearch_version = var.opensearch_version
+  engine_version = var.opensearch_version
   automated_snapshot_start_hour =  var.automated_snapshot_start_hour
-  opensearch_ebs_volume_size    =  var.opensearch_ebs_volume_size
-  opensearch_instance_count     =  var.opensearch_instance_count
-  opensearch_log_types           = ["INDEX_SLOW_LOGS"]
+  volume_size    =  var.opensearch_ebs_volume_size
+  dedicated_master_count     =  var.opensearch_instance_count
+  log_types           = ["INDEX_SLOW_LOGS"]
   create_os_service_role        = var.create_os_service_role
   multi_az_enabled = var.multi_az_enabled
   vpc_id = var.vpc_id
