@@ -1,5 +1,5 @@
 module "alb" {
-  source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/loadbalancer?ref=v1.19"
+  source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/loadbalancer?ref=cds-rebuild"
   vpc_id = var.vpc_id
   alb_log_bucket_name = var.alb_log_bucket_name
   env = terraform.workspace
@@ -14,7 +14,7 @@ module "alb" {
 }
 
 module "s3" {
-  source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/s3?ref=v1.19"
+  source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/s3?ref=cds-rebuild"
   bucket_name = local.alb_log_bucket_name
   # stack_name = var.stack_name
   env = terraform.workspace
@@ -28,7 +28,7 @@ module "s3" {
 }
 
 module "ecs" {
-  source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/ecs?ref=v1.19"
+  source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/ecs?ref=cds-rebuild"
   stack_name = var.stack_name
   tags = var.tags
   vpc_id = var.vpc_id
@@ -47,7 +47,7 @@ module "ecs" {
 #create ecr
 module "ecr" {
    count = var.create_ecr_repos ? 1: 0
-   source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/ecr?ref=v1.19"
+   source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/ecr?ref=cds-rebuild"
    ecr_repo_names = var.ecr_repo_names
    tags = var.tags
    env = terraform.workspace
@@ -62,7 +62,7 @@ module "ecr" {
 #create opensearch
 module "opensearch" {
   count = var.create_opensearch_cluster ? 1: 0
-  source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/opensearch?ref=v1.19"
+  source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/opensearch?ref=cds-rebuild"
   # stack_name = var.stack_name
   tags = var.tags
   opensearch_instance_type = var.opensearch_instance_type
@@ -83,7 +83,7 @@ module "opensearch" {
 
 module "dns" {
   count = var.create_dns_record ? 1: 0
-  source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/route53?ref=v1.19"
+  source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/route53?ref=cds-rebuild"
   env = terraform.workspace
   alb_zone_id = module.alb.alb_zone_id
   alb_dns_name = module.alb.alb_dns_name
@@ -93,7 +93,7 @@ module "dns" {
 
 module "neo4j" {
   count = var.create_db_instance ? 1: 0
-  source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/neo4j?ref=v1.19"
+  source = "git::https://github.com/CBIIT/datacommons-devops.git//terraform/modules/neo4j?ref=cds-rebuild"
   env = terraform.workspace
   vpc_id = var.vpc_id
   db_subnet_id = var.db_subnet_id
